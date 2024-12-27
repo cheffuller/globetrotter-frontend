@@ -11,3 +11,64 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.navbar-custom {
+  background-color: #04395E;
+}
+
+.navbar-brand, .nav-item, .nav-link {
+  color: white;
+}
+
+.navbar-brand:hover,
+.nav-item:hover,
+.nav-link:hover {
+  color: #D5896F;
+}
+
+.search {
+  color: white;
+  background-color: #04395E;
+  border-color: white;
+}
+
+.search:hover {
+  background-color: #031D44;
+  border-color: #D5896F;
+  color: #D5896F;
+}
+
+.travel-card {
+  width: 14rem;
+  border-color: #031D44;
+  color:#031D44;
+}
+
+.like-button {
+  font-size: 2rem;
+  color:#04395E;
+  background-color:white;
+  border-color: white;
+}
+
+.like-button:hover {
+  color:#D5896F;
+  background-color: white;
+  border-color: white;
+}
+
+.travel-card-footer {
+  background-color: white;
+}
+
+/*
+
+Colors from Color Palette
+
+#031D44 - dark blue
+#04395E - lighter Blue
+#70A288 - green
+#DAB785 - tan
+#D5896F - reddish
+
+*/
