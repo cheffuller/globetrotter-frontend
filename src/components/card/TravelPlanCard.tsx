@@ -6,7 +6,7 @@ import TravelPlanCardUsernameManagement from './TravelPlanCardUsername/TravelPla
 import TravelPlanCardLocationManagement from './TravelPlanCardLocation/TravelPlanCardLocationManagement';
 import TravelPlanCardRandomImage from './TravelPlanCardRandomImage/TravelPlanCardRandomImage';
 
-import { TravelPlan } from '../../interfaces/TravelPlan';
+import { TravelPlan } from '../../interfaces/TravelPlanContext';
 
 type TravelPlanCardProps = {
   travelPlan: TravelPlan;

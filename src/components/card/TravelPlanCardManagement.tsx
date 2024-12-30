@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import TravelPlanCard from './TravelPlanCard';
-import { TravelPlan } from '../../interfaces/TravelPlan'
+import { TravelPlan } from '../../interfaces/TravelPlanContext'
 import { API_URL } from '../../consts/ApiUrl';
 
 const TravelPlanCardManagement = () => {

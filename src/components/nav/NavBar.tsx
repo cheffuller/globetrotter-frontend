@@ -1,4 +1,4 @@
-import { HOME_URL } from '../../consts/PageUrls';
+import { HOME_URL, TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import {
   Button,
   Container,
@@ -21,6 +21,7 @@ const NavBar = () => {
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='m-auto'>
             <Nav.Link href={HOME_URL}>Home</Nav.Link>
+            <Nav.Link href={TRAVEL_PLAN_URL}>Travel Plan</Nav.Link>
             <Nav.Link href='#link'>Link</Nav.Link>
             <NavDropdown title='Dropdown' id='basic-nav-dropdown'>
               <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
