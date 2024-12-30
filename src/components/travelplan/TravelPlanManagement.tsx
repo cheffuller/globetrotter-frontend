@@ -20,11 +20,18 @@ function TravelPlanManagement() {
     endDate: ''
   })
   
-  const handleSubmitTravelPlan = async () => {
+  const handleSubmitTravelPlan = async (isPublished: boolean) => { //might need to change so that it takes in the handler
     try {
       //fetch the endpoint to create a travel plan
       const response = await axios.post(API_URL + '/plans', travelPlan);
-      submitTravelPlan(response.data);
+      const createdTravelPlan = response.data;
+      submitTravelPlan(createdTravelPlan);
+
+      await axios.post(API_URL + `/plans/${createdTravelPlan?.id}/locations`, {
+        ...location,
+        travelPlanId: createdTravelPlan?.id,
+      });
+
       alert('Travel plan created successfully');
     } catch (err) {
       console.log(err);
@@ -32,25 +39,8 @@ function TravelPlanManagement() {
     }
   };
 
-  const handleSubmitLocation = async () => {
-    if(!travelPlan) {
-      alert('Please find the travel plan first');
-      return;
-    }
-
-    try {
-      await axios.post(API_URL + `/plans/${travelPlan?.id}/locations`, {
-        ...location,
-        travelPlanId: travelPlan?.id,
-      });
-    } catch (err) {
-      console.log(err);
-      alert('Failed to add location');
-    }
-  };
-
   return (
-    <TravelPlanPage location={location} setLocation={setLocation} onSubmitTravelPlan={handleSubmitTravelPlan} onSubmitLocation={handleSubmitLocation}/>
+    <TravelPlanPage travelPlan={travelPlan} location={location} setLocation={setLocation} onSubmitTravelPlan={handleSubmitTravelPlan}/>
   )
 }
 
