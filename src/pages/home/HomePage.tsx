@@ -1,9 +1,12 @@
-import CarouselContainer from '../../components/carousel/CarouselContainer';
+import TravelPlanCardManagement from "../../components/card/TravelPlanCardManagement";
+import HomeCarouselManagement from "../../components/carousel/HomeCarouselManagement";
+
 
 export function HomePage() {
   return (
     <>
-      <CarouselContainer />
+      <HomeCarouselManagement />
+      <TravelPlanCardManagement />
     </>
   );
 }
