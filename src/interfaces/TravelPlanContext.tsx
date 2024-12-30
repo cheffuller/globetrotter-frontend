@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useState } from "react";
 
 export interface TravelPlan {
-  id: number;
+  id?: number;
   accountId: number;
   isFavorited: boolean;
   isPublished: boolean;

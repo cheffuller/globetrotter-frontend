@@ -6,6 +6,14 @@ export class BadRequestError extends Error {
     }
 }
 
+export class ForbiddenError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = "ForbiddenError";
+        Object.setPrototypeOf(this, ForbiddenError.prototype);
+    }
+}
+
 export class NotFoundError extends Error {
     constructor(message: string) {
         super(message);
@@ -13,3 +21,4 @@ export class NotFoundError extends Error {
         Object.setPrototypeOf(this, NotFoundError.prototype);
     }
 }
+
