@@ -69,7 +69,7 @@ function RegisterPage() {
 
     return (
         <div className="register-container">
-            <h3>Create Your Account</h3>
+            <h3>Start Your Journey</h3>
             {error && <p className="error-message">{error}</p>}
             {success && <p className="success-message">{success}</p>}
             <form className="register-form" onSubmit={handleSubmit}>
