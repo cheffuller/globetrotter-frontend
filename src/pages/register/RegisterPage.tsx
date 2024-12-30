@@ -43,7 +43,7 @@ function RegisterPage() {
         setSuccess(null);
 
         try {
-            const response = await axios.post('https://your-api-endpoint.com/register', formData, {
+            const response = await axios.post('http://localhost:8080/users/register', formData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
