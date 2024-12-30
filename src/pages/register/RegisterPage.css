@@ -1,4 +1,6 @@
 .register-container {
+    background-image: url('/src/travel-images/register-background-image/register-background.jpg');
+    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,6 +19,12 @@
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 300px;
+}
+
+.register-container h3{
+    color: #ffffff;
+    font-weight: bold;
+    text-shadow: #f0f0f0 1px 1px 1px;
 }
 
 .register-form input {
