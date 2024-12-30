@@ -24,7 +24,7 @@ type TravelPlanCardRandomImageProps = {
 const TravelPlanCardRandomImage = ({
   index,
 }: TravelPlanCardRandomImageProps) => {
-  if (index <= imageList.length) {
+  if (index < imageList.length) {
     return <Card.Img variant='top' src={shuffledImageList[index]} />;
   } else {
     const randomImageIndex: number = Math.floor(

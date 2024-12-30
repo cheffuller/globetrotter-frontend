@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { axiosPrivate } from '../../../common/axiosPrivate';
 import { API_URL } from '../../../consts/ApiUrl';
 import TravelPlanCardLikeButton from './TravelPlanCardLikeButton';
 
@@ -10,14 +10,14 @@ export type TravelPlanCardLikeButtonManagementProps = {
 const TravelPlanCardLikeButtonManagement = ({
   travelPlanId,
 }: TravelPlanCardLikeButtonManagementProps) => {
-  const [postLikes, setPostLikes] = useState<number>();
-
-  // TODO: create getPostIdByTravelPlanId endpoint and method in backend
+  const [postLikes, setPostLikes] = useState<number>(0);
 
   useEffect(() => {
     const fetchPostLikes = async () => {
       try {
-        const res = await axios.get(`${API_URL}posts/${travelPlanId}/likes`);
+        const res = await axiosPrivate.get(
+          `${API_URL}plans/${travelPlanId}/likes`
+        );
         setPostLikes(res.data);
       } catch (err) {
         console.log(err);
@@ -27,7 +27,11 @@ const TravelPlanCardLikeButtonManagement = ({
     fetchPostLikes();
   }, [travelPlanId]);
 
-  return <>{postLikes && <TravelPlanCardLikeButton postLikes={postLikes} />}</>;
+  return (
+    <>
+      <TravelPlanCardLikeButton postLikes={postLikes} />
+    </>
+  );
 };
 
 export default TravelPlanCardLikeButtonManagement;
