@@ -20,17 +20,20 @@ const TravelPlanCard = ({ travelPlan, index }: TravelPlanCardProps) => {
         <Card className='travel-card mx-auto'>
           <TravelPlanCardRandomImage index={index} />
           <Card.Body className='d-flex flex-column'>
-            {/* location and date */}
-            <TravelPlanCardLocationManagement travelPlanId={travelPlan.id}/>
-            {/* username */}
+            <TravelPlanCardLocationManagement travelPlanId={travelPlan.id} />
             <Card.Subtitle>
-              <TravelPlanCardUsernameManagement accountId={travelPlan.accountId}/>
+              <TravelPlanCardUsernameManagement
+                accountId={travelPlan.accountId}
+              />
             </Card.Subtitle>
             <br />
             <Card.Footer className='travel-card-footer'>
-              {/* buttons */}
-              <TravelPlanCardLikeButtonManagement travelPlanId={travelPlan.id}/>
-              <TravelPlanCardCommentButtonManagement travelPlanId={travelPlan.id}/>
+              <TravelPlanCardLikeButtonManagement
+                travelPlanId={travelPlan.id}
+              />
+              <TravelPlanCardCommentButtonManagement
+                travelPlanId={travelPlan.id}
+              />
             </Card.Footer>
           </Card.Body>
         </Card>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { axiosPrivate } from '../../../common/axiosPrivate';
 
 import TravelPlanCardLocation from './TravelPlanCardLocation';
 import TravelPlanCardDateManagement from '../TravelPlanCardDate/TravelPlanCardDateManagement';
@@ -24,9 +24,8 @@ const TravelPlanCardLocationManagement = ({
   useEffect(() => {
     const fetchLocation = async () => {
       try {
-        const res = await axios.get(
-          `${API_URL}plans/${travelPlanId}/locations`
-        );
+        const res = await axiosPrivate.get(
+          `${API_URL}plans/${travelPlanId}/locations`);
         setTravelPlanLocations(res.data);
       } catch (err) {
         console.log(err);
