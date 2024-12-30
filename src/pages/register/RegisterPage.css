@@ -37,7 +37,7 @@
 
 .register-form button {
     padding: 10px;
-    background-color: #d13232;
+    background-color: #04395E;
     color: white;
     font-weight: bold;
     border: none;
@@ -47,7 +47,7 @@
 }
 
 .register-form button:hover {
-    background-color: #b12a2a;
+    background-color: #011524;
 }
 
 .error-message {
