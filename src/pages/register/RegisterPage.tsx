@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import './RegisterPage.css';
 import axios from 'axios';
-import { UserAccount } from '../../interfaces/UserAccount'; 
+import { UserAccountCreation } from '../../interfaces/UserAccount'; 
 import { BadRequestError, NotFoundError } from '../../errors/HttpErrors';
 
 function RegisterPage() {
-    const [formData, setFormData] = useState<UserAccount>({
-        id: 0, 
+    const [formData, setFormData] = useState<UserAccountCreation>({
         address: '',
         city: '',
         country: '',
@@ -41,7 +40,6 @@ function RegisterPage() {
 
         setError(null);
         setSuccess(null);
-
         try {
             const response = await axios.post('http://localhost:8080/users/register', formData, {
                 headers: {
