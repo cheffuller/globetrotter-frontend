@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { axiosPrivate } from '../../common/axiosPrivate';
 import TravelPlanCard from './TravelPlanCard';
 import { TravelPlan } from '../../interfaces/TravelPlan'
 import { API_URL } from '../../consts/ApiUrl';
+
 
 const TravelPlanCardManagement = () => {
   const [travelPlans, setTravelPlans] = useState<TravelPlan[]>([]);
@@ -11,9 +12,8 @@ const TravelPlanCardManagement = () => {
     const fetchPlans = async () => {
       try {
         const numberOfPlans = 10;
-        const res = await axios.get(
-          `${API_URL}plans/recent/${numberOfPlans}`
-        );
+        const res = await axiosPrivate.get(
+          `${API_URL}plans/recent/${numberOfPlans}`);
         setTravelPlans(res.data);
       } catch (err) {
         console.log(err);
