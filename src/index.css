@@ -38,23 +38,44 @@ code {
   color: #D5896F;
 }
 
+.d-block.w-100 {
+  height: 40rem;
+  object-fit: cover;
+}
+
 .travel-card {
+  text-align: center;
   width: 14rem;
   border-color: #031D44;
   color:#031D44;
 }
 
-.like-button {
-  font-size: 2rem;
+.card-img-top {
+  height: 150px;
+  object-fit: cover;
+}
+
+.like-button, .comment-button {
+  font-size: 1rem;
   color:#04395E;
   background-color:white;
   border-color: white;
 }
 
-.like-button:hover {
-  color:#D5896F;
+.like-button:hover, .comment-button:hover {
+  color:#04395E;
   background-color: white;
   border-color: white;
+}
+
+.like-button i,
+.comment-button i {
+  font-size: 2rem;
+}
+
+.like-button i:hover,
+.comment-button i:hover {
+  color:#D5896F;
 }
 
 .travel-card-footer {
@@ -62,8 +83,6 @@ code {
 }
 
 /*
-
-Colors from Color Palette
 
 #031D44 - dark blue
 #04395E - lighter Blue
