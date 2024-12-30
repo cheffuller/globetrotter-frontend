@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { TravelPlanContext } from '../../interfaces/TravelPlanContext'
 import { API_URL } from '../../consts/ApiUrl'
+import { axiosPrivate } from '../../common/axiosPrivate'
 import axios from 'axios'
 import TravelPlanPage from '../../pages/travelplan/TravelPlanPage';
 
@@ -23,11 +24,11 @@ function TravelPlanManagement() {
   const handleSubmitTravelPlan = async (isPublished: boolean) => { //might need to change so that it takes in the handler
     try {
       //fetch the endpoint to create a travel plan
-      const response = await axios.post(API_URL + '/plans', travelPlan);
+      const response = await axiosPrivate.post(API_URL + 'plans', travelPlan);
       const createdTravelPlan = response.data;
       submitTravelPlan(createdTravelPlan);
 
-      await axios.post(API_URL + `/plans/${createdTravelPlan?.id}/locations`, {
+      await axiosPrivate.post(API_URL + `plans/${createdTravelPlan?.id}/locations`, {
         ...location,
         travelPlanId: createdTravelPlan?.id,
       });
