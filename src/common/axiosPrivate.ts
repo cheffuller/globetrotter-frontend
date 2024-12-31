@@ -4,7 +4,7 @@ axios.interceptors.request.use((config) =>{
  
     // Enter generated access token here
     const accessToken =
-      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbGFya19rZW50IiwiZXhwIjoxNzM1NjAxMjE5LCJpYXQiOjE3MzU1OTc2MTl9.nJ_P7qHaAaa3OthoQky6YpU7ZU-QAJMMGAsiDMwejB0';
+      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huX2RvZSIsImV4cCI6MTczNTY2MTk3NiwiaWF0IjoxNzM1NjU4Mzc2fQ.SNNFf9ozDjywo3pr9LDBq52c0p898_VdZLHhdVVkI3E';
 
     config.headers.Authorization = accessToken;
     return config;

@@ -21,5 +21,16 @@ export async function createNewTravelPlan(data: TravelPlan): Promise<number> {
 }
 
 export async function addTravelPlanLocation(data: TravelPlanLocation) {
+    const response = await axiosPrivate.post(API_URL + `plans/${data.travelPlanId}/locations`, data);
 
+    if(response.status == HttpStatusCode.BadRequest) {
+        throw new BadRequestError("Invalid travel plan location details.");
+    } else if (response.status == HttpStatusCode.NotFound) {
+        throw new NotFoundError("Travel plan not found.");
+    } 
+
+    const travelPlanLocation: TravelPlanLocation = await response.data();
+    //what should we return here?
+    //what would we need from travel plan location after we added it?
+    return travelPlanLocation;
 }

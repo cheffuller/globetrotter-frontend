@@ -7,34 +7,34 @@ export interface TravelPlan {
   isPublished: boolean;
 }
 
-interface TravelPlanContextType {
-  //what would i need in general from the travel plan
-  travelPlan: TravelPlan | null;
-  travelPlans: TravelPlan[];
-  submitTravelPlan: (travelPlanData: TravelPlan) => void;
-  getTravelPlans: (travelPlans: TravelPlan[]) => void;
-}
+// interface TravelPlanContextType {
+//   //what would i need in general from the travel plan
+//   travelPlan: TravelPlan | null;
+//   travelPlans: TravelPlan[];
+//   submitTravelPlan: (travelPlanData: TravelPlan) => void;
+//   getTravelPlans: (travelPlans: TravelPlan[]) => void;
+// }
 
-export const TravelPlanContext = createContext<TravelPlanContextType | undefined>(undefined);
+// export const TravelPlanContext = createContext<TravelPlanContextType | undefined>(undefined);
 
-interface TravelPlanProviderProps {
-  children: ReactNode;
-}
+// interface TravelPlanProviderProps {
+//   children: ReactNode;
+// }
 
-export const TravelPlanProvider: React.FC<TravelPlanProviderProps> = ({children}) => {
-  const [travelPlan, setTravelPlan] = useState<TravelPlan | null>(null);
-  const [travelPlans, setTravelPlans] = useState<TravelPlan[]>([]);
+// export const TravelPlanProvider: React.FC<TravelPlanProviderProps> = ({children}) => {
+//   const [travelPlan, setTravelPlan] = useState<TravelPlan | null>(null);
+//   const [travelPlans, setTravelPlans] = useState<TravelPlan[]>([]);
 
-  const submitTravelPlan = (travelPlanData: TravelPlan) => {
-    setTravelPlan(travelPlanData);
-    setTravelPlans(existingTravelPlan => [...existingTravelPlan, travelPlanData]);
-  }
+//   const submitTravelPlan = (travelPlanData: TravelPlan) => {
+//     setTravelPlan(travelPlanData);
+//     setTravelPlans(existingTravelPlan => [...existingTravelPlan, travelPlanData]);
+//   }
 
-  const getTravelPlans = (travelPlans: TravelPlan[]) => {
-    setTravelPlans(travelPlans);
-  }
+//   const getTravelPlans = (travelPlans: TravelPlan[]) => {
+//     setTravelPlans(travelPlans);
+//   }
 
-  return <TravelPlanContext.Provider value={{travelPlan, travelPlans, submitTravelPlan, getTravelPlans}}>
-    {children}
-  </TravelPlanContext.Provider>
-}
+//   return <TravelPlanContext.Provider value={{travelPlan, travelPlans, submitTravelPlan, getTravelPlans}}>
+//     {children}
+//   </TravelPlanContext.Provider>
+// }

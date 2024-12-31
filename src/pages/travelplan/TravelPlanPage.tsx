@@ -15,11 +15,12 @@ import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/Htt
 //in our profile page(?) we should be able to favorite the travel plan
 /* include spacing between the buttons */
 type TravelPlanPageProps = {
-    travelPlan: any, location: any, setLocation: (location: any) => void,
-    onSubmitTravelPlan: (isPublished: boolean) => void
+    location: any,
+    // travelPlan: any, location: any, setLocation: (location: any) => void,
+    // onSubmitTravelPlan: (isPublished: boolean) => void
 }
 
-function TravelPlanPage({ travelPlan, location, setLocation, onSubmitTravelPlan }: TravelPlanPageProps) {
+function TravelPlanPage() {
     const [city, setCity] = useState<string>("");
     const [country, setCountry] = useState<string>("");
     const [startDate, setStartDate] = useState<string>("");
@@ -117,7 +118,7 @@ function TravelPlanPage({ travelPlan, location, setLocation, onSubmitTravelPlan 
                         name="city"
                         className="form-control"
                         placeholder="Enter city"
-                        value={location.city}
+                        value={city}
                         onChange={e => setCity(e.target.value)}
                         required
                     />
@@ -131,7 +132,7 @@ function TravelPlanPage({ travelPlan, location, setLocation, onSubmitTravelPlan 
                         name="country"
                         className="form-control"
                         placeholder="Enter country"
-                        value={location.country}
+                        value={country}
                         onChange={e => setCountry(e.target.value)}
                         required
                     />
@@ -144,7 +145,7 @@ function TravelPlanPage({ travelPlan, location, setLocation, onSubmitTravelPlan 
                         id="start-date"
                         name="startDate"
                         className="form-control"
-                        value={location.startDate}
+                        value={startDate}
                         onChange={e => setStartDate(e.target.value)}
                         required
                     />
@@ -157,7 +158,7 @@ function TravelPlanPage({ travelPlan, location, setLocation, onSubmitTravelPlan 
                         id="end-date"
                         name="endDate"
                         className="form-control"
-                        value={location.endDate}
+                        value={endDate}
                         onChange={e => setEndDate(e.target.value)}
                         required
                     />
