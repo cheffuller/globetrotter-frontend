@@ -1,4 +1,4 @@
-import { TravelPlan } from "../../interfaces/TravelPlanContext";
+import { TravelPlan } from "../../interfaces/TravelPlan";
 import { TravelPlanLocation } from "../../interfaces/TravelPlanLocation";
 import { axiosPrivate } from "../../common/axiosPrivate";
 import { API_URL } from "../../consts/ApiUrl";
@@ -6,13 +6,14 @@ import { HttpStatusCode } from "axios";
 import { BadRequestError, ForbiddenError, NotFoundError } from "../../errors/HttpErrors";
 
 export async function createNewTravelPlan(data: TravelPlan): Promise<number> {
+    console.log(data);
     const response = await axiosPrivate.post(API_URL + "plans", data);
 
-    if (response.status == HttpStatusCode.BadRequest) {
+    if (response.status === HttpStatusCode.BadRequest) {
         throw new BadRequestError("Invalid travel plan details.");
-    } else if (response.status == HttpStatusCode.NotFound) {
+    } else if (response.status === HttpStatusCode.NotFound) {
         throw new NotFoundError("Travel plan not found.");
-    } else if (response.status == HttpStatusCode.Forbidden) {
+    } else if (response.status === HttpStatusCode.Forbidden) {
         throw new ForbiddenError("Invalid JWT.");
     }
 
@@ -23,9 +24,9 @@ export async function createNewTravelPlan(data: TravelPlan): Promise<number> {
 export async function addTravelPlanLocation(data: TravelPlanLocation) {
     const response = await axiosPrivate.post(API_URL + `plans/${data.travelPlanId}/locations`, data);
 
-    if(response.status == HttpStatusCode.BadRequest) {
+    if(response.status === HttpStatusCode.BadRequest) {
         throw new BadRequestError("Invalid travel plan location details.");
-    } else if (response.status == HttpStatusCode.NotFound) {
+    } else if (response.status === HttpStatusCode.NotFound) {
         throw new NotFoundError("Travel plan not found.");
     } 
 

@@ -19,6 +19,7 @@ function App() {
                     <Route path={LOGIN_URL} element={<LoginPage />} />
                     <Route path={HOME_URL} element={<PrivateRoute reactNode={<HomePage />} />} />
                     <Route path={TRAVEL_PLAN_URL} element={<PrivateRoute reactNode={<TravelPlanPage />}/>}/>
+                    <Route path={TRAVEL_PLAN_URL + '/management'} element={<PrivateRoute reactNode={<TravelPlanManagement />} />} />
                 </Routes>
             {/* </TravelPlanProvider> */}
         </BrowserRouter>

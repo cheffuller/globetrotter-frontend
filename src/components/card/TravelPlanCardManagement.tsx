@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { axiosPrivate } from '../../common/axiosPrivate';
 import TravelPlanCard from './TravelPlanCard';
-import { TravelPlan } from '../../interfaces/TravelPlanContext'
+import { TravelPlan } from '../../interfaces/TravelPlan'
 import { API_URL } from '../../consts/ApiUrl';
 
 

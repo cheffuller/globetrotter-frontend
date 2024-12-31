@@ -4,7 +4,7 @@ import { API_URL } from '../../../consts/ApiUrl';
 import TravelPlanCardCommentButton from './TravelPlanCardCommentButton';
 
 export type TravelPlanCardCommentButtonManagementProps = {
-  travelPlanId: number;
+  travelPlanId: number | undefined;
 };
 
 const TravelPlanCardCommentButtonManagement = ({

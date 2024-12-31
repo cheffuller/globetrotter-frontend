@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { addTravelPlanLocation, createNewTravelPlan } from '../../components/travelplan/TravelPlanService';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/HttpErrors';
+import { useNavigate } from 'react-router-dom';
 
 //We need to include some of the following 
 //form to create a travel plan
@@ -14,17 +15,13 @@ import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/Htt
 
 //in our profile page(?) we should be able to favorite the travel plan
 /* include spacing between the buttons */
-type TravelPlanPageProps = {
-    location: any,
-    // travelPlan: any, location: any, setLocation: (location: any) => void,
-    // onSubmitTravelPlan: (isPublished: boolean) => void
-}
-
 function TravelPlanPage() {
     const [city, setCity] = useState<string>("");
     const [country, setCountry] = useState<string>("");
     const [startDate, setStartDate] = useState<string>("");
     const [endDate, setEndDate] = useState<string>("");
+
+    const navigate = useNavigate();
 
     async function saveDraft(event: any) {
         event.preventDefault();
@@ -45,6 +42,7 @@ function TravelPlanPage() {
             })
 
             // redirect the user to a page to edit the travel page plan
+            navigate("manage-plans/" + travelPlanId);
         } catch (error: any) {
             switch (error) {
                 case BadRequestError:

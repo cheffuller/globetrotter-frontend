@@ -1,10 +1,4 @@
 import React, { useState, useContext } from 'react'
-// import { TravelPlanContext } from '../../interfaces/TravelPlanContext'
-import { API_URL } from '../../consts/ApiUrl'
-import { axiosPrivate } from '../../common/axiosPrivate'
-import axios from 'axios'
-import TravelPlanPage from '../../pages/travelplan/TravelPlanPage';
-
 //the goal of this is to be able to connect the endpoint to create a travel plan 
 
 function TravelPlanManagement() {
@@ -13,13 +7,6 @@ function TravelPlanManagement() {
   //   throw new Error('You probably forgot to put <TravelPlanProvider>.');
   // }
   // const { travelPlan, submitTravelPlan } = context;
-
-  const [location, setLocation] = useState({
-    city: '',
-    country: '',
-    startDate: '',
-    endDate: ''
-  })
 
   // const handleSubmitTravelPlan = async (isPublished: boolean) => { //might need to change so that it takes in the handler
   //   try {
@@ -47,5 +34,7 @@ function TravelPlanManagement() {
     // <TravelPlanPage location={location} />
   )
 }
+
+//will use this for the api call maybe
 
 export default TravelPlanManagement
