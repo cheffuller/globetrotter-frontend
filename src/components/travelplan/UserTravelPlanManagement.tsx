@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { axiosPrivate } from '../../common/axiosPrivate';
-import TravelPlanCard from '../../components/card/TravelPlanCard';
+import TravelPlanCard from '../card/TravelPlanCard';
 import { TravelPlan } from '../../interfaces/TravelPlan'
 import { API_URL } from '../../consts/ApiUrl';
 
@@ -8,7 +8,7 @@ import { API_URL } from '../../consts/ApiUrl';
 //in here i can either go to this page manually or be redirected here after creating a travel plan draft
 //in this page i should be able to see all my travel plans
 
-function TravelPlanManagementPage() {
+function UserTravelPlanManagement() {
     const [travelPlans, setTravelPlans] = useState<TravelPlan[]>([]);
 
     //find the account id of the user using jwt token
@@ -19,7 +19,7 @@ function TravelPlanManagementPage() {
         try {
           
           const res = await axiosPrivate.get(
-            `${API_URL}plans/${accountId}`);
+            `${API_URL}users/${accountId}/plans`);
           setTravelPlans(res.data);
         } catch (err) {
           console.log(err);
@@ -38,4 +38,4 @@ function TravelPlanManagementPage() {
     );
 }
 
-export default TravelPlanManagementPage
+export default UserTravelPlanManagement;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { addTravelPlanLocation, createNewTravelPlan } from '../../components/travelplan/TravelPlanService';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/HttpErrors';
 import { useNavigate } from 'react-router-dom';
+import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 
 //We need to include some of the following 
 //form to create a travel plan
@@ -42,7 +43,7 @@ function TravelPlanPage() {
             })
 
             // redirect the user to a page to edit the travel page plan
-            navigate("manage-plans/" + travelPlanId);
+            navigate(TRAVEL_PLAN_URL + '/management');
         } catch (error: any) {
             switch (error) {
                 case BadRequestError:
