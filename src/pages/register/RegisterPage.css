@@ -50,6 +50,11 @@
     background-color: #011524;
 }
 
+.success-message {
+    color: green;
+    font-size: 20px;
+}
+
 .error-message {
     color: red;
     font-size: 20px;

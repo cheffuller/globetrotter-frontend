@@ -53,10 +53,8 @@ function RegisterPage() {
                 if (err.response) {
                     if (err.response.status === 400) {
                         setError('Invalid data submitted');
-                        throw new BadRequestError('Invalid data submitted');
                     } else if (err.response.status === 404) {
                         setError('API endpoint not found');
-                        throw new NotFoundError('API endpoint not found');
                     }
                 }
             } else {
