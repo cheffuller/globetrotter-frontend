@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { HOME_URL, REGISTER_URL } from '../../consts/PageUrls';
+import { HOME_URL, LOGIN_URL, REGISTER_URL } from '../../consts/PageUrls';
 import {
   Button,
   Container,
@@ -10,6 +10,10 @@ import {
   Col,
   Form,
 } from 'react-bootstrap';
+
+type NavBarProps = {
+  isAuthenticated: boolean;
+}
 
 const NavBar = () => {
   return (
@@ -22,6 +26,7 @@ const NavBar = () => {
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='m-auto'>
             <Nav.Link as={Link} to={HOME_URL}>Home</Nav.Link>
+            <Nav.Link as={Link} to={LOGIN_URL}>Login</Nav.Link>
             <Nav.Link as={Link} to={REGISTER_URL}>Register</Nav.Link>
             <NavDropdown title='Dropdown' id='basic-nav-dropdown'>
               <NavDropdown.Item as={Link} to='#action/3.1'>Action</NavDropdown.Item>
