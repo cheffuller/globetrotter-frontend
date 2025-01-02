@@ -1,4 +1,5 @@
-import { HOME_URL, TRAVEL_PLAN_URL } from '../../consts/PageUrls';
+import { HOME_URL, TRAVEL_PLAN_URL, REGISTER_URL } from '../../consts/PageUrls';
+import { Link } from 'react-router-dom';
 import {
   Button,
   Container,
@@ -14,24 +15,24 @@ const NavBar = () => {
   return (
     <Navbar expand='lg' className='navbar-custom'>
       <Container>
-        <Navbar.Brand href='#home' className='navbar-brand'>
+        <Navbar.Brand as={Link} to='#home' className='navbar-brand'>
           GlobeTrotter
         </Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='m-auto'>
             <Nav.Link href={HOME_URL}>Home</Nav.Link>
+            <Nav.Link as={Link} to={REGISTER_URL}>Register</Nav.Link>
             <Nav.Link href={TRAVEL_PLAN_URL}>Travel Plan</Nav.Link>
             <Nav.Link href={TRAVEL_PLAN_URL + '/management'}>Plan Management</Nav.Link>
-            <Nav.Link href='#link'>Link</Nav.Link>
             <NavDropdown title='Dropdown' id='basic-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>
+              <NavDropdown.Item as={Link} to='#action/3.1'>Action</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to='#action/3.2'>
                 Another action
               </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to='#action/3.3'>Something</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href='#action/3.4'>
+              <NavDropdown.Item as={Link} to='#action/3.4'>
                 Separated link
               </NavDropdown.Item>
             </NavDropdown>
