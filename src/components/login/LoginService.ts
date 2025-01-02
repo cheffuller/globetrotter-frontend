@@ -12,10 +12,8 @@ export async function loginRequest(credentials: {
         case HttpStatusCode.Ok:
             break;
         case HttpStatusCode.Unauthorized:
-            console.log("THROWING UNAUTHORIZED");
             throw new UnauthorizedError("Invalid credentials.")
         default:
-            console.log("THROWING DEFUALT")
             throw new Error("Server unavailable.");
     }
     const token = response.data;
