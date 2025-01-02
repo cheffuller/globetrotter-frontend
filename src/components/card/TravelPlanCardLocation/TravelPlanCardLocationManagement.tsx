@@ -4,7 +4,7 @@ import { axiosPrivate } from '../../../common/axiosPrivate';
 import TravelPlanCardLocation from './TravelPlanCardLocation';
 import TravelPlanCardDateManagement from '../TravelPlanCardDate/TravelPlanCardDateManagement';
 import { TravelPlanLocation } from '../../../interfaces/TravelPlanLocation';
-import { API_URL } from '../../../consts/ApiUrl';
+import { API_ROOT_URL } from '../../../consts/ApiUrl';
 
 type TravelPlanCardLocationManagementProps = {
   travelPlanId: number;
@@ -25,7 +25,7 @@ const TravelPlanCardLocationManagement = ({
     const fetchLocation = async () => {
       try {
         const res = await axiosPrivate.get(
-          `${API_URL}plans/${travelPlanId}/locations`);
+          `${API_ROOT_URL}plans/${travelPlanId}/locations`);
         setTravelPlanLocations(res.data);
       } catch (err) {
         console.log(err);

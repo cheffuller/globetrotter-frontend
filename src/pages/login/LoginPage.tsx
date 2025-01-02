@@ -1,8 +1,7 @@
-import LoginManagement from "../../components/login/LoginManagement";
-
+import { LoginForm } from "../../components/login/LoginForm";
 export function LoginPage() {
 
     return <>
-        <LoginManagement />
+        <LoginForm />
     </>;
 }
