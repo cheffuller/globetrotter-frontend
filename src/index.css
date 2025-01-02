@@ -33,9 +33,25 @@ code {
 }
 
 .search:hover {
+  color: #D5896F;
   background-color: #031D44;
   border-color: #D5896F;
+}
+
+.login {
+  width: 20rem
+}
+
+.login button {
+  color: white;
+  background-color: #04395E;
+  border-color: #04395E;
+}
+
+.login button:hover {
   color: #D5896F;
+  background-color: #031D44;
+  border-color: #D5896F;
 }
 
 .d-block.w-100 {

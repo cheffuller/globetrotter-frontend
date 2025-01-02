@@ -1,6 +1,8 @@
+import LoginManagement from "../../components/login/LoginManagement";
+
 export function LoginPage() {
 
     return <>
-        Login Page.
+        <LoginManagement />
     </>;
 }
