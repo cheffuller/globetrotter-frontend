@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { Button, Form } from 'react-bootstrap';
 import { loginRequest } from './LoginService';
 import { UnauthorizedError } from '../../errors/HttpErrors';
+import { useResponseMessage } from '../response-message/ResponseMessage';
 
 export function LoginForm() {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-
+    const { startWaitingForResponse, stopWithResponseFailure, stopWithResponseSuccess, getElement } = useResponseMessage();
+    
     async function handleLogin(e: any) {
         e.preventDefault();
 
@@ -16,15 +18,17 @@ export function LoginForm() {
         };
 
         try {
+            startWaitingForResponse();
             await loginRequest(credentials);
+            stopWithResponseSuccess();
             // navigate to home page after authentication
         } catch (error: any) {
             switch (error) {
                 case UnauthorizedError:
-                    // display red text saying "Invalid credentials."
+                    stopWithResponseFailure("Invalid login credentials.");
                     break;
                 default:
-                    // display red text saying "Server unavailable."
+                    stopWithResponseFailure("Server is unavailable.");
                     break;
             }
         }
@@ -50,6 +54,8 @@ export function LoginForm() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)} />
                 </Form.Group>
+
+                {getElement()}
 
                 <Button variant="primary" type="submit">
                     Submit
