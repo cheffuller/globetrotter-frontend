@@ -28,7 +28,7 @@ export function ResponseMessage() {
     }
 
     return {
-        startWaitingForResponse, stopWithResponseSuccess: stopAfterSuccess, stopWithResponseFailure: stopAfterFailure,
+        startWaitingForResponse, stopAfterSuccess, stopAfterFailure,
         getElement, waitingForResponse, requestFailed
     };
 

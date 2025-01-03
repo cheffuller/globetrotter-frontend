@@ -7,7 +7,7 @@ import { HttpStatusCode } from 'axios';
 export function LoginForm() {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const { startWaitingForResponse, stopWithResponseFailure, stopWithResponseSuccess, getElement } = ResponseMessage();
+    const { startWaitingForResponse, stopAfterFailure, stopAfterSuccess, getElement } = ResponseMessage();
 
     async function handleLogin(e: any) {
         e.preventDefault();
@@ -20,15 +20,15 @@ export function LoginForm() {
         try {
             startWaitingForResponse();
             await loginRequest(credentials);
-            stopWithResponseSuccess();
+            stopAfterSuccess();
             // navigate to home page after authentication
         } catch (error: any) {
             switch (error.status) {
                 case HttpStatusCode.Unauthorized:
-                    stopWithResponseFailure("Invalid login credentials.");
+                    stopAfterFailure("Invalid login credentials.");
                     break;
                 default:
-                    stopWithResponseFailure("Server is unavailable.");
+                    stopAfterFailure("Server is unavailable.");
             }
         }
     };
