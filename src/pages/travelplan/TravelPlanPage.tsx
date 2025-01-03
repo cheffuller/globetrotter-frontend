@@ -4,47 +4,52 @@ import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/Htt
 import { useNavigate } from 'react-router-dom';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 
-//We need to include some of the following 
-//form to create a travel plan
-//fields: destination (city and country), start date, end date, the weather of the destination based on the start date and end date and the destination (use api), 
-// (maybe what is known about the destination)
-//should try and add a picture of the destination
-
-//next thing is that after we finish the form
-//we have the option to save the form so that we can view it from the profile page
-//or the option to post it to the feed
-
-//in our profile page(?) we should be able to favorite the travel plan
-/* include spacing between the buttons */
 function TravelPlanPage() {
-    const [city, setCity] = useState<string>("");
-    const [country, setCountry] = useState<string>("");
-    const [startDate, setStartDate] = useState<string>("");
-    const [endDate, setEndDate] = useState<string>("");
-
+    
+    const [locations, setLocations] = useState([{ city: '', country: '', startDate: '', endDate: '' }]); // Changed this to an array of objects
     const navigate = useNavigate();
 
-    async function saveDraft(event: any) {
+    const updateLocationField = (index: number, field: string, value: string) => { //This function is used to update the location fields in the state array
+        const updatedLocations = locations.map((location, i) => {
+            if (i === index) {
+                return { ...location, [field]: value };
+            }
+            return location;
+        });
+        setLocations(updatedLocations);
+    };
+
+    const addNewLocation = () => { //This function is used to add a new location to the state array
+        setLocations([...locations, { city: '', country: '', startDate: '', endDate: '' }]);
+    };
+
+    const removeLocation = (index: number) => { //This function is used to remove a location from the state array
+        const updatedLocations = [...locations.slice(0, index), ...locations.slice(index + 1)];
+        setLocations(updatedLocations);
+    };
+
+    const saveDraft = async (event: any) => {
         event.preventDefault();
 
         try {
             const travelPlanId = await createNewTravelPlan({
-                accountId: -1, // GET FROM JWT
+                accountId: -1, // Replace with actual accountId from JWT
                 isFavorited: false,
-                isPublished: false
-            })
+                isPublished: false,
+            });
 
-            await addTravelPlanLocation({
-                city: city,
-                country: country,
-                endDate: new Date(endDate),
-                startDate: new Date(startDate),
-                travelPlanId: travelPlanId
-            })
+            for (const location of locations) {
+                await addTravelPlanLocation({
+                    city: location.city,
+                    country: location.country,
+                    startDate: new Date(location.startDate),
+                    endDate: new Date(location.endDate),
+                    travelPlanId,
+                });
+            }
 
-            // redirect the user to a page to edit the travel page plan
-            navigate(TRAVEL_PLAN_URL + '/management');
-        } catch (error: any) {
+            navigate(`${TRAVEL_PLAN_URL}/management`);
+        } catch (error : any) {
             switch (error) {
                 case BadRequestError:
                     // custom logic: tell the user they put in invalid data
@@ -63,27 +68,29 @@ function TravelPlanPage() {
                     break;
             }
         }
-    }
+    };
 
     async function publishPost(event: any) {
         event.preventDefault();
-
+    
         try {
             const travelPlanId = await createNewTravelPlan({
-                accountId: -1, // GET FROM JWT
+                accountId: -1, // Replace with actual accountId from JWT
                 isFavorited: false,
-                isPublished: false
-            })
+                isPublished: false,
+            });
 
-            await addTravelPlanLocation({
-                city: city,
-                country: country,
-                endDate: new Date(endDate),
-                startDate: new Date(startDate),
-                travelPlanId: travelPlanId
-            })
+            for (const location of locations) {
+                await addTravelPlanLocation({
+                    city: location.city,
+                    country: location.country,
+                    startDate: new Date(location.startDate),
+                    endDate: new Date(location.endDate),
+                    travelPlanId,
+                });
+            }
 
-            // redirects them to the page of the published travel plan
+            navigate(`${TRAVEL_PLAN_URL}/management`);
         } catch (error: any) {
             switch (error) {
                 case BadRequestError:
@@ -104,69 +111,93 @@ function TravelPlanPage() {
             }
         }
     }
+    
 
     return (
         <div className="container">
-            <form className="travel-plan-form p-3">
-                <h2>Create a Travel Plan</h2>
-                <div className="mb-3">
-                    <label htmlFor="city" className="form-label">City</label>
-                    <input
-                        type="text"
-                        id="city"
-                        name="city"
-                        className="form-control"
-                        placeholder="Enter city"
-                        value={city}
-                        onChange={e => setCity(e.target.value)}
-                        required
-                    />
+        <form className="travel-plan-form p-3">
+            <h2>Create a Travel Plan</h2>
+            {locations.map((location, index) => (
+                <div key={index} className="location-section mb-3">
+                    <h4>Location {index + 1}</h4>
+                    <div className="mb-3">
+                        <label htmlFor={`city-${index}`} className="form-label">City</label>
+                        <input
+                            type="text"
+                            id={`city-${index}`}
+                            name={`city-${index}`}
+                            className="form-control"
+                            placeholder="Enter city"
+                            value={location.city}
+                            onChange={(e) => updateLocationField(index, 'city', e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor={`country-${index}`} className="form-label">Country</label>
+                        <input
+                            type="text"
+                            id={`country-${index}`}
+                            name={`country-${index}`}
+                            className="form-control"
+                            placeholder="Enter country"
+                            value={location.country}
+                            onChange={(e) => updateLocationField(index, 'country', e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor={`start-date-${index}`} className="form-label">Start Date</label>
+                        <input
+                            type="date"
+                            id={`start-date-${index}`}
+                            name={`startDate-${index}`}
+                            className="form-control"
+                            value={new Date(location.startDate).toLocaleDateString('en-CA')}
+                            onChange={(e) => updateLocationField(index, 'startDate', e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor={`end-date-${index}`} className="form-label">End Date</label>
+                        <input
+                            type="date"
+                            id={`end-date-${index}`}
+                            name={`endDate-${index}`}
+                            className="form-control"
+                            value={new Date(location.endDate).toLocaleDateString('en-CA')}
+                            onChange={(e) => updateLocationField(index, 'endDate', e.target.value)}
+                            required
+                        />
+                    </div>
+                    {index > 0 && (
+                        <button
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={() => removeLocation(index)}
+                        >
+                            Remove Location
+                        </button>
+                    )}
                 </div>
-
-                <div className="mb-3">
-                    <label htmlFor="country" className="form-label">Country</label>
-                    <input
-                        type="text"
-                        id="country"
-                        name="country"
-                        className="form-control"
-                        placeholder="Enter country"
-                        value={country}
-                        onChange={e => setCountry(e.target.value)}
-                        required
-                    />
-                </div>
-
-                <div className="mb-3">
-                    <label htmlFor="start-date" className="form-label">Start Date</label>
-                    <input
-                        type="date"
-                        id="start-date"
-                        name="startDate"
-                        className="form-control"
-                        value={startDate}
-                        onChange={e => setStartDate(e.target.value)}
-                        required
-                    />
-                </div>
-
-                <div className="mb-3">
-                    <label htmlFor="end-date" className="form-label">End Date</label>
-                    <input
-                        type="date"
-                        id="end-date"
-                        name="endDate"
-                        className="form-control"
-                        value={endDate}
-                        onChange={e => setEndDate(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="button" className="btn btn-primary" onClick={e => publishPost(e)}>Publish</button>
-                <button type="button" className="btn btn-primary" onClick={e => saveDraft(e)}>Save Draft</button>
-            </form>
-        </div>
-    )
+            ))}
+            <button
+                type="button"
+                className="btn btn-secondary mb-3"
+                onClick={addNewLocation}
+            >
+                Add Location
+            </button>
+            <button
+                type="button"
+                className="btn btn-primary"
+                onClick={saveDraft}
+            >
+                Save Draft
+            </button>
+        </form>
+    </div>
+    );
 }
 
 export default TravelPlanPage

@@ -24,7 +24,7 @@ const NavBar = () => {
             <Nav.Link href={HOME_URL}>Home</Nav.Link>
             <Nav.Link as={Link} to={REGISTER_URL}>Register</Nav.Link>
             <Nav.Link href={TRAVEL_PLAN_URL}>Travel Plan</Nav.Link>
-            <Nav.Link href={TRAVEL_PLAN_URL + '/management'}>Plan Management</Nav.Link>
+            <Nav.Link href={TRAVEL_PLAN_URL + '/management'}>View Plans</Nav.Link>
             <NavDropdown title='Dropdown' id='basic-nav-dropdown'>
               <NavDropdown.Item as={Link} to='#action/3.1'>Action</NavDropdown.Item>
               <NavDropdown.Item as={Link} to='#action/3.2'>

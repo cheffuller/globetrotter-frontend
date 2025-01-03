@@ -17,7 +17,7 @@ export async function createNewTravelPlan(data: TravelPlan): Promise<number> {
         throw new ForbiddenError("Invalid JWT.");
     }
 
-    const travelPlan: TravelPlan = await response.data();
+    const travelPlan: TravelPlan = await response.data;
     return travelPlan.id as number;
 }
 
@@ -30,7 +30,7 @@ export async function addTravelPlanLocation(data: TravelPlanLocation) {
         throw new NotFoundError("Travel plan not found.");
     } 
 
-    const travelPlanLocation: TravelPlanLocation = await response.data();
+    const travelPlanLocation: TravelPlanLocation = await response.data;
     //what should we return here?
     //what would we need from travel plan location after we added it?
     return travelPlanLocation;
