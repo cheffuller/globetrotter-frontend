@@ -27,15 +27,19 @@ export function LoginForm() {
         };
 
         try {
-            startWaitingForResponse();
+            startWaitingForResponse("Waiting for response from the server");
             const jwtToken = await loginRequest(credentials);
-            stopWaitingAfterSuccess();
+            stopWaitingAfterSuccess("Login successful.");
             login(jwtToken);
             navigate(HOME_URL);
         } catch (error: any) {
             switch (error.status) {
                 case HttpStatusCode.Unauthorized:
                     stopWaitingAfterFailure("Invalid login credentials.");
+                    // send user to login and remove their current jwt
+                    break;
+                case HttpStatusCode.BadRequest:
+                    stopWaitingAfterFailure("Invalid user profile details.");
                     break;
                 default:
                     stopWaitingAfterFailure("Server is unavailable.");

@@ -24,7 +24,8 @@ function App() {
                         path={HOME_URL}
                         element={<PrivateRoute element={<HomePage />} />}
                     />
-                    <Route path={USER_PROFILE_URL} element={<UnauthenticatedRoute element={<UserProfile />} />} />
+                    <Route path={USER_PROFILE_URL} element={<PrivateRoute element={<UserProfile />} />} />
+                    <Route path="/helloworld" element={<>HELLO WORLD</>}/>
                 </Routes>
             </BrowserRouter>
         </>

@@ -1,0 +1,27 @@
+.userProfileForm {
+    border: 1px solid red;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto;
+}
+
+.userProfileForm label {
+    margin: 0px 10px;
+}
+
+.userProfileForm input {
+    margin: 10px 0px;
+}
+
+.userProfileForm textarea {
+    margin: 0px 10px 10px 10px;
+}
+
+.userProfileForm button {
+    margin: 0px 10px 10px 10px;
+}
+
+.userProfileForm p {
+    margin: 10px;
+}

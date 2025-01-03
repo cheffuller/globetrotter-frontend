@@ -3,6 +3,7 @@ import { axiosPrivate } from '../../common/axiosPrivate';
 import TravelPlanCard from './TravelPlanCard';
 import { TravelPlan } from '../../interfaces/TravelPlan'
 import { API_ROOT_URL } from '../../consts/ApiUrl';
+import { JWT_TOKEN } from '../../consts/JwtConst';
 
 
 const TravelPlanCardManagement = () => {
@@ -16,6 +17,7 @@ const TravelPlanCardManagement = () => {
           `${API_ROOT_URL}plans/recent/${numberOfPlans}`);
         setTravelPlans(res.data);
       } catch (err) {
+        localStorage.removeItem(JWT_TOKEN);
         console.log(err);
       }
     }
