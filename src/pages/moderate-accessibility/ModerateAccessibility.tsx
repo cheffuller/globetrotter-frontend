@@ -47,22 +47,9 @@ const ModerateAccessibility = () => {
 
   return (
     <div>
-      <h3>Moderate Accessibility</h3>
-      <input
-        type="number"
-        placeholder="Enter User ID"
-        value={userId}
-        onChange={(e) => setUserId(Number(e.target.value))}
-      />
       <button onClick={handleBanUser}>Ban User</button>
       <button onClick={handleUnbanUser}>Unban User</button>
       <br />
-      <input
-        type="number"
-        placeholder="Enter Comment ID"
-        value={commentId}
-        onChange={(e) => setCommentId(Number(e.target.value))}
-      />
       <button onClick={handleDeleteComment}>Delete Comment</button>
       {message && <p>{message}</p>}
     </div>
