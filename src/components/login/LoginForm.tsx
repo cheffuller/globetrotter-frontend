@@ -3,11 +3,16 @@ import { Button, Form } from 'react-bootstrap';
 import { loginRequest } from './LoginService';
 import { ResponseMessage } from '../response-message/ResponseMessage';
 import { HttpStatusCode } from 'axios';
+import { useAuth } from '../../common/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { HOME_URL } from '../../consts/PageUrls';
 
 export function LoginForm() {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const { startWaitingForResponse, stopWaitingAfterFailure, stopWaitingAfterSuccess, getResponseMessage } = ResponseMessage();
+    const { login } = useAuth();
+    const navigate = useNavigate();
 
     async function handleLogin(e: any) {
         e.preventDefault();
@@ -19,9 +24,10 @@ export function LoginForm() {
 
         try {
             startWaitingForResponse();
-            await loginRequest(credentials);
-            stopWaitingAfterSuccess
-            // navigate to home page after authentication
+            const jwtToken = await loginRequest(credentials);
+            stopWaitingAfterSuccess();
+            login(jwtToken);
+            navigate(HOME_URL);
         } catch (error: any) {
             switch (error.status) {
                 case HttpStatusCode.Unauthorized:
