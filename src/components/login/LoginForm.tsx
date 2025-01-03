@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { Button, Form } from 'react-bootstrap';
 import { loginRequest } from './LoginService';
-import { UnauthorizedError } from '../../errors/HttpErrors';
-import { useResponseMessage } from '../response-message/ResponseMessage';
+import { ResponseMessage } from '../response-message/ResponseMessage';
+import { HttpStatusCode } from 'axios';
 
 export function LoginForm() {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const { startWaitingForResponse, stopWithResponseFailure, stopWithResponseSuccess, getElement } = useResponseMessage();
-    
+    const { startWaitingForResponse, stopWithResponseFailure, stopWithResponseSuccess, getElement } = ResponseMessage();
+
     async function handleLogin(e: any) {
         e.preventDefault();
 
@@ -23,13 +23,12 @@ export function LoginForm() {
             stopWithResponseSuccess();
             // navigate to home page after authentication
         } catch (error: any) {
-            switch (error) {
-                case UnauthorizedError:
+            switch (error.status) {
+                case HttpStatusCode.Unauthorized:
                     stopWithResponseFailure("Invalid login credentials.");
                     break;
                 default:
                     stopWithResponseFailure("Server is unavailable.");
-                    break;
             }
         }
     };

@@ -1,25 +1,25 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-export function useResponseMessage() {
-    const [waitingForResponse, setWaitingForResponse] = useState<boolean>(false);
-    const [requestFailed, setRequestFailed] = useState<boolean>(false);
+export function ResponseMessage() {
+    const waitingForResponse = useRef<boolean>(false);
+    const requestFailed = useRef<boolean>(false);
     const [message, setMessage] = useState<string>("");
 
     function startWaitingForResponse(): void {
-        setWaitingForResponse(true);
-        setRequestFailed(false);
+        waitingForResponse.current = true;
+        requestFailed.current = false;
         setMessage("Waiting for response from the server");
     }
 
-    function stopWithResponseSuccess(): void {
-        setWaitingForResponse(false);
-        setRequestFailed(false);
+    function stopAfterSuccess(): void {
+        waitingForResponse.current = false;
+        requestFailed.current = false;
         setMessage("Login successful.")
     }
 
-    function stopWithResponseFailure(message: string): void {
-        setWaitingForResponse(false);
-        setRequestFailed(true);
+    function stopAfterFailure(message: string): void {
+        waitingForResponse.current = false;
+        requestFailed.current = true;
         setMessage(message);
     }
 
@@ -27,6 +27,9 @@ export function useResponseMessage() {
         return <p>{message}</p>;
     }
 
-    return { startWaitingForResponse, stopWithResponseSuccess, stopWithResponseFailure, getElement };
+    return {
+        startWaitingForResponse, stopWithResponseSuccess: stopAfterSuccess, stopWithResponseFailure: stopAfterFailure,
+        getElement, waitingForResponse, requestFailed
+    };
 
 }
