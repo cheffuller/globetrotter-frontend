@@ -33,24 +33,24 @@ const ModerateAccessibility = () => {
     } catch (error) {
       setMessage(`Failed to delete comment with ID.`);
     }
-
-    const handleDeletePlan = async () => {
-        try{
-            await axios.delete(`${API_ROOT_URL}plans/${planId}`);
-            setMessage(`Plan has been deleted.`);
-        } catch (error) {
-            setMessage(`Failed to delete plan.`);
-
-    }
-  }
 };
 
+  const handleDeletePlan = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {
+    try {
+      await axios.delete(`${API_ROOT_URL}plans/${planId}`);
+      setMessage(`Plan with ID ${planId} has been deleted.`);
+    } catch (error) {
+      setMessage(`Failed to delete plan with ID ${planId}.`);
+    }
+  };
   return (
     <div>
       <button onClick={handleBanUser}>Ban User</button>
       <button onClick={handleUnbanUser}>Unban User</button>
       <br />
       <button onClick={handleDeleteComment}>Delete Comment</button>
+      <br />
+      <button onClick={handleDeletePlan}>Delete Plan</button>
       {message && <p>{message}</p>}
     </div>
   );
