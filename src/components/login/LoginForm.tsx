@@ -1,3 +1,4 @@
+import "./LoginForm.css";
 import { useState } from 'react'
 import { Button, Form } from 'react-bootstrap';
 import { loginRequest } from './LoginService';
@@ -6,10 +7,12 @@ import { HttpStatusCode } from 'axios';
 import { useAuth } from '../../common/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { HOME_URL } from '../../consts/PageUrls';
+import { AccountRole } from '../../enums/AccountRole';
 
 export function LoginForm() {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [loginMode, setLoginMode] = useState<AccountRole>(AccountRole.User);
     const { startWaitingForResponse, stopWaitingAfterFailure, stopWaitingAfterSuccess, getResponseMessage } = ResponseMessage();
     const { login } = useAuth();
     const navigate = useNavigate();
@@ -18,6 +21,7 @@ export function LoginForm() {
         e.preventDefault();
 
         const credentials = {
+            accountRole: loginMode,
             username: username,
             password: password
         };
@@ -39,9 +43,23 @@ export function LoginForm() {
         }
     };
 
+    function changeLoginMode() {
+        if (loginMode === AccountRole.User) {
+            setLoginMode(AccountRole.Moderator);
+        } else {
+            setLoginMode(AccountRole.User);
+        }
+    }
+
     return <>
         <div className='container mt-5 text-center login'>
             <Form onSubmit={handleLogin}>
+                <h4>
+                    {loginMode === AccountRole.User ?
+                        "User Login" :
+                        "Moderator Login"
+                    }
+                </h4>
                 <Form.Group className="mb-3" controlId="formUsername">
                     <Form.Label>Username</Form.Label>
                     <Form.Control
@@ -62,8 +80,14 @@ export function LoginForm() {
 
                 {getResponseMessage()}
 
-                <Button variant="primary" type="submit">
-                    Submit
+                <Button variant="primary" type="submit" className="loginFormButton">
+                    Login
+                </Button>
+                <Button onClick={changeLoginMode} className="loginFormButton">
+                    {loginMode === AccountRole.User ?
+                        "Switch to moderator login" :
+                        "Switch to user login"
+                    }
                 </Button>
             </Form>
         </div>
