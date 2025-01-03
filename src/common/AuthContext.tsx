@@ -13,9 +13,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log("AuthProvider mounted.");
     const loggedIn = isAuthenticated();
-    console.log("isAuthenticated called. Result:", loggedIn);
     setIsLoggedIn(loggedIn);
   }, []);
 
