@@ -4,5 +4,6 @@ import { useAuth } from "../../common/AuthContext";
 
 export function PrivateRoute(prop: { reactNode: JSX.Element }): JSX.Element {
     const { isLoggedIn } = useAuth();
+    console.log("Is logged in: " + isLoggedIn);
     return isLoggedIn ? prop.reactNode : <Navigate to={LOGIN_URL} />;
 }
