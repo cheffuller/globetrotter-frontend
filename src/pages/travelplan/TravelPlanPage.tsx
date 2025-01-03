@@ -9,7 +9,7 @@ function TravelPlanPage() {
     const [locations, setLocations] = useState([{ city: '', country: '', startDate: '', endDate: '' }]); // Changed this to an array of objects
     const navigate = useNavigate();
 
-    const updateLocationField = (index: number, field: string, value: string) => { //This function is used to update the location fields in the state array
+    const updateLocationField = (index: number, field: string, value: string) => { //This function is used to update the location fields in the locations, it helps determine which location is being written in 
         const updatedLocations = locations.map((location, i) => {
             if (i === index) {
                 return { ...location, [field]: value };
@@ -19,11 +19,11 @@ function TravelPlanPage() {
         setLocations(updatedLocations);
     };
 
-    const addNewLocation = () => { //This function is used to add a new location to the state array
+    const addNewLocation = () => { 
         setLocations([...locations, { city: '', country: '', startDate: '', endDate: '' }]);
     };
 
-    const removeLocation = (index: number) => { //This function is used to remove a location from the state array
+    const removeLocation = (index: number) => { //This function is used to remove a location from the location object array
         const updatedLocations = [...locations.slice(0, index), ...locations.slice(index + 1)];
         setLocations(updatedLocations);
     };
@@ -38,7 +38,7 @@ function TravelPlanPage() {
                 isPublished: false,
             });
 
-            for (const location of locations) {
+            for (const location of locations) { //changed this so that we could loop thhrough multiple locations
                 await addTravelPlanLocation({
                     city: location.city,
                     country: location.country,
@@ -183,7 +183,7 @@ function TravelPlanPage() {
             ))}
             <button
                 type="button"
-                className="btn btn-secondary mb-3"
+                className="btn btn-secondary"
                 onClick={addNewLocation}
             >
                 Add Location
