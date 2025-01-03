@@ -7,7 +7,7 @@ import { HttpStatusCode } from 'axios';
 export function LoginForm() {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const { startWaitingForResponse, stopAfterFailure, stopAfterSuccess, getElement } = ResponseMessage();
+    const { startWaitingForResponse, stopWaitingAfterFailure, stopWaitingAfterSuccess, getResponseMessage } = ResponseMessage();
 
     async function handleLogin(e: any) {
         e.preventDefault();
@@ -20,15 +20,15 @@ export function LoginForm() {
         try {
             startWaitingForResponse();
             await loginRequest(credentials);
-            stopAfterSuccess();
+            stopWaitingAfterSuccess
             // navigate to home page after authentication
         } catch (error: any) {
             switch (error.status) {
                 case HttpStatusCode.Unauthorized:
-                    stopAfterFailure("Invalid login credentials.");
+                    stopWaitingAfterFailure("Invalid login credentials.");
                     break;
                 default:
-                    stopAfterFailure("Server is unavailable.");
+                    stopWaitingAfterFailure("Server is unavailable.");
             }
         }
     };
@@ -54,7 +54,7 @@ export function LoginForm() {
                         onChange={(e) => setPassword(e.target.value)} />
                 </Form.Group>
 
-                {getElement()}
+                {getResponseMessage()}
 
                 <Button variant="primary" type="submit">
                     Submit
