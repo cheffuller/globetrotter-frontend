@@ -1,60 +1,73 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { loginRequest } from './LoginService';
 import { UnauthorizedError } from '../../errors/HttpErrors';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../common/AuthContext';
 
 export function LoginForm() {
-    const [username, setUsername] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
-    async function handleLogin(e: any) {
-        e.preventDefault();
+  const navigate = useNavigate();
 
-        const credentials = {
-            username: username,
-            password: password
-        };
+  const { login } = useAuth();
 
-        try {
-            await loginRequest(credentials);
-            // navigate to home page after authentication
-        } catch (error: any) {
-            switch (error) {
-                case UnauthorizedError:
-                    // display red text saying "Invalid credentials."
-                    break;
-                default:
-                    // display red text saying "Server unavailable."
-                    break;
-            }
-        }
+  async function handleLogin(e: any) {
+    e.preventDefault();
+
+    const credentials = {
+      username: username,
+      password: password,
     };
 
-    return <>
-        <div className='container mt-5 text-center login'>
-            <Form onSubmit={handleLogin}>
-                <Form.Group className="mb-3" controlId="formUsername">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Enter username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)} />
-                </Form.Group>
+    try {
+      const token = await loginRequest(credentials);
+      login(token);
+      navigate('/home');
+    } catch (error: any) {
+      switch (error) {
+        case UnauthorizedError:
+          setErrorMessage('Invalid credentials.');
+          break;
+        default:
+          setErrorMessage('Server unavailable.');
+          break;
+      }
+    }
+  }
 
-                <Form.Group className="mb-3" controlId="formPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Enter Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)} />
-                </Form.Group>
+  return (
+    <div className='login-background'>
+      <div className='container mt-5 text-center login'>
+        <Form onSubmit={handleLogin}>
+          <Form.Group className='mb-3' controlId='formUsername'>
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter username'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </Form.Group>
 
-                <Button variant="primary" type="submit">
-                    Submit
-                </Button>
-            </Form>
-        </div>
-    </>;
+          <Form.Group className='mb-3' controlId='formPassword'>
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type='password'
+              placeholder='Enter Password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Group>
+
+          <Button variant='primary' type='submit'>
+            Submit
+          </Button>
+          <div className='error-message mt-3'>{errorMessage}</div>
+        </Form>
+      </div>
+    </div>
+  );
 }
