@@ -1,5 +1,5 @@
 .userProfileForm {
-    border: 1px solid red;
+    border: 5px solid black;
     width: 80%;
     display: flex;
     flex-direction: column;
