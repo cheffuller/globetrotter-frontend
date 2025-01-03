@@ -20,3 +20,10 @@ export interface UserAccountCreation {
     password: string;
     username: string;
 }
+
+export interface UserProfile {
+    accountId?: number;
+    bio: string;
+    displayName: string;
+    isPrivate: boolean;
+}

@@ -1,19 +1,32 @@
+import "./UserProfileForm.css";
 import { HttpStatusCode } from "axios";
-import "./UserProfile.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ResponseMessage } from "../../components/response-message/ResponseMessage";
-import { updateProfileRequest } from "./UserProfileService";
+import { getProfileRequest, updateProfileRequest } from "./UserProfileService";
+import { removeJwt } from "../../utils/LocalStorageUtils";
+import { UserProfile } from "../../interfaces/UserAccount";
 
-export function UserProfile() {
+export function UserProfileForm() {
     const [bio, setBio] = useState<string>("");
     const [displayName, setDisplayName] = useState<string>("");
     const [isPrivate, setIsPrivate] = useState<boolean>(false);
     const { startWaitingForResponse, stopWaitingAfterFailure, stopWaitingAfterSuccess, getResponseMessage } = ResponseMessage();
 
+    useEffect(() => {
+        loadProfile();
+    }, []);
+
+    async function loadProfile() {
+        const profile: UserProfile = await getProfileRequest();
+        setBio(profile.bio);
+        setDisplayName(profile.displayName);
+        setIsPrivate(profile.isPrivate);
+    }
+
     async function saveProfile(event: any) {
         event.preventDefault();
-        
-        const profile = {
+
+        const profile: UserProfile = {
             bio: bio,
             displayName: displayName,
             isPrivate: isPrivate
@@ -26,6 +39,10 @@ export function UserProfile() {
         } catch (error: any) {
             switch (error.status) {
                 case HttpStatusCode.Unauthorized:
+                    stopWaitingAfterFailure("Invalid JWT token.");
+                    removeJwt();
+                    break;
+                case HttpStatusCode.BadRequest:
                     stopWaitingAfterFailure("Invalid user profile details.");
                     break;
                 default:

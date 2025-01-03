@@ -7,7 +7,7 @@ import { LoginPage } from './pages/login/LoginPage';
 import { HomePage } from './pages/home/HomePage';
 import NavBarManagement from './components/nav/NavBarManagement';
 import RegisterPage from './pages/register/RegisterPage';
-import { UserProfile } from './pages/user-profile/UserProfile';
+import { UserProfileForm } from './pages/user-profile/UserProfileForm';
 import { UnauthenticatedRoute } from './components/routes/UnauthenticatedRoute';
 
 function App() {
@@ -24,8 +24,7 @@ function App() {
                         path={HOME_URL}
                         element={<PrivateRoute element={<HomePage />} />}
                     />
-                    <Route path={USER_PROFILE_URL} element={<PrivateRoute element={<UserProfile />} />} />
-                    <Route path="/helloworld" element={<>HELLO WORLD</>}/>
+                    <Route path={USER_PROFILE_URL} element={<PrivateRoute element={<UserProfileForm />} />} />
                 </Routes>
             </BrowserRouter>
         </>

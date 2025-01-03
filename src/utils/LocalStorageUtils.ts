@@ -1,5 +1,6 @@
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 import { JWT_TOKEN } from "../consts/JwtConst";
+import { UserProfile } from "../interfaces/UserAccount";
 
 const SECONDS_TO_MILLISECONDS: number = 1000;
 
@@ -25,4 +26,13 @@ export function hasValidJwt(): boolean {
     }
 
     return true;
+}
+
+export function removeJwt(): void {
+    localStorage.removeItem(JWT_TOKEN);
+}
+
+export function getUserProfile(): UserProfile {
+    const token: string = localStorage.getItem(JWT_TOKEN) as string;
+    return jwtDecode<UserProfile>(token);
 }
