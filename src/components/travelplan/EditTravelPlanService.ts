@@ -1,12 +1,12 @@
 import { TravelPlan } from "../../interfaces/TravelPlan";
 import { TravelPlanLocation } from "../../interfaces/TravelPlanLocation";
 import { axiosPrivate } from "../../common/axiosPrivate";
-import { API_URL } from "../../consts/ApiUrl";
+import { API_ROOT_URL } from "../../consts/ApiUrl";
 import { HttpStatusCode } from "axios";
 import { BadRequestError, ForbiddenError, NotFoundError } from "../../errors/HttpErrors";
 
 export async function updateTravelPlan(data: TravelPlan): Promise<number> {
-    const response = await axiosPrivate.put(API_URL + "plans", data);
+    const response = await axiosPrivate.put(API_ROOT_URL + "plans", data);
 
     if (response.status === HttpStatusCode.BadRequest) {
         throw new BadRequestError("Invalid travel plan details.");
@@ -16,12 +16,12 @@ export async function updateTravelPlan(data: TravelPlan): Promise<number> {
         throw new ForbiddenError("Invalid JWT.");
     }
 
-    const travelPlan: TravelPlan = await response.data();
+    const travelPlan: TravelPlan = await response.data;
     return travelPlan.id as number;
 }
 
 export async function updateTravelPlanLocation(data: TravelPlanLocation) : Promise<TravelPlanLocation> {
-    const response = await axiosPrivate.put(API_URL + `plans/${data.travelPlanId}/locations`, data);
+    const response = await axiosPrivate.put(API_ROOT_URL + `plans/${data.travelPlanId}/locations`, data);
 
     if(response.status === HttpStatusCode.BadRequest) {
         throw new BadRequestError("Invalid travel plan location details.");
@@ -29,12 +29,12 @@ export async function updateTravelPlanLocation(data: TravelPlanLocation) : Promi
         throw new NotFoundError("Travel plan not found.");
     } 
 
-    const travelPlanLocation: TravelPlanLocation = await response.data();
+    const travelPlanLocation: TravelPlanLocation = await response.data;
     return travelPlanLocation;
 }
 
 export async function deleteTravelPlan(id: number) : Promise<void> { // do we need to return a promise object here?
-    const response = await axiosPrivate.delete(API_URL + `plans/${id}`);
+    const response = await axiosPrivate.delete(API_ROOT_URL + `plans/${id}`);
 
     if (response.status === HttpStatusCode.NotFound) {
         throw new NotFoundError("Travel plan not found.");
@@ -44,7 +44,7 @@ export async function deleteTravelPlan(id: number) : Promise<void> { // do we ne
 }
 
 export async function getTravelPlan(id: number) : Promise<TravelPlan> {
-    const response = await axiosPrivate.get(API_URL + `plans/${id}`);
+    const response = await axiosPrivate.get(API_ROOT_URL + `plans/${id}`);
 
     if (response.status === HttpStatusCode.NotFound) {
         throw new NotFoundError("Travel plan not found.");
@@ -54,7 +54,7 @@ export async function getTravelPlan(id: number) : Promise<TravelPlan> {
 }
 
 export async function getTravelPlanLocations(id: number) : Promise<TravelPlanLocation[]> {
-    const response = await axiosPrivate.get(API_URL + `plans/${id}/locations`);
+    const response = await axiosPrivate.get(API_ROOT_URL + `plans/${id}/locations`);
 
     if (response.status === HttpStatusCode.NotFound) {
         throw new NotFoundError("Travel plan not found.");

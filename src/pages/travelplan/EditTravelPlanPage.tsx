@@ -18,12 +18,6 @@ function EditTravelPlanPage() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    useEffect(() => { //this will take the state from the navigated page and set it to the travelPlan state
-        if(location.state) {
-            setTravelPlan(location.state)
-        }
-    }, [location.state]);
-
     async function publishPlan(event: any) { //might not need this parameter
         event.preventDefault();
 
@@ -117,25 +111,7 @@ function EditTravelPlanPage() {
             }
         }
     }
-
-    async function useTravelPlan(id: number) {
-        try {
-            const travelPlan = await getTravelPlan(id);
-
-            // const travelLocation =  await getTravelPlanLocations(travelPlan.id);
-            // setTravelPlan({
-            //     id: travelPlan.id,
-            //     city: travelLocation.city,
-            //     country: travelLocation.country,
-            //     startDate: travelLocation.startDate,
-            //     endDate: travelLocation.endDate,
-            //     isFavorited: travelPlan.isFavorited,
-            //     isPublished: travelPlan.isPublished
-            // })
-        } catch (error: any) {
-            
-        }
-    }
+    
   return (
     <div>EditTravelPlanPage</div>
   )

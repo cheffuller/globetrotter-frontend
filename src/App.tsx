@@ -25,8 +25,8 @@ function App() {
                         path={HOME_URL}
                         element={<PrivateRoute element={<HomePage />} />}
                     />
-                    <Route path={TRAVEL_PLAN_URL} element={<PrivateRoute element={<TravelPlanPage />}/>}/>
-                    <Route path={TRAVEL_PLAN_URL + '/management'} element={<PrivateRoute element={<UserTravelPlanPage />} />} />
+                    <Route path={TRAVEL_PLAN_URL} element={<UnauthenticatedRoute element={<TravelPlanPage />}/>}/>
+                    <Route path={TRAVEL_PLAN_URL + '/management'} element={<UnauthenticatedRoute element={<UserTravelPlanPage />} />} />
                 </Routes>
             </BrowserRouter>
         </>
