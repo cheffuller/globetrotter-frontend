@@ -1,3 +1,4 @@
+import "./LoginForm.css";
 import { useState } from 'react'
 import { Button, Form } from 'react-bootstrap';
 import { loginRequest } from './LoginService';
@@ -51,14 +52,14 @@ export function LoginForm() {
     }
 
     return <>
-        <h4>
-            {loginMode === AccountRole.User ?
-                "User Login" :
-                "Moderator Login"
-            }
-        </h4>
         <div className='container mt-5 text-center login'>
             <Form onSubmit={handleLogin}>
+                <h4>
+                    {loginMode === AccountRole.User ?
+                        "User Login" :
+                        "Moderator Login"
+                    }
+                </h4>
                 <Form.Group className="mb-3" controlId="formUsername">
                     <Form.Label>Username</Form.Label>
                     <Form.Control
@@ -79,10 +80,10 @@ export function LoginForm() {
 
                 {getResponseMessage()}
 
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" className="loginFormButton">
                     Login
                 </Button>
-                <Button onClick={changeLoginMode}>
+                <Button onClick={changeLoginMode} className="loginFormButton">
                     {loginMode === AccountRole.User ?
                         "Switch to moderator login" :
                         "Switch to user login"
