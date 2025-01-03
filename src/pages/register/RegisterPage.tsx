@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './RegisterPage.css';
 import axios from 'axios';
 import { UserAccountCreation } from '../../interfaces/UserAccount'; 
 import { BadRequestError, NotFoundError } from '../../errors/HttpErrors';

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { axiosPrivate } from '../../common/axiosPrivate';
 import TravelPlanCard from './TravelPlanCard';
 import { TravelPlan } from '../../interfaces/TravelPlan'
-import { API_URL } from '../../consts/ApiUrl';
+import { API_ROOT_URL } from '../../consts/ApiUrl';
 
 
 const TravelPlanCardManagement = () => {
@@ -13,7 +13,7 @@ const TravelPlanCardManagement = () => {
       try {
         const numberOfPlans = 10;
         const res = await axiosPrivate.get(
-          `${API_URL}plans/recent/${numberOfPlans}`);
+          `${API_ROOT_URL}plans/recent/${numberOfPlans}`);
         setTravelPlans(res.data);
       } catch (err) {
         console.log(err);

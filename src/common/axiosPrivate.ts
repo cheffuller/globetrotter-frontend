@@ -1,14 +1,17 @@
 import axios from 'axios';
 
-axios.interceptors.request.use((config) =>{
- 
-    // Enter generated access token here
-    const accessToken =
-      '';
+axios.interceptors.request.use(
+  (config) => {
+    const accessToken = localStorage.getItem('jwtToken');
 
-    config.headers.Authorization = accessToken;
+    if (accessToken) {
+      config.headers.Authorization = accessToken;
+    }
     return config;
-}
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
 );
 
 export const axiosPrivate = axios;
