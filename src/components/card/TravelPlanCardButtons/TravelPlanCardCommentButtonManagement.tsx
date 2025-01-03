@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { axiosPrivate } from '../../../common/axiosPrivate';
-import { API_URL } from '../../../consts/ApiUrl';
+import { API_ROOT_URL } from '../../../consts/ApiUrl';
 import TravelPlanCardCommentButton from './TravelPlanCardCommentButton';
 
 export type TravelPlanCardCommentButtonManagementProps = {
@@ -15,7 +15,7 @@ const TravelPlanCardCommentButtonManagement = ({
   useEffect(() => {
     const fetchCommentLikes = async () => {
       try {
-        const res = await axiosPrivate.get(`${API_URL}plans/${travelPlanId}/comments`);
+        const res = await axiosPrivate.get(`${API_ROOT_URL}plans/${travelPlanId}/comments`);
         setnumberOfComments(res.data);
       } catch (err) {
         console.log(err)

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { axiosPrivate } from '../../../common/axiosPrivate';
-import { API_URL } from '../../../consts/ApiUrl';
+import { API_ROOT_URL } from '../../../consts/ApiUrl';
 import TravelPlanCardLikeButton from './TravelPlanCardLikeButton';
 
 export type TravelPlanCardLikeButtonManagementProps = {
@@ -16,7 +16,7 @@ const TravelPlanCardLikeButtonManagement = ({
     const fetchPostLikes = async () => {
       try {
         const res = await axiosPrivate.get(
-          `${API_URL}plans/${travelPlanId}/likes`
+          `${API_ROOT_URL}plans/${travelPlanId}/likes`
         );
         setPostLikes(res.data);
       } catch (err) {

@@ -22,8 +22,13 @@ code {
 
 .navbar-brand:hover,
 .nav-item:hover,
-.nav-link:hover {
+.nav-link:hover,
+.navbar-nav .nav-link.active {
   color: #D5896F;
+}
+
+.navbar-nav .nav-link {
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .search {
@@ -33,9 +38,46 @@ code {
 }
 
 .search:hover {
+  color: #D5896F;
   background-color: #031D44;
   border-color: #D5896F;
+}
+
+.login {
+  width: 20rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 10px; 
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.login-background {
+  background-image: url('travel-images/ashim-d-silva-pGcqw1ARGyg-unsplash.jpg');
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.login button {
+  color: white;
+  background-color: #04395E;
+  border-color: #04395E;
+}
+
+.login button:hover {
   color: #D5896F;
+  background-color: #031D44;
+  border-color: #D5896F;
 }
 
 .d-block.w-100 {
@@ -48,6 +90,7 @@ code {
   width: 14rem;
   border-color: #031D44;
   color:#031D44;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .card-img-top {
@@ -80,6 +123,68 @@ code {
 
 .travel-card-footer {
   background-color: white;
+}
+
+.register-container {
+  background-image: url('/src/travel-images/register-background-image/register-background.jpg');
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 10px; 
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.register-container h3{
+  color: #ffffff;
+  font-weight: bold;
+  text-shadow: #f0f0f0 1px 1px 1px;
+}
+
+.register-form input {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.register-form button {
+  padding: 10px;
+  background-color: #04395E;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.register-form button:hover {
+  background-color: #011524;
+}
+
+.success-message {
+  color: green;
+  font-size: 20px;
+}
+
+.error-message {
+  color: red;
+  font-size: 20px;
 }
 
 /*
