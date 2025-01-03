@@ -7,31 +7,29 @@ import { JWT_TOKEN } from '../../consts/JwtConst';
 
 
 const TravelPlanCardManagement = () => {
-  const [travelPlans, setTravelPlans] = useState<TravelPlan[]>([]);
+    const [travelPlans, setTravelPlans] = useState<TravelPlan[]>([]);
 
-  useEffect(() => {
-    const fetchPlans = async () => {
-      try {
-        const numberOfPlans = 10;
-        const res = await axiosPrivate.get(
-          `${API_ROOT_URL}plans/recent/${numberOfPlans}`);
-        setTravelPlans(res.data);
-      } catch (err) {
-        localStorage.removeItem(JWT_TOKEN);
-        console.log(err);
-      }
-    }
+    useEffect(() => {
+        const fetchPlans = async () => {
+            try {
+                const numberOfPlans = 10;
+                const res = await axiosPrivate.get(`${API_ROOT_URL}plans/recent/${numberOfPlans}`);
+                setTravelPlans(res.data);
+            } catch (err) {
+                localStorage.removeItem(JWT_TOKEN);
+            }
+        }
 
-    fetchPlans();
-  }, []);
+        fetchPlans();
+    }, []);
 
-  return (
-    <div className='container mt-5 row row-cols-lg-4 row-cols-md-3 m-auto'>
-      {travelPlans.map((travelPlan, index) => (
-        <TravelPlanCard key={travelPlan.id} travelPlan={travelPlan} index={index} />
-      ))}
-    </div>
-  );
+    return (
+        <div className='container mt-5 row row-cols-lg-4 row-cols-md-3 m-auto'>
+            {travelPlans.map((travelPlan, index) => (
+                <TravelPlanCard key={travelPlan.id} travelPlan={travelPlan} index={index} />
+            ))}
+        </div>
+    );
 };
 
 export default TravelPlanCardManagement;
