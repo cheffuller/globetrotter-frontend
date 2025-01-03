@@ -191,9 +191,16 @@ function TravelPlanPage() {
             <button
                 type="button"
                 className="btn btn-primary"
-                onClick={saveDraft}
+                onClick={e => saveDraft(e)}
             >
                 Save Draft
+            </button>
+            <button 
+                type="button"
+                className="btn btn-primary"
+                onClick={e => publishPost(e)}
+            >
+                Publish
             </button>
         </form>
     </div>
