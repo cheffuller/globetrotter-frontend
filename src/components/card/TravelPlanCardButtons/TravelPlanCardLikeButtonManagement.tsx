@@ -5,10 +5,11 @@ import TravelPlanCardLikeButton from './TravelPlanCardLikeButton';
 
 export type TravelPlanCardLikeButtonManagementProps = {
   travelPlanId: number | undefined;
+  postId: number | undefined;
 };
 
 const TravelPlanCardLikeButtonManagement = ({
-  travelPlanId,
+  travelPlanId, postId
 }: TravelPlanCardLikeButtonManagementProps) => {
   const [postLikes, setPostLikes] = useState<number>(0);
 
@@ -29,7 +30,7 @@ const TravelPlanCardLikeButtonManagement = ({
 
   return (
     <>
-      <TravelPlanCardLikeButton postLikes={postLikes} />
+      <TravelPlanCardLikeButton postId={postId} postLikes={postLikes} setPostLikes={setPostLikes}/>
     </>
   );
 };

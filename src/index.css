@@ -105,6 +105,12 @@ code {
   border-color: white;
 }
 
+
+.btn-primary:active {
+  --bs-btn-active-bg:white;
+  --bs-btn-active-border-color: white;
+}
+
 .like-button:hover, .comment-button:hover {
   color:#04395E;
   background-color: white;
@@ -118,7 +124,7 @@ code {
 
 .like-button i:hover,
 .comment-button i:hover {
-  color:#D5896F;
+  color:#DAB785;
 }
 
 .travel-card-footer {
@@ -185,6 +191,11 @@ code {
 .error-message {
   color: red;
   font-size: 20px;
+}
+
+.comment-card-foot {
+  font-size: 14px;
+  text-align: end;
 }
 
 /*

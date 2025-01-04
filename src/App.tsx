@@ -10,6 +10,7 @@ import TravelPlanPage from './pages/travelplan/TravelPlanPage';
 import UserTravelPlanPage from './pages/planmanagement/UserTravelPlanPage';
 import RegisterPage from './pages/register/RegisterPage';
 import { UnauthenticatedRoute } from './components/routes/UnauthenticatedRoute';
+import TravelPlanDetail from './components/plan-detail/TravelPlanDetailManagement';
 
 function App() {
     return (
@@ -27,6 +28,7 @@ function App() {
                     />
                     <Route path={TRAVEL_PLAN_URL} element={<UnauthenticatedRoute element={<TravelPlanPage />}/>}/>
                     <Route path={TRAVEL_PLAN_URL + '/management'} element={<UnauthenticatedRoute element={<UserTravelPlanPage />} />} />
+                    <Route path={TRAVEL_PLAN_URL + '/detail'} element={<PrivateRoute element={<TravelPlanDetail />} />} />
                 </Routes>
             </BrowserRouter>
         </>
