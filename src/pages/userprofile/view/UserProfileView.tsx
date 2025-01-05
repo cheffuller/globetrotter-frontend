@@ -1,11 +1,11 @@
+import "./UserProfileView.css";
 import { useState, useEffect } from "react";
 import { UserProfile } from "../../../interfaces/UserAccount";
-import { getFollowingStatusRequest, getProfileByUsernameRequest } from "../UserProfileService";
-import "./UserProfileView.css";
+import { followOrUnfollowRequest, getFollowingStatusRequest, getProfileByUsernameRequest } from "../UserProfileService";
 import { useParams } from "react-router-dom";
 import { ResponseMessage } from "../../../components/response-message/ResponseMessage";
 import { HttpStatusCode } from "axios";
-import { getUsernameFromJwt, removeJwt } from "../../../utils/LocalStorageUtils";
+import { getUsernameFromJwt } from "../../../utils/LocalStorageUtils";
 import { FollowingStatus } from '../../../enums/FollowingStatus';
 
 export function UserProfileView() {
@@ -43,13 +43,26 @@ export function UserProfileView() {
         }
     }
 
-return <>
+    async function followOrUnfollowUser(event: any) {
+        event.preventDefault();
+        startWaitingForResponse("");
+
+        try {
+            await followOrUnfollowRequest(username as string, isFollowing);
+            const status: FollowingStatus = await getFollowingStatusRequest(username as string);
+            setIsFollowing(status);
+        } catch (error: any) {
+            stopWaitingAfterFailure("Server is unavailable.");
+        }
+    }
+
+    return <>
         {profileFetched ?
             <div className="userProfile">
                 <h1>{displayName}</h1>
                 <p>{bio}</p>
                 {username != getUsernameFromJwt() ?
-                    <button>{isFollowing}</button> :
+                    <button onClick={followOrUnfollowUser}>{isFollowing}</button> :
                     <> </>}
                 {getResponseMessage()}
             </div> :

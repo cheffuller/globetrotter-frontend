@@ -14,7 +14,15 @@ export async function getProfileByUsernameRequest(username: string): Promise<Use
 
 export async function getFollowingStatusRequest(username: string): Promise<FollowingStatus> {
     const response = await axiosPrivate.get(`${API_ROOT_URL}users/${username}/follow-status`);
-    console.log(response.data);
-    console.log(response.data as FollowingStatus);
     return response.data as FollowingStatus;
+}
+
+export async function followOrUnfollowRequest(username: string, status: FollowingStatus): Promise<void> {
+    switch(status) {
+        case FollowingStatus.NotFollowing:
+            await axiosPrivate.post(`${API_ROOT_URL}users/${username}/following`);
+            return;
+        default:
+            await axiosPrivate.delete(`${API_ROOT_URL}users/${username}/following`);
+    }
 }
