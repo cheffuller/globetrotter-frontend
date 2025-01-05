@@ -5,16 +5,16 @@ export function ResponseMessage() {
     const requestFailed = useRef<boolean>(false);
     const [message, setMessage] = useState<string>("");
 
-    function startWaitingForResponse(): void {
+    function startWaitingForResponse(message: string): void {
         waitingForResponse.current = true;
         requestFailed.current = false;
-        setMessage("Waiting for response from the server");
+        setMessage(message);
     }
 
-    function stopWaitingAfterSuccess(): void {
+    function stopWaitingAfterSuccess(message: string): void {
         waitingForResponse.current = false;
         requestFailed.current = false;
-        setMessage("Login successful.")
+        setMessage(message);
     }
 
     function stopWaitingAfterFailure(message: string): void {
