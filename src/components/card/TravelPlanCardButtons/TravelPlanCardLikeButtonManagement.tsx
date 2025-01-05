@@ -11,7 +11,7 @@ export type TravelPlanCardLikeButtonManagementProps = {
 const TravelPlanCardLikeButtonManagement = ({
   travelPlanId, postId
 }: TravelPlanCardLikeButtonManagementProps) => {
-  const [postLikes, setPostLikes] = useState<number>(0);
+  const [numberOfLikesOnPost, setNumberOfLikesOnPost] = useState<number>(0);
 
   useEffect(() => {
     const fetchPostLikes = async () => {
@@ -19,7 +19,7 @@ const TravelPlanCardLikeButtonManagement = ({
         const res = await axiosPrivate.get(
           `${API_ROOT_URL}plans/${travelPlanId}/likes`
         );
-        setPostLikes(res.data);
+        setNumberOfLikesOnPost(res.data);
       } catch (err) {
         console.log(err);
       }
@@ -30,7 +30,7 @@ const TravelPlanCardLikeButtonManagement = ({
 
   return (
     <>
-      <TravelPlanCardLikeButton postId={postId} postLikes={postLikes} setPostLikes={setPostLikes}/>
+      <TravelPlanCardLikeButton postId={postId} numberOfLikesOnPost={numberOfLikesOnPost} setNumberOfLikesOnPost={setNumberOfLikesOnPost}/>
     </>
   );
 };

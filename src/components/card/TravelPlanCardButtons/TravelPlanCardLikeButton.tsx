@@ -5,14 +5,14 @@ import { API_ROOT_URL } from '../../../consts/ApiUrl';
 
 type TravelPlanCardLikeButtonProps = {
   postId: number | undefined;
-  postLikes: number;
-  setPostLikes: any;
+  numberOfLikesOnPost: number;
+  setNumberOfLikesOnPost: any;
 };
 
 const TravelPlanCardLikeButton = ({
   postId,
-  postLikes,
-  setPostLikes,
+  numberOfLikesOnPost,
+  setNumberOfLikesOnPost,
 }: TravelPlanCardLikeButtonProps) => {
   const [likeToggle, setLikeToggle] = useState<boolean>(false);
 
@@ -36,11 +36,11 @@ const TravelPlanCardLikeButton = ({
     try {
       if (!likeToggle) {
         await axiosPrivate.post(`${API_ROOT_URL}posts/${postId}/likes`);
-        setPostLikes(postLikes + 1);
+        setNumberOfLikesOnPost(numberOfLikesOnPost + 1);
         setLikeToggle(true);
       } else {
         await axiosPrivate.delete(`${API_ROOT_URL}posts/${postId}/likes`);
-        setPostLikes(postLikes - 1);
+        setNumberOfLikesOnPost(numberOfLikesOnPost - 1);
         setLikeToggle(false);
       }
     } catch (err) {
@@ -51,16 +51,16 @@ const TravelPlanCardLikeButton = ({
   return (
     <Button className='like-button'>
       {likeToggle ? (
-        <i className='fa liked' onClick={handleClick} style={{ color: '#70A288' }}>
-          &#xf087;
+        <i className='fa liked' onClick={handleClick} style={{ color: '#D5896F' }}>
+          &#xf08a;
         </i>
       ) : (
         <i className='fa unliked' onClick={handleClick} >
-          &#xf087;
+          &#xf08a;
         </i>
       )}
       <br />
-      {postLikes}
+      {numberOfLikesOnPost > 0 ? numberOfLikesOnPost : <br />}
     </Button>
   );
 };

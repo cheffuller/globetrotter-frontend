@@ -23,7 +23,7 @@ const TravelPlanCardCommentButton = ({
           <i className='fa'>&#xf0e6;</i>
         </NavLink>
         <br />
-        {numberOfComments}
+        {numberOfComments > 0 ? numberOfComments : <br />}
       </Button>
     </>
   );

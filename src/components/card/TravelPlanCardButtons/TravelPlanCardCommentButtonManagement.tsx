@@ -7,11 +7,13 @@ import { TravelPlan } from '../../../interfaces/TravelPlan';
 type TravelPlanCardCommentButtonManagementProps = {
   travelPlan: TravelPlan | undefined;
   postId: number | undefined;
+  numberOfCommentsProps?: number;
 };
 
 const TravelPlanCardCommentButtonManagement = ({
   travelPlan,
   postId,
+  numberOfCommentsProps,
 }: TravelPlanCardCommentButtonManagementProps) => {
   const [numberOfComments, setnumberOfComments] = useState<number>(0);
 
@@ -30,6 +32,12 @@ const TravelPlanCardCommentButtonManagement = ({
       fetchNumberOfComments();
     }
   }, [postId]);
+
+  useEffect(() => {
+    if (numberOfCommentsProps) {
+      setnumberOfComments(numberOfCommentsProps);
+    }
+  }, [numberOfCommentsProps]);
 
   return (
     <>

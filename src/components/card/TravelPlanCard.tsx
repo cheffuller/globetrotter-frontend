@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Col } from 'react-bootstrap';
 import TravelPlanCardLikeButtonManagement from './TravelPlanCardButtons/TravelPlanCardLikeButtonManagement';
 import TravelPlanCardCommentButtonManagement from './TravelPlanCardButtons/TravelPlanCardCommentButtonManagement';
-import TravelPlanCardUsernameManagement from './TravelPlanCardUsername/TravelPlanCardUsernameManagement';
+import TravelPlanCardDisplayNameManagement from './TravelPlanCardDisplayName/TravelPlanCardDisplayNameManagement';
 import TravelPlanCardLocationManagement from './TravelPlanCardLocation/TravelPlanCardLocationManagement';
 
 import { TravelPlan } from '../../interfaces/TravelPlan';
@@ -13,9 +13,10 @@ import { API_ROOT_URL } from '../../consts/ApiUrl';
 export type TravelPlanCardProps = {
   travelPlan: TravelPlan;
   index: number;
+  numberOfCommentsProps?: number;
 };
 
-const TravelPlanCard = ({ travelPlan, index }: TravelPlanCardProps) => {
+const TravelPlanCard = ({ travelPlan, index, numberOfCommentsProps }: TravelPlanCardProps) => {
   const [postId, setPostId] = useState<number>();
   
   useEffect(() => {
@@ -39,7 +40,7 @@ const TravelPlanCard = ({ travelPlan, index }: TravelPlanCardProps) => {
           <Card.Body className='d-flex flex-column'>
             <TravelPlanCardLocationManagement travelPlanId={travelPlan.id} />
             <Card.Subtitle>
-              <TravelPlanCardUsernameManagement
+              <TravelPlanCardDisplayNameManagement
                 accountId={travelPlan.accountId}
               />
             </Card.Subtitle>
@@ -49,7 +50,7 @@ const TravelPlanCard = ({ travelPlan, index }: TravelPlanCardProps) => {
                 travelPlanId={travelPlan.id} postId={postId}
               />
               <TravelPlanCardCommentButtonManagement
-                travelPlan={travelPlan} postId={postId}
+                travelPlan={travelPlan} postId={postId} numberOfCommentsProps={numberOfCommentsProps}
               />
             </Card.Footer>
           </Card.Body>
