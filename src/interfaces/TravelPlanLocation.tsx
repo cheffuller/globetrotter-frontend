@@ -1,5 +1,5 @@
 export interface TravelPlanLocation {
-    id: number;
+    id?: number;
     city: string;
     country: string;
     endDate: Date;

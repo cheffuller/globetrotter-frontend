@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink} from 'react-router-dom';
-import { LOGIN_URL, REGISTER_URL, ROOT_URL } from '../../consts/PageUrls';
+import { LOGIN_URL, REGISTER_URL, ROOT_URL, TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import {
   Button,
   Container,
@@ -39,6 +39,8 @@ const NavBar = () => {
                 Register
               </Nav.Link>
             )}
+            {isLoggedIn && <Nav.Link as={NavLink} to={TRAVEL_PLAN_URL}>Travel Plan</Nav.Link>}
+            {isLoggedIn && <Nav.Link as={NavLink} to={TRAVEL_PLAN_URL + '/management'}>View Plans</Nav.Link>}
             <NavDropdown title='Dropdown' id='basic-nav-dropdown'>
               <NavDropdown.Item as={NavLink} to='#action/3.1'>
                 Action

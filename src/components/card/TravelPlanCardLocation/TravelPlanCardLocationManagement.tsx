@@ -7,7 +7,7 @@ import { TravelPlanLocation } from '../../../interfaces/TravelPlanLocation';
 import { API_ROOT_URL } from '../../../consts/ApiUrl';
 
 type TravelPlanCardLocationManagementProps = {
-  travelPlanId: number;
+  travelPlanId: number | undefined;
 };
 
 export type TravelPlanLocationProps = {
