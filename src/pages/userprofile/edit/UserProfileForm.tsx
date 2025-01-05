@@ -1,10 +1,10 @@
 import "./UserProfileForm.css";
 import { HttpStatusCode } from "axios";
 import { useEffect, useState } from "react";
-import { ResponseMessage } from "../../components/response-message/ResponseMessage";
-import { getProfileRequest, updateProfileRequest } from "./UserProfileService";
-import { removeJwt } from "../../utils/LocalStorageUtils";
-import { UserProfile } from "../../interfaces/UserAccount";
+import { ResponseMessage } from "../../../components/response-message/ResponseMessage";
+import { removeJwt } from "../../../utils/LocalStorageUtils";
+import { UserProfile } from "../../../interfaces/UserAccount";
+import { getProfileRequest, updateProfileRequest } from "../UserProfileService";
 
 export function UserProfileForm() {
     const [bio, setBio] = useState<string>("");
