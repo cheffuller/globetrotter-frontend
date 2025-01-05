@@ -32,7 +32,12 @@ export function removeJwt(): void {
     localStorage.removeItem(JWT_TOKEN);
 }
 
-export function getUserProfile(): UserProfile {
+export function getUserProfileFromJwt(): UserProfile {
     const token: string = localStorage.getItem(JWT_TOKEN) as string;
     return jwtDecode<UserProfile>(token);
+}
+
+export function getUsernameFromJwt(): string {
+    const token: string = localStorage.getItem(JWT_TOKEN) as string;
+    return jwtDecode(token).sub as string;
 }

@@ -2,9 +2,9 @@ import "./UserProfileForm.css";
 import { HttpStatusCode } from "axios";
 import { useEffect, useState } from "react";
 import { ResponseMessage } from "../../../components/response-message/ResponseMessage";
-import { removeJwt } from "../../../utils/LocalStorageUtils";
+import { getUsernameFromJwt, removeJwt } from "../../../utils/LocalStorageUtils";
 import { UserProfile } from "../../../interfaces/UserAccount";
-import { getProfileRequest, updateProfileRequest } from "../UserProfileService";
+import { getProfileByUsernameRequest, updateProfileRequest } from "../UserProfileService";
 
 export function UserProfileForm() {
     const [bio, setBio] = useState<string>("");
@@ -17,7 +17,7 @@ export function UserProfileForm() {
     }, []);
 
     async function loadProfile() {
-        const profile: UserProfile = await getProfileRequest();
+        const profile: UserProfile = await getProfileByUsernameRequest(getUsernameFromJwt());
         setBio(profile.bio);
         setDisplayName(profile.displayName);
         setIsPrivate(profile.isPrivate);
