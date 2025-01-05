@@ -6,7 +6,6 @@ import { HttpStatusCode } from "axios";
 import { BadRequestError, ForbiddenError, NotFoundError } from "../../errors/HttpErrors";
 
 export async function createNewTravelPlan(data: TravelPlan): Promise<number> {
-    console.log(data);
     const response = await axiosPrivate.post(API_ROOT_URL + "plans", data);
 
     if (response.status === HttpStatusCode.BadRequest) {

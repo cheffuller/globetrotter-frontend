@@ -48,7 +48,7 @@ function TravelPlanPage() {
                 });
             }
 
-            navigate(`${TRAVEL_PLAN_URL}/management`);
+            navigate(`${TRAVEL_PLAN_URL}/edit`, { state: { travelPlanId } });
         } catch (error : any) {
             switch (error) {
                 case BadRequestError:
@@ -115,95 +115,95 @@ function TravelPlanPage() {
 
     return (
         <div className="container">
-        <form className="travel-plan-form p-3">
-            <h2>Create a Travel Plan</h2>
-            {locations.map((location, index) => (
-                <div key={index} className="location-section mb-3">
-                    <h4>Location {index + 1}</h4>
-                    <div className="mb-3">
-                        <label htmlFor={`city-${index}`} className="form-label">City</label>
-                        <input
-                            type="text"
-                            id={`city-${index}`}
-                            name={`city-${index}`}
-                            className="form-control"
-                            placeholder="Enter city"
-                            value={location.city}
-                            onChange={(e) => updateLocationField(index, 'city', e.target.value)}
-                            required
-                        />
+            <form className="travel-plan-form p-3">
+                <h2>Create a Travel Plan</h2>
+                {locations.map((location, index) => (
+                    <div key={index} className="location-section mb-3">
+                        <h4>Location {index + 1}</h4>
+                        <div className="mb-3">
+                            <label htmlFor={`city-${index}`} className="form-label">City</label>
+                            <input
+                                type="text"
+                                id={`city-${index}`}
+                                name={`city-${index}`}
+                                className="form-control"
+                                placeholder="Enter city"
+                                value={location.city}
+                                onChange={(e) => updateLocationField(index, 'city', e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor={`country-${index}`} className="form-label">Country</label>
+                            <input
+                                type="text"
+                                id={`country-${index}`}
+                                name={`country-${index}`}
+                                className="form-control"
+                                placeholder="Enter country"
+                                value={location.country}
+                                onChange={(e) => updateLocationField(index, 'country', e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor={`start-date-${index}`} className="form-label">Start Date</label>
+                            <input
+                                type="date"
+                                id={`start-date-${index}`}
+                                name={`startDate-${index}`}
+                                className="form-control"
+                                value={new Date(location.startDate).toLocaleDateString('en-CA')}
+                                onChange={(e) => updateLocationField(index, 'startDate', e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor={`end-date-${index}`} className="form-label">End Date</label>
+                            <input
+                                type="date"
+                                id={`end-date-${index}`}
+                                name={`endDate-${index}`}
+                                className="form-control"
+                                value={new Date(location.endDate).toLocaleDateString('en-CA')}
+                                onChange={(e) => updateLocationField(index, 'endDate', e.target.value)}
+                                required
+                            />
+                        </div>
+                        {index > 0 && (
+                            <button
+                                type="button"
+                                className="btn btn-danger"
+                                onClick={() => removeLocation(index)}
+                            >
+                                Remove Location
+                            </button>
+                        )}
                     </div>
-                    <div className="mb-3">
-                        <label htmlFor={`country-${index}`} className="form-label">Country</label>
-                        <input
-                            type="text"
-                            id={`country-${index}`}
-                            name={`country-${index}`}
-                            className="form-control"
-                            placeholder="Enter country"
-                            value={location.country}
-                            onChange={(e) => updateLocationField(index, 'country', e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor={`start-date-${index}`} className="form-label">Start Date</label>
-                        <input
-                            type="date"
-                            id={`start-date-${index}`}
-                            name={`startDate-${index}`}
-                            className="form-control"
-                            value={new Date(location.startDate).toLocaleDateString('en-CA')}
-                            onChange={(e) => updateLocationField(index, 'startDate', e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor={`end-date-${index}`} className="form-label">End Date</label>
-                        <input
-                            type="date"
-                            id={`end-date-${index}`}
-                            name={`endDate-${index}`}
-                            className="form-control"
-                            value={new Date(location.endDate).toLocaleDateString('en-CA')}
-                            onChange={(e) => updateLocationField(index, 'endDate', e.target.value)}
-                            required
-                        />
-                    </div>
-                    {index > 0 && (
-                        <button
-                            type="button"
-                            className="btn btn-danger"
-                            onClick={() => removeLocation(index)}
-                        >
-                            Remove Location
-                        </button>
-                    )}
-                </div>
-            ))}
-            <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={addNewLocation}
-            >
-                Add Location
-            </button>
-            <button
-                type="button"
-                className="btn btn-primary"
-                onClick={e => saveDraft(e)}
-            >
-                Save Draft
-            </button>
-            <button 
-                type="button"
-                className="btn btn-primary"
-                onClick={e => publishPost(e)}
-            >
-                Publish
-            </button>
-        </form>
-    </div>
+                ))}
+                <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={addNewLocation}
+                >
+                    Add Location
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={e => saveDraft(e)}
+                >
+                    Save Draft
+                </button>
+                <button 
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={e => publishPost(e)}
+                >
+                    Publish
+                </button>
+            </form>
+        </div>
     );
 }
 

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { axiosPrivate } from '../../common/axiosPrivate';
 import TravelPlanCard from '../card/TravelPlanCard';
 import { TravelPlan } from '../../interfaces/TravelPlan'
-import { API_URL } from '../../consts/ApiUrl';
+import { API_ROOT_URL } from '../../consts/ApiUrl';
+import { getJwtToken } from '../../common/AuthService';
+import { jwtDecode } from 'jwt-decode';
 
 //as a user i should be able to manage my travel plans
 //in here i can either go to this page manually or be redirected here after creating a travel plan draft
@@ -12,6 +14,13 @@ function UserTravelPlanManagement() {
     const [travelPlans, setTravelPlans] = useState<TravelPlan[]>([]);
 
     //find the account id of the user using jwt token
+    const token = getJwtToken();
+    console.log(token);
+    if (token) {
+        console.log(jwtDecode(token));
+    } else {
+        console.log('Token is null');
+    }
     const accountId = 1; 
 
     useEffect(() => {
@@ -19,7 +28,7 @@ function UserTravelPlanManagement() {
         try {
           
           const res = await axiosPrivate.get(
-            `${API_URL}users/${accountId}/plans`);
+            `${API_ROOT_URL}users/${accountId}/plans`);
           setTravelPlans(res.data);
         } catch (err) {
           console.log(err);
