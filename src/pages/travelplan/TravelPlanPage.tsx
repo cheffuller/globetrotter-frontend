@@ -3,6 +3,7 @@ import { addTravelPlanLocation, createNewTravelPlan } from '../../components/tra
 import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/HttpErrors';
 import { useNavigate } from 'react-router-dom';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
+import { getAccountId } from '../../common/AuthService';
 
 function TravelPlanPage() {
     
@@ -32,8 +33,12 @@ function TravelPlanPage() {
         event.preventDefault();
 
         try {
+            const accountID = getAccountId();
+            if(accountID === null || accountID === undefined) {
+                throw new NotFoundError("Account not found.");
+            }
             const travelPlanId = await createNewTravelPlan({
-                accountId: -1, // Replace with actual accountId from JWT
+                accountId: accountID, // Replace with actual accountId from JWT
                 isFavorited: false,
                 isPublished: false,
             });
@@ -74,8 +79,12 @@ function TravelPlanPage() {
         event.preventDefault();
     
         try {
+            const accountID = getAccountId();
+            if(accountID === null || accountID === undefined) {
+                throw new NotFoundError("Account not found.");
+            }
             const travelPlanId = await createNewTravelPlan({
-                accountId: -1, // Replace with actual accountId from JWT
+                accountId: accountID, // Replace with actual accountId from JWT
                 isFavorited: false,
                 isPublished: false,
             });

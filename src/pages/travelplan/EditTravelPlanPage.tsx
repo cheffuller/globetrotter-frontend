@@ -4,27 +4,30 @@ import { deleteTravelPlan, getTravelPlan, getTravelPlanLocations, updateTravelPl
 import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/HttpErrors';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { TravelPlan } from '../../interfaces/TravelPlan';
+import { TravelPlanLocation } from '../../interfaces/TravelPlanLocation';
+import { addTravelPlanLocation } from '../../components/travelplan/TravelPlanService';
+import { getAccountId } from '../../common/AuthService';
 
 
 function EditTravelPlanPage() {
     const [travelPlan, setTravelPlan] = useState<TravelPlan | null>(null); // Replace with actual travelPlan object
-    const [locations, setLocations] = useState([{ city: '', country: '', startDate: '', endDate: '' }]); // Changed this to an array of objects
+    const [locations, setLocations] = useState<TravelPlanLocation[]>([]); // Changed this to an array of objects
     const navigate = useNavigate();
-    const location = useLocation();
+    const loc = useLocation();
 
     //old functions from TravelPlanPage.tsx
-    const updateLocationField = (index: number, field: string, value: string) => { //This function is used to update the location fields in the locations, it helps determine which location is being written in 
-        const updatedLocations = locations.map((locationIndex, i) => {
-            if (i === index) {
-                return { ...locationIndex, [field]: value };
+    const updateLocationField = (id: number, field: keyof TravelPlanLocation, value: string) => { //This function is used to update the location fields in the locations, it helps determine which location is being written in 
+        const updatedLocations = locations.map(location => {
+            if (location.id === id) {
+                return { ...location, [field]: value };
             }
-            return locationIndex;
+            return location;
         });
         setLocations(updatedLocations);
     };
 
     const addNewLocation = () => { 
-        setLocations([...locations, { city: '', country: '', startDate: '', endDate: '' }]);
+        setLocations([...locations, { id: 0, city: '', country: '', startDate: new Date(), endDate: new Date(), travelPlanId }]);
     };
 
     const removeLocation = (index: number) => { //This function is used to remove a location from the location object array
@@ -32,7 +35,7 @@ function EditTravelPlanPage() {
         setLocations(updatedLocations);
     };
 
-    const travelPlanId = location.state?.travelPlanId;
+    const travelPlanId = loc.state?.travelPlanId;
     useEffect(() => {
         const fetchLocations = async () => {
             try {
@@ -43,8 +46,8 @@ function EditTravelPlanPage() {
     
                 const formattedLocations = locations.map(location => ({
                     ...location,
-                    startDate: location.startDate ? new Date(location.startDate).toISOString().split('T')[0] : "",
-                    endDate: location.endDate ? new Date(location.endDate).toISOString().split('T')[0] : "",
+                    startDate: location.startDate ? new Date(location.startDate) : new Date(),
+                    endDate: location.endDate ? new Date(location.endDate) : new Date(),
                 }));
                 setLocations(formattedLocations);
             } catch (error) {
@@ -68,20 +71,36 @@ function EditTravelPlanPage() {
         event.preventDefault();
 
         try {   
+            const accountID = getAccountId();
+            if(accountID === null || accountID === undefined) {
+                throw new NotFoundError("Account not found.");
+            }
             const travelPlanId = await updateTravelPlan({
-                accountId: -1, // Replace with actual accountId from JWT
+                id: travelPlan?.id, // Replace with actual travelPlanId
+                accountId: accountID, // Replace with actual accountId from JWT
                 isFavorited: false,
                 isPublished: true,
             });
 
             for (const locationIndex of locations) { //changed this so that we could loop thhrough multiple locations
-                await updateTravelPlanLocation({
-                    city: locationIndex.city,
-                    country: locationIndex.country,
-                    startDate: new Date(locationIndex.startDate),
-                    endDate: new Date(locationIndex.endDate),
-                    travelPlanId,
-                });
+                if(locationIndex.id === 0) {
+                    await addTravelPlanLocation({
+                        city: locationIndex.city,
+                        country: locationIndex.country,
+                        startDate: new Date(locationIndex.startDate),
+                        endDate: new Date(locationIndex.endDate),
+                        travelPlanId,
+                    });
+                } else {
+                    await updateTravelPlanLocation({
+                        id: locationIndex.id,
+                        city: locationIndex.city,
+                        country: locationIndex.country,
+                        startDate: new Date(locationIndex.startDate),
+                        endDate: new Date(locationIndex.endDate),
+                        travelPlanId,
+                    });
+                }
             }
 
             navigate(`${TRAVEL_PLAN_URL}/management`);
@@ -108,20 +127,36 @@ function EditTravelPlanPage() {
 
     async function savePlan(event: any) { //might not need this parameter
         try {
+            const accountID = getAccountId();
+            if(accountID === null || accountID === undefined) {
+                throw new NotFoundError("Account not found.");
+            }
             const travelPlanId = await updateTravelPlan({
-                accountId: -1, // Replace with actual accountId from JWT
+                id: travelPlan?.id,
+                accountId: accountID, // Replace with actual accountId from JWT
                 isFavorited: false,
                 isPublished: false,
             });
 
             for (const locationIndex of locations) { //changed this so that we could loop thhrough multiple locations
-                await updateTravelPlanLocation({
-                    city: locationIndex.city,
-                    country: locationIndex.country,
-                    startDate: new Date(locationIndex.startDate),
-                    endDate: new Date(locationIndex.endDate),
-                    travelPlanId,
-                });
+                if(locationIndex.id === 0) {
+                    await addTravelPlanLocation({
+                        city: locationIndex.city,
+                        country: locationIndex.country,
+                        startDate: new Date(locationIndex.startDate),
+                        endDate: new Date(locationIndex.endDate),
+                        travelPlanId,
+                    });
+                } else {
+                    await updateTravelPlanLocation({
+                        id: locationIndex.id,
+                        city: locationIndex.city,
+                        country: locationIndex.country,
+                        startDate: new Date(locationIndex.startDate),
+                        endDate: new Date(locationIndex.endDate),
+                        travelPlanId,
+                    });
+                }
             }
 
             navigate(`${TRAVEL_PLAN_URL}/management`);
@@ -148,7 +183,7 @@ function EditTravelPlanPage() {
 
     async function deletePlan(event: any) { //might not need this parameter
         try {
-            await deleteTravelPlan(location.state?.travelPlanId); // Replace with actual travelPlanId
+            await deleteTravelPlan(loc.state?.travelPlanId); // Replace with actual travelPlanId
             navigate(`${TRAVEL_PLAN_URL}/management`);
         } catch (error: any) {
             switch (error) {
@@ -167,56 +202,56 @@ function EditTravelPlanPage() {
     <div className="container">
             <form className="travel-plan-form p-3">
                 <h2>Edit your Travel Plan</h2>
-                {locations.map((locationIndex, index) => (
-                    <div key={index} className="location-section mb-3">
+                {locations.map((location, index) => (
+                    <div key={location.id} className="location-section mb-3">
                         <h4>Location {index + 1}</h4>
                         <div className="mb-3">
-                            <label htmlFor={`city-${index}`} className="form-label">City</label>
+                            <label htmlFor={`city-${location.id}`} className="form-label">City</label>
                             <input
                                 type="text"
-                                id={`city-${index}`}
-                                name={`city-${index}`}
+                                id={`city-${location.id}`}
+                                name={`city-${location.id}`}
                                 className="form-control"
                                 placeholder="Enter city"
-                                value={locationIndex.city}
-                                onChange={(e) => updateLocationField(index, 'city', e.target.value)}
+                                value={location.city}
+                                onChange={(e) => location.id !== undefined && updateLocationField(location.id, 'city', e.target.value)}
                                 required
                             />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor={`country-${index}`} className="form-label">Country</label>
+                            <label htmlFor={`country-${location.id}`} className="form-label">Country</label>
                             <input
                                 type="text"
-                                id={`country-${index}`}
-                                name={`country-${index}`}
+                                id={`country-${location.id}`}
+                                name={`country-${location.id}`}
                                 className="form-control"
                                 placeholder="Enter country"
-                                value={locationIndex.country}
-                                onChange={(e) => updateLocationField(index, 'country', e.target.value)}
+                                value={location.country}
+                                onChange={(e) => location.id !== undefined && updateLocationField(location.id, 'country', e.target.value)}
                                 required
                             />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor={`start-date-${index}`} className="form-label">Start Date</label>
+                            <label htmlFor={`start-date-${location.id}`} className="form-label">Start Date</label>
                             <input
                                 type="date"
-                                id={`start-date-${index}`}
-                                name={`startDate-${index}`}
+                                id={`start-date-${location.id}`}
+                                name={`startDate-${location.id}`}
                                 className="form-control"
-                                value={new Date(locationIndex.startDate).toLocaleDateString('en-CA')}
-                                onChange={(e) => updateLocationField(index, 'startDate', e.target.value)}
+                                value={new Date(location.startDate).toLocaleDateString('en-CA')}
+                                onChange={(e) => location.id !== undefined && updateLocationField(location.id, 'startDate', e.target.value)}
                                 required
                             />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor={`end-date-${index}`} className="form-label">End Date</label>
+                            <label htmlFor={`end-date-${location.id}`} className="form-label">End Date</label>
                             <input
                                 type="date"
-                                id={`end-date-${index}`}
-                                name={`endDate-${index}`}
+                                id={`end-date-${location.id}`}
+                                name={`endDate-${location.id}`}
                                 className="form-control"
-                                value={new Date(locationIndex.endDate).toLocaleDateString('en-CA')}
-                                onChange={(e) => updateLocationField(index, 'endDate', e.target.value)}
+                                value={new Date(location.endDate).toLocaleDateString('en-CA')}
+                                onChange={(e) => location.id !== undefined && updateLocationField(location.id, 'endDate', e.target.value)}
                                 required
                             />
                         </div>

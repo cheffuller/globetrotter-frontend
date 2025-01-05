@@ -4,7 +4,7 @@ import TravelPlanCard from '../card/TravelPlanCard';
 import { TravelPlan } from '../../interfaces/TravelPlan'
 import { API_ROOT_URL } from '../../consts/ApiUrl';
 import { getJwtToken } from '../../common/AuthService';
-import { jwtDecode } from 'jwt-decode';
+import { getAccountId } from '../../common/AuthService';
 
 //as a user i should be able to manage my travel plans
 //in here i can either go to this page manually or be redirected here after creating a travel plan draft
@@ -14,14 +14,7 @@ function UserTravelPlanManagement() {
     const [travelPlans, setTravelPlans] = useState<TravelPlan[]>([]);
 
     //find the account id of the user using jwt token
-    const token = getJwtToken();
-    console.log(token);
-    if (token) {
-        console.log(jwtDecode(token));
-    } else {
-        console.log('Token is null');
-    }
-    const accountId = 1; 
+    const accountId = getAccountId();
 
     useEffect(() => {
       const fetchPlans = async () => {
