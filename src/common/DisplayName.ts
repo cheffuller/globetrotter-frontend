@@ -13,10 +13,10 @@ const fetchUserName = async (accountId: number) => {
 export const fetchDisplayName = async (accountId: number) => {
     try {
       const res = await axiosPrivate.get(
-        `${API_ROOT_URL}users/${accountId}/profile`
+        `${API_ROOT_URL}users/${accountId}/display-name`
       );
-      return res.data.displayName
-        ? res.data.displayName
+      return res.data
+        ? res.data
         : fetchUserName(accountId);
     } catch (err) {
       console.log(err);

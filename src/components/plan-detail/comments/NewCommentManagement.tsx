@@ -25,7 +25,7 @@ const NewCommentManagement = ({
     const fetchUserDisplayName = async () => {
       try {
         const res = await axiosPrivate.get(
-          `${API_ROOT_URL}users/${username}/display-name`
+          `${API_ROOT_URL}users/${username}/profile/display-name`
         );
         res.data ? setDisplayName(res.data) : setDisplayName(username!);
       } catch (err) {
