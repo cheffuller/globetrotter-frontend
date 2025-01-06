@@ -4,30 +4,28 @@ import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/Htt
 import { useNavigate } from 'react-router-dom';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { getAccountId } from '../../common/AuthService';
-import { TravelPlanLocation } from '../../interfaces/TravelPlanLocation';
 import { toUTCDate } from '../../components/travelplan/Handlers';
+import { useLocationManagement } from '../../components/travelplan/LocationManagement';
 
 function TravelPlanPage() {
     const navigate = useNavigate();
-    const [locations, setLocations] = useState<TravelPlanLocation[]>([]); // Changed this to an array of objects
+    const { locations, addNewLocation, removeLocation, updateLocationField, setLocations } = useLocationManagement();
 
-    const updateLocationField = (id: number, field: keyof TravelPlanLocation, value: string | Date) => { //This function is used to update the location fields in the locations, it helps determine which location is being written in 
-        const updatedLocations = locations.map(location => {
-            if (location.id === id) {
-                return { ...location, [field]: value };
-            }
-            return location;
-        });
-        setLocations(updatedLocations);
-    };
-
-    const addNewLocation = () => { 
-        setLocations([...locations, {id: 0, city: '', country: '', startDate: new Date(), endDate: new Date(), travelPlanId: 0 }]);
-    };
-
-    const removeLocation = (id: number) => { 
-        setLocations(locations.filter(location => location.id !== id));
-    };
+    useEffect(() => {
+        // Initialize with a default blank location if the locations array is empty
+        if (locations.length === 0) {
+          setLocations([
+            {
+              id: -1, // Temporary ID for new locations
+              city: '',
+              country: '',
+              startDate: new Date(), // Today's date
+              endDate: new Date(), // Today's date
+              travelPlanId: 0, // Will be set when saved
+            },
+          ]);
+        }
+      }, [locations, setLocations]);
 
     const saveDraft = async (event: any) => {
         event.preventDefault();
@@ -47,8 +45,8 @@ function TravelPlanPage() {
                 await addTravelPlanLocation({
                     city: location.city,
                     country: location.country,
-                    startDate: toUTCDate(location.startDate.toString()),
-                    endDate: toUTCDate(location.endDate.toString()),
+                    startDate: location.startDate,
+                    endDate: location.endDate,
                     travelPlanId,
                 });
             }
@@ -93,8 +91,8 @@ function TravelPlanPage() {
                 await addTravelPlanLocation({
                     city: location.city,
                     country: location.country,
-                    startDate: toUTCDate(location.startDate.toString()),
-                    endDate: toUTCDate(location.endDate.toString()),
+                    startDate: location.startDate, //make sure to look at if this affects post by make date null
+                    endDate: location.endDate,
                     travelPlanId,
                 });
             }
@@ -127,63 +125,63 @@ function TravelPlanPage() {
             <form className="travel-plan-form p-3">
                 <h2>Create a Travel Plan</h2>
                 {locations.map((location, index) => (
-                    <div key={index} className="location-section mb-3">
+                    <div key={location.id} className="location-section mb-3">
                         <h4>Location {index + 1}</h4>
                         <div className="mb-3">
-                            <label htmlFor={`city-${index}`} className="form-label">City</label>
+                            <label htmlFor={`city-${location.id}`} className="form-label">City</label>
                             <input
                                 type="text"
-                                id={`city-${index}`}
-                                name={`city-${index}`}
+                                id={`city-${location.id}`}
+                                name={`city-${location.id}`}
                                 className="form-control"
                                 placeholder="Enter city"
                                 value={location.city}
-                                onChange={(e) => updateLocationField(index, 'city', e.target.value)}
+                                onChange={(e) => updateLocationField(location.id as number, 'city', e.target.value)}
                                 required
                             />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor={`country-${index}`} className="form-label">Country</label>
+                            <label htmlFor={`country-${location.id}`} className="form-label">Country</label>
                             <input
                                 type="text"
-                                id={`country-${index}`}
-                                name={`country-${index}`}
+                                id={`country-${location.id}`}
+                                name={`country-${location.id}`}
                                 className="form-control"
                                 placeholder="Enter country"
                                 value={location.country}
-                                onChange={(e) => updateLocationField(index, 'country', e.target.value)}
+                                onChange={(e) => updateLocationField(location.id  as number, 'country', e.target.value)}
                                 required
                             />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor={`start-date-${index}`} className="form-label">Start Date</label>
+                            <label htmlFor={`start-date-${location.id as number}`} className="form-label">Start Date</label>
                             <input
                                 type="date"
-                                id={`start-date-${index}`}
-                                name={`startDate-${index}`}
+                                id={`start-date-${location.id}`}
+                                name={`startDate-${location.id}`}
                                 className="form-control"
-                                value={location.startDate ? location.startDate.toString() : ''}
-                                onChange={(e) => updateLocationField(index, 'startDate', e.target.value)}
+                                value={location.startDate.toString()} //same thing here, check to make sure this sends correctly
+                                onChange={(e) => updateLocationField(location.id  as number, 'startDate', e.target.value)}
                                 required
                             />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor={`end-date-${index}`} className="form-label">End Date</label>
+                            <label htmlFor={`end-date-${location.id}`} className="form-label">End Date</label>
                             <input
                                 type="date"
-                                id={`end-date-${index}`}
-                                name={`endDate-${index}`}
+                                id={`end-date-${location.id}`}
+                                name={`endDate-${location.id}`}
                                 className="form-control"
-                                value={location.endDate ? location.endDate.toString() : ''}
-                                onChange={(e) => updateLocationField(index, 'endDate', e.target.value)}
+                                value={location.endDate.toString()}
+                                onChange={(e) => updateLocationField(location.id  as number, 'endDate', e.target.value)}
                                 required
                             />
                         </div>
-                        {index > 0 && (
+                        {location.id as number > 0 && (
                             <button
                                 type="button"
                                 className="btn btn-danger"
-                                onClick={() => removeLocation(index)}
+                                onClick={() => removeLocation(location.id as number)}
                             >
                                 Remove Location
                             </button>

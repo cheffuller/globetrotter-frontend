@@ -1,0 +1,39 @@
+import { useState } from 'react';
+import { TravelPlanLocation } from '../../interfaces/TravelPlanLocation';
+
+export function useLocationManagement(initialLocations: TravelPlanLocation[] = []) {
+  const [locations, setLocations] = useState<TravelPlanLocation[]>(initialLocations);
+  const [removedLocations, setRemovedLocations] = useState<number[]>([]);
+
+  const addNewLocation = () => {
+    const newId = locations.length > 0 ? Math.min(...locations.map(loc => loc.id ?? 0)) - 1 : -1;
+    setLocations([
+      ...locations,
+      {
+        id: newId,
+        city: '',
+        country: '',
+        startDate: new Date(),
+        endDate: new Date(),
+        travelPlanId: 0, // Placeholder; will be set when saved.
+      },
+    ]);
+  };
+
+  const removeLocation = (id: number) => {
+    if (id > 0) setRemovedLocations([...removedLocations, id]);
+    setLocations(locations.filter(location => location.id !== id));
+  };
+
+  const updateLocationField = (id: number, field: keyof TravelPlanLocation, value: any) => {
+    setLocations(
+      locations.map(location => (location.id === id ? { ...location, [field]: value } : location))
+    );
+  };
+
+  const clearRemovedLocations = () => {
+    setRemovedLocations([]);
+  };
+
+  return { locations, setLocations, removedLocations, addNewLocation, removeLocation, updateLocationField, clearRemovedLocations };
+}

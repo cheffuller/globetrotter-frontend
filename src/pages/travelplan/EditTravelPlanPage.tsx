@@ -8,34 +8,15 @@ import { TravelPlanLocation } from '../../interfaces/TravelPlanLocation';
 import { addTravelPlanLocation } from '../../components/travelplan/TravelPlanService';
 import { getAccountId } from '../../common/AuthService';
 import { toUTCDate } from '../../components/travelplan/Handlers';
+import { useLocationManagement } from '../../components/travelplan/LocationManagement';
+import { clear } from 'console';
 
 function EditTravelPlanPage() {
     const [travelPlan, setTravelPlan] = useState<TravelPlan | null>(null);
-    const [locations, setLocations] = useState<TravelPlanLocation[]>([]); 
-    const [removedLocations, setRemovedLocations] = useState<number[]>([]); 
+    const { locations, addNewLocation, removeLocation, updateLocationField, setLocations, removedLocations, clearRemovedLocations } = useLocationManagement();
 
     const navigate = useNavigate();
     const loc = useLocation();
-
-    //old functions from TravelPlanPage.tsx
-    const updateLocationField = (id: number, field: keyof TravelPlanLocation, value: string) => { //This function is used to update the location fields in the locations, it helps determine which location is being written in 
-        const updatedLocations = locations.map(location => {
-            if (location.id === id) {
-                return { ...location, [field]: value };
-            }
-            return location;
-        });
-        setLocations(updatedLocations);
-    };
-
-    const addNewLocation = () => { 
-        setLocations([...locations, { id: 0, city: '', country: '', startDate: new Date(), endDate: new Date(), travelPlanId }]);
-    };
-
-    const removeLocation = (id: number) => { //This function is used to remove a location from the location object array
-        setRemovedLocations([...removedLocations, id]);
-        setLocations(locations.filter(location => location.id !== id));
-    };
 
     const travelPlanId = loc.state?.travelPlanId;
     useEffect(() => {
@@ -45,13 +26,15 @@ function EditTravelPlanPage() {
                 setTravelPlan(plan);
     
                 const locations = await getTravelPlanLocations(travelPlanId);
+                console.log(locations);
     
                 const formattedLocations = locations.map(location => ({
                     ...location,
-                    startDate: location.startDate ? new Date(location.startDate) : new Date(),
-                    endDate: location.endDate ? new Date(location.endDate) : new Date(),
+                    startDate: location.startDate,
+                    endDate: location.endDate,
                 }));
                 setLocations(formattedLocations);
+                console.log(locations);
             } catch (error) {
                 switch (error) {
                     case NotFoundError:
@@ -109,7 +92,7 @@ function EditTravelPlanPage() {
                 }
             }
 
-            setRemovedLocations([]);
+            clearRemovedLocations();
             navigate(`${TRAVEL_PLAN_URL}/management`);
         } catch (error: any) {
             switch (error) {
@@ -170,7 +153,7 @@ function EditTravelPlanPage() {
                 }
             }
 
-            setRemovedLocations([]);
+            clearRemovedLocations();
             navigate(`${TRAVEL_PLAN_URL}/management`);
         } catch (error: any) {
             switch (error) {
@@ -250,7 +233,7 @@ function EditTravelPlanPage() {
                                 id={`start-date-${location.id}`}
                                 name={`startDate-${location.id}`}
                                 className="form-control"
-                                value={new Date(location.startDate).toLocaleDateString('en-CA')}
+                                value={location.startDate ? new Date(location.startDate).toISOString().split('T')[0] : ''}
                                 onChange={(e) => location.id !== undefined && updateLocationField(location.id, 'startDate', e.target.value)}
                                 required
                             />
@@ -262,7 +245,7 @@ function EditTravelPlanPage() {
                                 id={`end-date-${location.id}`}
                                 name={`endDate-${location.id}`}
                                 className="form-control"
-                                value={new Date(location.endDate).toLocaleDateString('en-CA')}
+                                value={location.endDate ? new Date(location.endDate).toISOString().split('T')[0] : ''}
                                 onChange={(e) => location.id !== undefined && updateLocationField(location.id, 'endDate', e.target.value)}
                                 required
                             />

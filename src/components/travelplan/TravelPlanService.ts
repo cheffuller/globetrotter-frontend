@@ -20,7 +20,7 @@ export async function createNewTravelPlan(data: TravelPlan): Promise<number> {
     return travelPlan.id as number;
 }
 
-export async function addTravelPlanLocation(data: TravelPlanLocation) {
+export async function addTravelPlanLocation(data: TravelPlanLocation) : Promise<TravelPlanLocation> {
     const response = await axiosPrivate.post(API_ROOT_URL + `plans/${data.travelPlanId}/locations`, data);
 
     if(response.status === HttpStatusCode.BadRequest) {
