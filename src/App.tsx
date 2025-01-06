@@ -11,7 +11,9 @@ import RegisterPage from './pages/register/RegisterPage';
 import { UserProfileForm } from './pages/userprofile/edit/UserProfileForm';
 import { UnauthenticatedRoute } from './components/routes/UnauthenticatedRoute';
 import EditTravelPlanPage from './pages/travelplan/EditTravelPlanPage';
+import TravelPlanDetail from './components/plan-detail/TravelPlanDetailManagement';
 import { UserProfileView } from './pages/userprofile/view/UserProfileView';
+
 
 function App() {
     return (
@@ -32,6 +34,7 @@ function App() {
                     <Route path={TRAVEL_PLAN_URL} element={<UnauthenticatedRoute element={<TravelPlanPage />}/>}/>
                     <Route path={TRAVEL_PLAN_URL + '/management'} element={<UnauthenticatedRoute element={<UserTravelPlanPage />} />} />
                     <Route path={TRAVEL_PLAN_URL + '/edit'} element={<UnauthenticatedRoute element={<EditTravelPlanPage />} />} />
+                    <Route path={TRAVEL_PLAN_URL + '/detail'} element={<PrivateRoute element={<TravelPlanDetail />} />} />
                 </Routes>
             </BrowserRouter>
         </>

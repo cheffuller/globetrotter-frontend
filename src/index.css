@@ -13,10 +13,12 @@ code {
 }
 
 .navbar-custom {
-  background-color: #04395E;
+  background-color: #04395e;
 }
 
-.navbar-brand, .nav-item, .nav-link {
+.navbar-brand,
+.nav-item,
+.nav-link {
   color: white;
 }
 
@@ -24,7 +26,7 @@ code {
 .nav-item:hover,
 .nav-link:hover,
 .navbar-nav .nav-link.active {
-  color: #D5896F;
+  color: #d5896f;
 }
 
 .navbar-nav .nav-link {
@@ -33,14 +35,14 @@ code {
 
 .search {
   color: white;
-  background-color: #04395E;
+  background-color: #04395e;
   border-color: white;
 }
 
 .search:hover {
-  color: #D5896F;
-  background-color: #031D44;
-  border-color: #D5896F;
+  color: #d5896f;
+  background-color: #031d44;
+  border-color: #d5896f;
 }
 
 .login {
@@ -51,7 +53,7 @@ code {
   justify-items: center;
   align-items: center;
   background-color: #ffffff;
-  border-radius: 10px; 
+  border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 300px;
@@ -70,14 +72,14 @@ code {
 
 .login button {
   color: white;
-  background-color: #04395E;
-  border-color: #04395E;
+  background-color: #04395e;
+  border-color: #04395e;
 }
 
 .login button:hover {
-  color: #D5896F;
-  background-color: #031D44;
-  border-color: #D5896F;
+  color: #d5896f;
+  background-color: #031d44;
+  border-color: #d5896f;
 }
 
 .d-block.w-100 {
@@ -88,8 +90,8 @@ code {
 .travel-card {
   text-align: center;
   width: 14rem;
-  border-color: #031D44;
-  color:#031D44;
+  border-color: #031d44;
+  color: #031d44;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -98,15 +100,23 @@ code {
   object-fit: cover;
 }
 
-.like-button, .comment-button {
-  font-size: 1rem;
-  color:#04395E;
-  background-color:white;
+.like-button,
+.comment-button {
+  font-size: 0.9rem;
+  color: #04395e;
+  background-color: white;
   border-color: white;
+  padding-bottom: 0;
 }
 
-.like-button:hover, .comment-button:hover {
-  color:#04395E;
+.btn-primary:active {
+  --bs-btn-active-bg: white;
+  --bs-btn-active-border-color: white;
+}
+
+.like-button:hover,
+.comment-button:hover {
+  color: #04395e;
   background-color: white;
   border-color: white;
 }
@@ -118,11 +128,12 @@ code {
 
 .like-button i:hover,
 .comment-button i:hover {
-  color:#D5896F;
+  color: #dab785;
 }
 
 .travel-card-footer {
   background-color: white;
+  padding-bottom: 0;
 }
 
 .register-container {
@@ -142,13 +153,13 @@ code {
   justify-items: center;
   align-items: center;
   background-color: #ffffff;
-  border-radius: 10px; 
+  border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 300px;
 }
 
-.register-container h3{
+.register-container h3 {
   color: #ffffff;
   font-weight: bold;
   text-shadow: #f0f0f0 1px 1px 1px;
@@ -164,7 +175,7 @@ code {
 
 .register-form button {
   padding: 10px;
-  background-color: #04395E;
+  background-color: #04395e;
   color: white;
   font-weight: bold;
   border: none;
@@ -185,6 +196,36 @@ code {
 .error-message {
   color: red;
   font-size: 20px;
+}
+
+.comment-card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 5px;
+  padding: 10px;
+  border-color: #031d44;
+  color: #031d44;
+}
+
+.comment-text-input {
+  border-style: none;
+  padding: 0;
+}
+
+.comment-card-foot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3px;
+  font-size: 14px;
+}
+
+.comment-like {
+  cursor: pointer;
+}
+
+#comment-new:focus{
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
 }
 
 /*

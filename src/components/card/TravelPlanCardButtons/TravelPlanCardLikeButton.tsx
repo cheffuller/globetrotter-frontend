@@ -1,16 +1,66 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
+import { axiosPrivate } from '../../../common/axiosPrivate';
+import { API_ROOT_URL } from '../../../consts/ApiUrl';
 
 type TravelPlanCardLikeButtonProps = {
-  postLikes: number;
-}
+  postId: number | undefined;
+  numberOfLikesOnPost: number;
+  setNumberOfLikesOnPost: any;
+};
 
-const TravelPlanCardLikeButton = ({ postLikes }: TravelPlanCardLikeButtonProps) => {
+const TravelPlanCardLikeButton = ({
+  postId,
+  numberOfLikesOnPost,
+  setNumberOfLikesOnPost,
+}: TravelPlanCardLikeButtonProps) => {
+  const [likeToggle, setLikeToggle] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchLikeToggle = async () => {
+      if (postId) {
+        try {
+          const res = await axiosPrivate.get(
+            `${API_ROOT_URL}posts/${postId}/liked`
+          );
+          setLikeToggle(res.data);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    };
+    fetchLikeToggle();
+  }, [postId]);
+
+  const handleClick = async () => {
+    try {
+      if (!likeToggle) {
+        await axiosPrivate.post(`${API_ROOT_URL}posts/${postId}/likes`);
+        setNumberOfLikesOnPost(numberOfLikesOnPost + 1);
+        setLikeToggle(true);
+      } else {
+        await axiosPrivate.delete(`${API_ROOT_URL}posts/${postId}/likes`);
+        setNumberOfLikesOnPost(numberOfLikesOnPost - 1);
+        setLikeToggle(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Button className='like-button'>
-       <i className='fa'>&#xf087;</i>
-       <br />
-       {postLikes}
+      {likeToggle ? (
+        <i className='fa liked' onClick={handleClick} style={{ color: '#D5896F' }}>
+          &#xf08a;
+        </i>
+      ) : (
+        <i className='fa unliked' onClick={handleClick} >
+          &#xf08a;
+        </i>
+      )}
+      <br />
+      {numberOfLikesOnPost > 0 ? numberOfLikesOnPost : <br />}
     </Button>
   );
 };
