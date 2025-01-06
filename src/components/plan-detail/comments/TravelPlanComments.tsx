@@ -2,17 +2,18 @@ import React from 'react';
 import { Comment } from '../../../interfaces/Comment';
 import CommentCardManagement from './CommentCardManagement';
 import NewCommentManagement from './NewCommentManagement';
+import { TravelPlanDetail } from '../../../interfaces/TravelPlanDetail';
 
 type TravelPlanCommentsProps = {
   comments: Comment[];
   setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
-  postId: number | undefined;
+  travelPlan: TravelPlanDetail;
 };
 
 const TravelPlanComments = ({
   comments,
   setComments,
-  postId,
+  travelPlan,
 }: TravelPlanCommentsProps) => {
   return (
     <div>
@@ -20,7 +21,7 @@ const TravelPlanComments = ({
         <CommentCardManagement key={index} comment={comment} />
       ))}
       <NewCommentManagement
-        postId={postId}
+        postId={travelPlan.post.id}
         comments={comments}
         setComments={setComments}
       />

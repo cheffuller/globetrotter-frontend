@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Comment } from '../../../interfaces/Comment';
-import { fetchDisplayName } from '../../../common/DisplayName';
 import { axiosPrivate } from '../../../common/axiosPrivate';
 import { API_ROOT_URL } from '../../../consts/ApiUrl';
 import CommentCard from './CommentCard';
@@ -10,17 +9,10 @@ type CommentCardManagementProps = {
 };
 
 const CommentCardManagement = ({ comment }: CommentCardManagementProps) => {
-  const [displayName, setDisplayName] = useState<string>('');
   const [likeToggle, setLikeToggle] = useState<boolean>(false);
   const [numberOfLikesOnComment, setNumberOfLikesOnComment] =
     useState<number>(0);
 
-  useEffect(() => {
-    const getDisplayName = async () => {
-      setDisplayName(await fetchDisplayName(comment.userId));
-    };
-    getDisplayName();
-  }, [comment.userId]);
 
   useEffect(() => {
     const fetchNumberOfLikesOnComment = async () => {
@@ -77,7 +69,6 @@ const CommentCardManagement = ({ comment }: CommentCardManagementProps) => {
       likeToggle={likeToggle}
       numberOfLikesOnComment={numberOfLikesOnComment}
       handleClick={handleClick}
-      displayName={displayName}
     />
   );
 };

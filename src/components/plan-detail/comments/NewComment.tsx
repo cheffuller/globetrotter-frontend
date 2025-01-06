@@ -4,7 +4,7 @@ import { Card, Form } from 'react-bootstrap';
 type NewCommentProps = {
   commentContent: string;
   setCommentContent: React.Dispatch<React.SetStateAction<string>>;
-  displayName: string;
+  username: string;
   handleSubmit: FormEventHandler<HTMLFormElement>;
   inputRef: React.RefObject<HTMLInputElement>;
 };
@@ -12,7 +12,7 @@ type NewCommentProps = {
 const NewComment = ({
   commentContent,
   setCommentContent,
-  displayName,
+  username,
   handleSubmit,
   inputRef,
 }: NewCommentProps) => {
@@ -31,7 +31,7 @@ const NewComment = ({
       </Form>
       {commentContent && (
         
-        <div className='comment-card-foot'><div></div>{displayName}</div>
+        <div className='comment-card-foot'><div></div>{username}</div>
       )}
     </Card>
   );

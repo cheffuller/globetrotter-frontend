@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { axiosPrivate } from '../../../common/axiosPrivate';
 import { API_ROOT_URL } from '../../../consts/ApiUrl';
+import { TravelPlanDetail } from '../../../interfaces/TravelPlanDetail';
 
 type TravelPlanCardLikeButtonProps = {
-  postId: number | undefined;
+  travelPlan: TravelPlanDetail;
   numberOfLikesOnPost: number;
   setNumberOfLikesOnPost: any;
 };
 
 const TravelPlanCardLikeButton = ({
-  postId,
+  travelPlan,
   numberOfLikesOnPost,
   setNumberOfLikesOnPost,
 }: TravelPlanCardLikeButtonProps) => {
@@ -18,10 +19,10 @@ const TravelPlanCardLikeButton = ({
 
   useEffect(() => {
     const fetchLikeToggle = async () => {
-      if (postId) {
+      if (travelPlan.post.id) {
         try {
           const res = await axiosPrivate.get(
-            `${API_ROOT_URL}posts/${postId}/liked`
+            `${API_ROOT_URL}posts/${travelPlan.post.id}/liked`
           );
           setLikeToggle(res.data);
         } catch (err) {
@@ -30,16 +31,16 @@ const TravelPlanCardLikeButton = ({
       }
     };
     fetchLikeToggle();
-  }, [postId]);
+  }, [travelPlan.post.id]);
 
   const handleClick = async () => {
     try {
       if (!likeToggle) {
-        await axiosPrivate.post(`${API_ROOT_URL}posts/${postId}/likes`);
+        await axiosPrivate.post(`${API_ROOT_URL}posts/${travelPlan.post.id}/likes`);
         setNumberOfLikesOnPost(numberOfLikesOnPost + 1);
         setLikeToggle(true);
       } else {
-        await axiosPrivate.delete(`${API_ROOT_URL}posts/${postId}/likes`);
+        await axiosPrivate.delete(`${API_ROOT_URL}posts/${travelPlan.post.id}/likes`);
         setNumberOfLikesOnPost(numberOfLikesOnPost - 1);
         setLikeToggle(false);
       }

@@ -100,6 +100,20 @@ code {
   object-fit: cover;
 }
 
+.edit-link {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #04395e;
+  background-color: white;
+  border-color: #04395e;
+  padding-bottom: 0;
+  text-decoration: none;
+}
+
+.edit-link:hover {
+  color: #D5896F;
+}
+
 .like-button,
 .comment-button {
   font-size: 0.9rem;
