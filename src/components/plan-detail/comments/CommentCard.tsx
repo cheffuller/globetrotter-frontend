@@ -8,7 +8,6 @@ type CommentCardProps = {
   likeToggle: boolean;
   numberOfLikesOnComment: number;
   handleClick: React.MouseEventHandler<HTMLElement>;
-  displayName: string;
 };
 
 const CommentCard = ({
@@ -16,7 +15,6 @@ const CommentCard = ({
   likeToggle,
   numberOfLikesOnComment,
   handleClick,
-  displayName,
 }: CommentCardProps) => {
   return (
     <Card className='comment-card'>
@@ -35,7 +33,7 @@ const CommentCard = ({
             &#xf08a; {numberOfLikesOnComment > 0 && numberOfLikesOnComment}
           </i>
         )}
-        {displayName} - {timeSince(comment.commentedDate)}
+        {comment.username} - {timeSince(comment.commentedDate)}
       </div>
     </Card>
   );

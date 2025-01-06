@@ -1,57 +1,62 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Card, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import TravelPlanCardLikeButtonManagement from './TravelPlanCardButtons/TravelPlanCardLikeButtonManagement';
 import TravelPlanCardCommentButtonManagement from './TravelPlanCardButtons/TravelPlanCardCommentButtonManagement';
-import TravelPlanCardDisplayNameManagement from './TravelPlanCardDisplayName/TravelPlanCardDisplayNameManagement';
+import TravelPlanCardUsernameManagement from './TravelPlanCardUsername/TravelPlanCardUsernameManagement';
 import TravelPlanCardLocationManagement from './TravelPlanCardLocation/TravelPlanCardLocationManagement';
-
-import { TravelPlan } from '../../interfaces/TravelPlan';
 import TravelPlanCardLinkManagement from './TravelPlanCardLinkManagement';
-import { axiosPrivate } from '../../common/axiosPrivate';
-import { API_ROOT_URL } from '../../consts/ApiUrl';
+import { isAuthenticated } from '../../common/AuthService';
+import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
+import { TravelPlanDetail } from '../../interfaces/TravelPlanDetail';
+
 
 export type TravelPlanCardProps = {
-  travelPlan: TravelPlan;
+  travelPlan: TravelPlanDetail;
   index: number;
   numberOfCommentsProps?: number;
 };
 
-const TravelPlanCard = ({ travelPlan, index, numberOfCommentsProps }: TravelPlanCardProps) => {
-  const [postId, setPostId] = useState<number>();
-  
-  useEffect(() => {
-    const fetchPostId = async () => {
-      try {
-        const res = await axiosPrivate.get(`${API_ROOT_URL}posts/plans/${travelPlan.id}`)
-        setPostId(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    fetchPostId();
-  }, [travelPlan])
+const TravelPlanCard = ({
+  travelPlan,
+  index,
+  numberOfCommentsProps,
+}: TravelPlanCardProps) => {
+  const isLoggeedIn = isAuthenticated();
 
   return (
     <>
       <Col className='d-flex align-items-stretch mb-5'>
         <Card className='travel-card mx-auto'>
-        <TravelPlanCardLinkManagement travelPlan={travelPlan} index={index} />
+          <TravelPlanCardLinkManagement travelPlan={travelPlan} index={index} />
           <Card.Body className='d-flex flex-column'>
-            <TravelPlanCardLocationManagement travelPlanId={travelPlan.id} />
+            <TravelPlanCardLocationManagement travelPlan={travelPlan} />
             <Card.Subtitle>
-              <TravelPlanCardDisplayNameManagement
-                accountId={travelPlan.accountId}
+              <TravelPlanCardUsernameManagement
+                username={travelPlan.post.username}
               />
             </Card.Subtitle>
             <br />
             <Card.Footer className='travel-card-footer'>
-              <TravelPlanCardLikeButtonManagement
-                travelPlanId={travelPlan.id} postId={postId}
-              />
-              <TravelPlanCardCommentButtonManagement
-                travelPlan={travelPlan} postId={postId} numberOfCommentsProps={numberOfCommentsProps}
-              />
+              {travelPlan.isPublished && isLoggeedIn && (
+                <>
+                  <TravelPlanCardLikeButtonManagement
+                    travelPlan={travelPlan}
+                  />
+                  <TravelPlanCardCommentButtonManagement
+                    travelPlan={travelPlan}
+                    numberOfCommentsProps={numberOfCommentsProps}
+                  />
+                </>
+              )}
+              {!travelPlan.isPublished && (
+                  <Link
+                    to={`${TRAVEL_PLAN_URL}/edit`}
+                    className='edit-link'
+                  >
+                    Edit/Publish<br/>Travel Plan
+                  </Link>
+              )}
             </Card.Footer>
           </Card.Body>
         </Card>

@@ -2,10 +2,10 @@ import React from 'react'
 import { NavLink, useLocation } from 'react-router-dom';
 import TravelPlanCardRandomImage from './TravelPlanCardRandomImage/TravelPlanCardRandomImage';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
-import { TravelPlan } from '../../interfaces/TravelPlan';
+import { TravelPlanDetail } from '../../interfaces/TravelPlanDetail';
 
 type TravelPlanCardLinkManagementProps = {
-  travelPlan: TravelPlan;
+  travelPlan: TravelPlanDetail;
   index: number;
 }
 

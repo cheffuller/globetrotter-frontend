@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useRef, useState } from 'react';
+import React, { FormEvent, useRef, useState } from 'react';
 import { getUsername } from '../../../common/AuthService';
 import { axiosPrivate } from '../../../common/axiosPrivate';
 import { API_ROOT_URL } from '../../../consts/ApiUrl';
@@ -18,23 +18,7 @@ const NewCommentManagement = ({
 }: NewCommentManagementProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const username = getUsername();
-  const [displayName, setDisplayName] = useState<string>('');
   const [commentContent, setCommentContent] = useState<string>('');
-
-  useEffect(() => {
-    const fetchUserDisplayName = async () => {
-      try {
-        const res = await axiosPrivate.get(
-          `${API_ROOT_URL}users/${username}/profile/display-name`
-        );
-        res.data ? setDisplayName(res.data) : setDisplayName(username!);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    fetchUserDisplayName();
-  }, [username]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -64,7 +48,7 @@ const NewCommentManagement = ({
     <NewComment
       commentContent={commentContent}
       setCommentContent={setCommentContent}
-      displayName={displayName}
+      username={username!}
       handleSubmit={handleSubmit}
       inputRef={inputRef}
     />
