@@ -10,7 +10,9 @@ import UserTravelPlanPage from './pages/planmanagement/UserTravelPlanPage';
 import RegisterPage from './pages/register/RegisterPage';
 import { UserProfileForm } from './pages/userprofile/edit/UserProfileForm';
 import { UnauthenticatedRoute } from './components/routes/UnauthenticatedRoute';
+import TravelPlanDetail from './components/plan-detail/TravelPlanDetailManagement';
 import { UserProfileView } from './pages/userprofile/view/UserProfileView';
+
 
 function App() {
     return (
@@ -30,6 +32,7 @@ function App() {
                     <Route path={USER_PROFILE_VIEW_URL} element={<PrivateRoute element={<UserProfileView />} />} />
                     <Route path={TRAVEL_PLAN_URL} element={<UnauthenticatedRoute element={<TravelPlanPage />}/>}/>
                     <Route path={TRAVEL_PLAN_URL + '/management'} element={<UnauthenticatedRoute element={<UserTravelPlanPage />} />} />
+                    <Route path={TRAVEL_PLAN_URL + '/detail'} element={<PrivateRoute element={<TravelPlanDetail />} />} />
                 </Routes>
             </BrowserRouter>
         </>

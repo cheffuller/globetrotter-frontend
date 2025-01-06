@@ -5,12 +5,13 @@ import TravelPlanCardLikeButton from './TravelPlanCardLikeButton';
 
 export type TravelPlanCardLikeButtonManagementProps = {
   travelPlanId: number | undefined;
+  postId: number | undefined;
 };
 
 const TravelPlanCardLikeButtonManagement = ({
-  travelPlanId,
+  travelPlanId, postId
 }: TravelPlanCardLikeButtonManagementProps) => {
-  const [postLikes, setPostLikes] = useState<number>(0);
+  const [numberOfLikesOnPost, setNumberOfLikesOnPost] = useState<number>(0);
 
   useEffect(() => {
     const fetchPostLikes = async () => {
@@ -18,7 +19,7 @@ const TravelPlanCardLikeButtonManagement = ({
         const res = await axiosPrivate.get(
           `${API_ROOT_URL}plans/${travelPlanId}/likes`
         );
-        setPostLikes(res.data);
+        setNumberOfLikesOnPost(res.data);
       } catch (err) {
         console.log(err);
       }
@@ -29,7 +30,7 @@ const TravelPlanCardLikeButtonManagement = ({
 
   return (
     <>
-      <TravelPlanCardLikeButton postLikes={postLikes} />
+      <TravelPlanCardLikeButton postId={postId} numberOfLikesOnPost={numberOfLikesOnPost} setNumberOfLikesOnPost={setNumberOfLikesOnPost}/>
     </>
   );
 };
