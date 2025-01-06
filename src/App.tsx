@@ -31,9 +31,9 @@ function App() {
                     />
                     <Route path={USER_PROFILE_FORM_URL} element={<PrivateRoute element={<UserProfileForm />} />} />
                     <Route path={USER_PROFILE_VIEW_URL} element={<PrivateRoute element={<UserProfileView />} />} />
-                    <Route path={TRAVEL_PLAN_URL} element={<UnauthenticatedRoute element={<TravelPlanPage />}/>}/>
-                    <Route path={TRAVEL_PLAN_URL + '/management'} element={<UnauthenticatedRoute element={<UserTravelPlanPage />} />} />
-                    <Route path={TRAVEL_PLAN_URL + '/edit'} element={<UnauthenticatedRoute element={<EditTravelPlanPage />} />} />
+                    <Route path={TRAVEL_PLAN_URL} element={<PrivateRoute element={<TravelPlanPage />}/>}/>
+                    <Route path={TRAVEL_PLAN_URL + '/management'} element={<PrivateRoute element={<UserTravelPlanPage />} />} />
+                    <Route path={TRAVEL_PLAN_URL + '/edit'} element={<PrivateRoute element={<EditTravelPlanPage />} />} />
                     <Route path={TRAVEL_PLAN_URL + '/detail'} element={<PrivateRoute element={<TravelPlanDetail />} />} />
                 </Routes>
             </BrowserRouter>

@@ -4,15 +4,16 @@ import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/Htt
 import { useNavigate } from 'react-router-dom';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { getAccountId } from '../../common/AuthService';
+import { TravelPlanLocation } from '../../interfaces/TravelPlanLocation';
+import { toUTCDate } from '../../components/travelplan/Handlers';
 
 function TravelPlanPage() {
-    
-    const [locations, setLocations] = useState([{ city: '', country: '', startDate: '', endDate: '' }]); // Changed this to an array of objects
     const navigate = useNavigate();
+    const [locations, setLocations] = useState<TravelPlanLocation[]>([]); // Changed this to an array of objects
 
-    const updateLocationField = (index: number, field: string, value: string) => { //This function is used to update the location fields in the locations, it helps determine which location is being written in 
-        const updatedLocations = locations.map((location, i) => {
-            if (i === index) {
+    const updateLocationField = (id: number, field: keyof TravelPlanLocation, value: string | Date) => { //This function is used to update the location fields in the locations, it helps determine which location is being written in 
+        const updatedLocations = locations.map(location => {
+            if (location.id === id) {
                 return { ...location, [field]: value };
             }
             return location;
@@ -21,12 +22,11 @@ function TravelPlanPage() {
     };
 
     const addNewLocation = () => { 
-        setLocations([...locations, { city: '', country: '', startDate: '', endDate: '' }]);
+        setLocations([...locations, {id: 0, city: '', country: '', startDate: new Date(), endDate: new Date(), travelPlanId: 0 }]);
     };
 
-    const removeLocation = (index: number) => { //This function is used to remove a location from the location object array
-        const updatedLocations = [...locations.slice(0, index), ...locations.slice(index + 1)];
-        setLocations(updatedLocations);
+    const removeLocation = (id: number) => { 
+        setLocations(locations.filter(location => location.id !== id));
     };
 
     const saveDraft = async (event: any) => {
@@ -47,8 +47,8 @@ function TravelPlanPage() {
                 await addTravelPlanLocation({
                     city: location.city,
                     country: location.country,
-                    startDate: new Date(location.startDate),
-                    endDate: new Date(location.endDate),
+                    startDate: toUTCDate(location.startDate.toString()),
+                    endDate: toUTCDate(location.endDate.toString()),
                     travelPlanId,
                 });
             }
@@ -86,15 +86,15 @@ function TravelPlanPage() {
             const travelPlanId = await createNewTravelPlan({
                 accountId: accountID, // Replace with actual accountId from JWT
                 isFavorited: false,
-                isPublished: false,
+                isPublished: true,
             });
 
             for (const location of locations) {
                 await addTravelPlanLocation({
                     city: location.city,
                     country: location.country,
-                    startDate: new Date(location.startDate),
-                    endDate: new Date(location.endDate),
+                    startDate: toUTCDate(location.startDate.toString()),
+                    endDate: toUTCDate(location.endDate.toString()),
                     travelPlanId,
                 });
             }
@@ -162,7 +162,7 @@ function TravelPlanPage() {
                                 id={`start-date-${index}`}
                                 name={`startDate-${index}`}
                                 className="form-control"
-                                value={new Date(location.startDate).toLocaleDateString('en-CA')}
+                                value={location.startDate ? location.startDate.toString() : ''}
                                 onChange={(e) => updateLocationField(index, 'startDate', e.target.value)}
                                 required
                             />
@@ -174,7 +174,7 @@ function TravelPlanPage() {
                                 id={`end-date-${index}`}
                                 name={`endDate-${index}`}
                                 className="form-control"
-                                value={new Date(location.endDate).toLocaleDateString('en-CA')}
+                                value={location.endDate ? location.endDate.toString() : ''}
                                 onChange={(e) => updateLocationField(index, 'endDate', e.target.value)}
                                 required
                             />

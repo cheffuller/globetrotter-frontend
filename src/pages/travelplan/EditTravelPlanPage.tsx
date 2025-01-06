@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { deleteTravelPlan, getTravelPlan, getTravelPlanLocations, updateTravelPlan, updateTravelPlanLocation } from '../../components/travelplan/EditTravelPlanService'
+import { deleteTravelPlan, deleteTravelPlanLocations, getTravelPlan, getTravelPlanLocations, updateTravelPlan, updateTravelPlanLocation } from '../../components/travelplan/TravelPlanService'
 import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/HttpErrors';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { TravelPlan } from '../../interfaces/TravelPlan';
 import { TravelPlanLocation } from '../../interfaces/TravelPlanLocation';
 import { addTravelPlanLocation } from '../../components/travelplan/TravelPlanService';
 import { getAccountId } from '../../common/AuthService';
-
+import { toUTCDate } from '../../components/travelplan/Handlers';
 
 function EditTravelPlanPage() {
-    const [travelPlan, setTravelPlan] = useState<TravelPlan | null>(null); // Replace with actual travelPlan object
-    const [locations, setLocations] = useState<TravelPlanLocation[]>([]); // Changed this to an array of objects
+    const [travelPlan, setTravelPlan] = useState<TravelPlan | null>(null);
+    const [locations, setLocations] = useState<TravelPlanLocation[]>([]); 
+    const [removedLocations, setRemovedLocations] = useState<number[]>([]); 
+
     const navigate = useNavigate();
     const loc = useLocation();
 
@@ -30,9 +32,9 @@ function EditTravelPlanPage() {
         setLocations([...locations, { id: 0, city: '', country: '', startDate: new Date(), endDate: new Date(), travelPlanId }]);
     };
 
-    const removeLocation = (index: number) => { //This function is used to remove a location from the location object array
-        const updatedLocations = [...locations.slice(0, index), ...locations.slice(index + 1)];
-        setLocations(updatedLocations);
+    const removeLocation = (id: number) => { //This function is used to remove a location from the location object array
+        setRemovedLocations([...removedLocations, id]);
+        setLocations(locations.filter(location => location.id !== id));
     };
 
     const travelPlanId = loc.state?.travelPlanId;
@@ -82,27 +84,32 @@ function EditTravelPlanPage() {
                 isPublished: true,
             });
 
-            for (const locationIndex of locations) { //changed this so that we could loop thhrough multiple locations
-                if(locationIndex.id === 0) {
+            for(const location of removedLocations) {
+                await deleteTravelPlanLocations(travelPlanId, location); //go to service class and create this function
+            }
+
+            for (const location of locations) { //changed this so that we could loop thhrough multiple locations
+                if(location.id === 0) {
                     await addTravelPlanLocation({
-                        city: locationIndex.city,
-                        country: locationIndex.country,
-                        startDate: new Date(locationIndex.startDate),
-                        endDate: new Date(locationIndex.endDate),
+                        city: location.city,
+                        country: location.country,
+                        startDate: toUTCDate(location.startDate.toISOString()),
+                        endDate: toUTCDate(location.endDate.toISOString()),
                         travelPlanId,
                     });
                 } else {
                     await updateTravelPlanLocation({
-                        id: locationIndex.id,
-                        city: locationIndex.city,
-                        country: locationIndex.country,
-                        startDate: new Date(locationIndex.startDate),
-                        endDate: new Date(locationIndex.endDate),
+                        id: location.id,
+                        city: location.city,
+                        country: location.country,
+                        startDate: toUTCDate(location.startDate.toISOString()),
+                        endDate: toUTCDate(location.endDate.toISOString()),
                         travelPlanId,
                     });
                 }
             }
 
+            setRemovedLocations([]);
             navigate(`${TRAVEL_PLAN_URL}/management`);
         } catch (error: any) {
             switch (error) {
@@ -138,13 +145,17 @@ function EditTravelPlanPage() {
                 isPublished: false,
             });
 
+            for(const location of removedLocations) {
+                await deleteTravelPlanLocations(travelPlanId, location); //go to service class and create this function
+            }
+
             for (const locationIndex of locations) { //changed this so that we could loop thhrough multiple locations
                 if(locationIndex.id === 0) {
                     await addTravelPlanLocation({
                         city: locationIndex.city,
                         country: locationIndex.country,
-                        startDate: new Date(locationIndex.startDate),
-                        endDate: new Date(locationIndex.endDate),
+                        startDate: toUTCDate(locationIndex.startDate.toISOString()),
+                        endDate: toUTCDate(locationIndex.endDate.toISOString()),
                         travelPlanId,
                     });
                 } else {
@@ -159,6 +170,7 @@ function EditTravelPlanPage() {
                 }
             }
 
+            setRemovedLocations([]);
             navigate(`${TRAVEL_PLAN_URL}/management`);
         } catch (error: any) {
             switch (error) {
