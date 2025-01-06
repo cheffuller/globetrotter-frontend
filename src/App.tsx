@@ -41,7 +41,7 @@ function App() {
             {/* Private Route Functionality now works, user must be logged in to visit pages below */}
             <Route
               path={HOME_URL}
-              element={<PrivateRoute element={<HomePage />} />}
+              element={<HomePage />}
             />
             <Route
               path={USER_PROFILE_FORM_URL}
