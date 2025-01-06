@@ -1,5 +1,18 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode, useReducer } from 'react';
-import { isAuthenticated, setJwtToken, removeJwtToken, getJwtToken, getUsername } from './AuthService';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
+import {
+  isAuthenticated,
+  setJwtToken,
+  removeJwtToken,
+  getUsername,
+} from './AuthService';
+import { useNavigate } from 'react-router-dom';
+import { HOME_URL } from '../consts/PageUrls';
 
 interface AuthContextProps {
   isLoggedIn: boolean;
@@ -10,14 +23,17 @@ interface AuthContextProps {
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [username, setUsername] = useState<string>('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loggedIn = isAuthenticated();
     setIsLoggedIn(loggedIn);
-    const user:string = getUsername()!;
+    const user: string = getUsername()!;
     setUsername(user);
   }, []);
 
@@ -29,6 +45,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const logout = () => {
     removeJwtToken();
     setIsLoggedIn(false);
+    navigate(HOME_URL);
   };
 
   return (
