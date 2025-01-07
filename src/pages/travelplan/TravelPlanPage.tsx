@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { addTravelPlanLocation, createNewTravelPlan } from '../../components/travelplan/TravelPlanService';
+import { addTravelPlanLocation, createNewTravelPlan, createPost } from '../../components/travelplan/TravelPlanService';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/HttpErrors';
 import { useNavigate } from 'react-router-dom';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
@@ -96,6 +96,8 @@ function TravelPlanPage() {
                     travelPlanId,
                 });
             }
+
+            const travelPost = await createPost(travelPlanId);
 
             navigate(`${TRAVEL_PLAN_URL}/management`);
         } catch (error: any) {

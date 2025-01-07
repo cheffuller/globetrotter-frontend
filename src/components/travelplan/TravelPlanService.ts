@@ -4,6 +4,7 @@ import { axiosPrivate } from "../../common/axiosPrivate";
 import { API_ROOT_URL } from "../../consts/ApiUrl";
 import { HttpStatusCode } from "axios";
 import { BadRequestError, ForbiddenError, NotFoundError } from "../../errors/HttpErrors";
+import { Post } from "../../interfaces/Post";
 
 export async function createNewTravelPlan(data: TravelPlan): Promise<number> {
     const response = await axiosPrivate.post(API_ROOT_URL + "plans", data);
@@ -100,4 +101,18 @@ export async function deleteTravelPlanLocations(travelPlanId : number , location
     }
 
     return;
+}
+
+export async function createPost(travelPlanId: number) : Promise<Post> {
+    const response = await axiosPrivate.post(API_ROOT_URL + "posts", travelPlanId);
+
+    if(response.status === HttpStatusCode.BadRequest) {
+        throw new BadRequestError("Invalid post details.");
+    } else if (response.status === HttpStatusCode.NotFound) {
+        throw new NotFoundError("Travel plan not found.");
+    } else if (response.status === HttpStatusCode.Forbidden) {
+        throw new ForbiddenError("Invalid JWT.");
+    }
+
+    return response.data;
 }
