@@ -35,7 +35,7 @@ const CommentCard = ({
             &#xf08a; {numberOfLikesOnComment > 0 && numberOfLikesOnComment}
           </i>
         )}
-        <Link className="comment-link ms-auto" to={`${ROOT_URL}${USER_PROFILE_VIEW_URL(comment.username)}`}>{comment.username}</Link>&nbsp;-&nbsp;{timeSince(comment.commentedDate)}
+        <Link className="profile-link ms-auto" to={`${ROOT_URL}${USER_PROFILE_VIEW_URL(comment.username)}`}>{comment.username}</Link>&nbsp;-&nbsp;{timeSince(comment.commentedDate)}
 
 
       </div>

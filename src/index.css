@@ -242,13 +242,13 @@ code {
   background-color: transparent;
 }
 
-.comment-link {
+.profile-link {
   color: #031d44;
   text-decoration: none;
   
 }
 
-.comment-link:hover {
+.profile-link:hover {
   color: #D5896F;
 }
 
