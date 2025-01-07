@@ -4,10 +4,10 @@ import { axiosPrivate } from '../../../common/axiosPrivate';
 import TravelPlanCardLocation from './TravelPlanCardLocation';
 import TravelPlanCardDateManagement from '../TravelPlanCardDate/TravelPlanCardDateManagement';
 import { TravelPlanLocation } from '../../../interfaces/TravelPlanLocation';
-import { API_ROOT_URL } from '../../../consts/ApiUrl';
+import { TravelPlanDetail } from '../../../interfaces/TravelPlanDetail';
 
 type TravelPlanCardLocationManagementProps = {
-  travelPlanId: number | undefined;
+  travelPlan: TravelPlanDetail;
 };
 
 export type TravelPlanLocationProps = {
@@ -15,29 +15,12 @@ export type TravelPlanLocationProps = {
 };
 
 const TravelPlanCardLocationManagement = ({
-  travelPlanId,
+  travelPlan,
 }: TravelPlanCardLocationManagementProps) => {
-  const [travelPlanLocations, setTravelPlanLocations] = useState<
-    TravelPlanLocation[]
-  >([]);
-
-  useEffect(() => {
-    const fetchLocation = async () => {
-      try {
-        const res = await axiosPrivate.get(
-          `${API_ROOT_URL}plans/${travelPlanId}/locations`);
-        setTravelPlanLocations(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    fetchLocation();
-  }, [travelPlanId]);
 
   return (
     <>
-      {travelPlanLocations.map((travelPlanLocation) => (
+      {travelPlan.post.locations.map((travelPlanLocation) => (
         <React.Fragment key={travelPlanLocation.id}>
           <TravelPlanCardLocation travelPlanLocation={travelPlanLocation} />
           <TravelPlanCardDateManagement travelPlanLocation={travelPlanLocation} />

@@ -49,7 +49,7 @@ function App() {
               element={<PrivateRoute element={<UserProfileForm />} />}
             />
             <Route
-              path={USER_PROFILE_VIEW_URL}
+              path={USER_PROFILE_VIEW_URL()}
               element={<PrivateRoute element={<UserProfileView />} />}
             />
             <Route

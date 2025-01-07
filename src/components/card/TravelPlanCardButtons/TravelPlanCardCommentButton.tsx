@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { TravelPlan } from '../../../interfaces/TravelPlan';
 import { NavLink } from 'react-router-dom';
 import { TRAVEL_PLAN_URL } from '../../../consts/PageUrls';
+import { TravelPlanDetail } from '../../../interfaces/TravelPlanDetail';
 
 type TravelPlanCardCommentButtonProps = {
-  travelPlan: TravelPlan | undefined;
+  travelPlan: TravelPlanDetail;
   numberOfComments: number;
 };
 
