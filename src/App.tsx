@@ -18,6 +18,7 @@ import UserTravelPlanPage from './pages/planmanagement/UserTravelPlanPage';
 import RegisterPage from './pages/register/RegisterPage';
 import { UserProfileForm } from './pages/userprofile/edit/UserProfileForm';
 import { UnauthenticatedRoute } from './components/routes/UnauthenticatedRoute';
+import EditTravelPlanPage from './pages/travelplan/EditTravelPlanPage';
 import TravelPlanDetail from './components/plan-detail/TravelPlanDetailManagement';
 import { UserProfileView } from './pages/userprofile/view/UserProfileView';
 import { AuthProvider } from './common/AuthContext';
@@ -58,6 +59,10 @@ function App() {
             <Route
               path={TRAVEL_PLAN_URL + '/management'}
               element={<PrivateRoute element={<UserTravelPlanPage />} />}
+            />
+            <Route
+              path={TRAVEL_PLAN_URL + '/edit'}
+              element={<PrivateRoute element={<EditTravelPlanPage />} />}
             />
             <Route
               path={TRAVEL_PLAN_URL + '/detail'}
