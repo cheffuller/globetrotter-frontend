@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { axiosPrivate } from '../../../common/axiosPrivate';
-import { API_ROOT_URL } from '../../../consts/ApiUrl';
+
 import TravelPlanCardLikeButton from './TravelPlanCardLikeButton';
 import { TravelPlanDetail } from '../../../interfaces/TravelPlanDetail';
 
