@@ -242,6 +242,16 @@ code {
   background-color: transparent;
 }
 
+.comment-link {
+  color: #031d44;
+  text-decoration: none;
+  
+}
+
+.comment-link:hover {
+  color: #D5896F;
+}
+
 /*
 
 #031D44 - dark blue
