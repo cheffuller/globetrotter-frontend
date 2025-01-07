@@ -2,6 +2,8 @@ import React from 'react';
 import { Comment } from '../../../interfaces/Comment';
 import { Card } from 'react-bootstrap';
 import { timeSince } from '../../../common/TimeSinceDate';
+import { Link } from 'react-router-dom';
+import { ROOT_URL, USER_PROFILE_VIEW_URL } from '../../../consts/PageUrls';
 
 type CommentCardProps = {
   comment: Comment;
@@ -33,7 +35,9 @@ const CommentCard = ({
             &#xf08a; {numberOfLikesOnComment > 0 && numberOfLikesOnComment}
           </i>
         )}
-        {comment.username} - {timeSince(comment.commentedDate)}
+        <Link className="profile-link ms-auto" to={`${ROOT_URL}${USER_PROFILE_VIEW_URL(comment.username)}`}>{comment.username}</Link>&nbsp;-&nbsp;{timeSince(comment.commentedDate)}
+
+
       </div>
     </Card>
   );

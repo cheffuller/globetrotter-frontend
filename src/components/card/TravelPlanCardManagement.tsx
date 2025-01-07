@@ -16,7 +16,6 @@ const TravelPlanCardManagement = () => {
           `${API_ROOT_URL}plans/recent/${numberOfPlans}`
         );
         setTravelPlans(res.data);
-        console.log(res.data);
       } catch (err) {
         localStorage.removeItem(JWT_TOKEN);
       }
