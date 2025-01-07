@@ -192,7 +192,7 @@ function TravelPlanPage() {
                     </button>
                     <button
                         type="button"
-                        className="btn-primary"
+                        className="btn btn-primary"
                         onClick={e => saveDraft(e)}
                     >
                         Save Draft
