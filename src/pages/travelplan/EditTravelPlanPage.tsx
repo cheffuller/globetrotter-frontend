@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { deleteTravelPlan, deleteTravelPlanLocations, getTravelPlan, getTravelPlanLocations, updateTravelPlan, updateTravelPlanLocation } from '../../components/travelplan/TravelPlanService'
+import { createPost, deleteTravelPlan, deleteTravelPlanLocations, getTravelPlan, getTravelPlanLocations, updateTravelPlan, updateTravelPlanLocation } from '../../components/travelplan/TravelPlanService'
 import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/HttpErrors';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { TravelPlan } from '../../interfaces/TravelPlan';
@@ -13,7 +13,7 @@ import { clear } from 'console';
 
 function EditTravelPlanPage() {
     const [travelPlan, setTravelPlan] = useState<TravelPlan | null>(null);
-    const { locations, addNewLocation, removeLocation, updateLocationField, setLocations, removedLocations, clearRemovedLocations } = useLocationManagement();
+    const { locations, addNewLocation, removeLocation, updateLocationField, setLocations, removedLocations, clearRemovedLocations, validateLocations } = useLocationManagement();
 
     const navigate = useNavigate();
     const loc = useLocation();
@@ -60,6 +60,8 @@ function EditTravelPlanPage() {
             if(accountID === null || accountID === undefined) {
                 throw new NotFoundError("Account not found.");
             }
+
+            validateLocations();
             const travelPlanId = await updateTravelPlan({
                 id: travelPlan?.id, // Replace with actual travelPlanId
                 accountId: accountID, // Replace with actual accountId from JWT
@@ -92,6 +94,8 @@ function EditTravelPlanPage() {
                 }
             }
 
+            const travelPost = await createPost(travelPlanId);
+
             clearRemovedLocations();
             navigate(`${TRAVEL_PLAN_URL}/management`);
         } catch (error: any) {
@@ -121,6 +125,8 @@ function EditTravelPlanPage() {
             if(accountID === null || accountID === undefined) {
                 throw new NotFoundError("Account not found.");
             }
+
+            validateLocations();
             const travelPlanId = await updateTravelPlan({
                 id: travelPlan?.id,
                 accountId: accountID, // Replace with actual accountId from JWT

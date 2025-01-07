@@ -53,6 +53,7 @@ const TravelPlanCard = ({
                   <Link
                     to={`${TRAVEL_PLAN_URL}/edit`}
                     className='edit-link'
+                    state={{ travelPlanId: travelPlan.id }}
                   >
                     Edit/Publish<br/>Travel Plan
                   </Link>

@@ -35,5 +35,18 @@ export function useLocationManagement(initialLocations: TravelPlanLocation[] = [
     setRemovedLocations([]);
   };
 
-  return { locations, setLocations, removedLocations, addNewLocation, removeLocation, updateLocationField, clearRemovedLocations };
+  const validateLocations = () => {
+    for (const location of locations) {
+      if (!location.city || !location.country || !location.startDate || !location.endDate) {
+        return false;
+      }
+
+      if (location.startDate > location.endDate) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  return { locations, setLocations, removedLocations, addNewLocation, removeLocation, updateLocationField, clearRemovedLocations, validateLocations };
 }

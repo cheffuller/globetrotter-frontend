@@ -9,7 +9,7 @@ import { useLocationManagement } from '../../components/travelplan/LocationManag
 
 function TravelPlanPage() {
     const navigate = useNavigate();
-    const { locations, addNewLocation, removeLocation, updateLocationField, setLocations } = useLocationManagement();
+    const { locations, addNewLocation, removeLocation, updateLocationField, setLocations, validateLocations } = useLocationManagement();
 
     useEffect(() => {
         // Initialize with a default blank location if the locations array is empty
@@ -35,6 +35,8 @@ function TravelPlanPage() {
             if(accountID === null || accountID === undefined) {
                 throw new NotFoundError("Account not found.");
             }
+            
+            validateLocations();
             const travelPlanId = await createNewTravelPlan({
                 accountId: accountID, // Replace with actual accountId from JWT
                 isFavorited: false,
@@ -50,6 +52,9 @@ function TravelPlanPage() {
                     travelPlanId,
                 });
             }
+
+            console.log("Travel Plan ID: ", travelPlanId);
+            const travelPost = await createPost(travelPlanId);
 
             navigate(`${TRAVEL_PLAN_URL}/edit`, { state: { travelPlanId } });
         } catch (error : any) {
@@ -81,6 +86,8 @@ function TravelPlanPage() {
             if(accountID === null || accountID === undefined) {
                 throw new NotFoundError("Account not found.");
             }
+
+            validateLocations();
             const travelPlanId = await createNewTravelPlan({
                 accountId: accountID, // Replace with actual accountId from JWT
                 isFavorited: false,

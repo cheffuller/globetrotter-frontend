@@ -104,7 +104,8 @@ export async function deleteTravelPlanLocations(travelPlanId : number , location
 }
 
 export async function createPost(travelPlanId: number) : Promise<Post> {
-    const response = await axiosPrivate.post(API_ROOT_URL + "posts", travelPlanId);
+    const post : Post = {travelPlanId: travelPlanId};
+    const response = await axiosPrivate.post(API_ROOT_URL + "posts", post);
 
     if(response.status === HttpStatusCode.BadRequest) {
         throw new BadRequestError("Invalid post details.");
