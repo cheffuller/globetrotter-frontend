@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
+import { ROOT_URL, USER_PROFILE_VIEW_URL } from '../../../consts/PageUrls';
 
 type TravelPlanCardUsernameProps = {
   username: string;
@@ -7,7 +9,7 @@ type TravelPlanCardUsernameProps = {
 const TravelPlanCardUsername = ({ username }: TravelPlanCardUsernameProps) => {
   return (
     <>
-    {username}
+    <Link className="profile-link ms-auto" to={`${ROOT_URL}${USER_PROFILE_VIEW_URL(username)}`}>{username}</Link>
     </>
   )
 }

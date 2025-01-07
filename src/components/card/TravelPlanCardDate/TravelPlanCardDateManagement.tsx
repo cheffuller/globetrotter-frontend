@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { TravelPlanLocationProps } from '../TravelPlanCardLocation/TravelPlanCardLocationManagement';
 import TravelPlanCardDate from './TravelPlanCardDate';
 

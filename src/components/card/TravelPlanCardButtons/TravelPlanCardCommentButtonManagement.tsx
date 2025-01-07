@@ -1,33 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { axiosPrivate } from '../../../common/axiosPrivate';
-import { API_ROOT_URL } from '../../../consts/ApiUrl';
 import TravelPlanCardCommentButton from './TravelPlanCardCommentButton';
+import { TravelPlanDetail } from '../../../interfaces/TravelPlanDetail';
 
-export type TravelPlanCardCommentButtonManagementProps = {
-  travelPlanId: number | undefined;
+type TravelPlanCardCommentButtonManagementProps = {
+  travelPlan: TravelPlanDetail;
+  numberOfCommentsProps?: number;
 };
 
 const TravelPlanCardCommentButtonManagement = ({
-  travelPlanId,
+  travelPlan,
+  numberOfCommentsProps,
 }: TravelPlanCardCommentButtonManagementProps) => {
-  const [numberOfComments, setnumberOfComments] = useState<number>(0);
+  const [numberOfComments, setNumberOfComments] = useState<number>(0);
 
   useEffect(() => {
-    const fetchCommentLikes = async () => {
-      try {
-        const res = await axiosPrivate.get(`${API_ROOT_URL}plans/${travelPlanId}/comments`);
-        setnumberOfComments(res.data);
-      } catch (err) {
-        console.log(err)
-      }
+    if (numberOfCommentsProps) {
+      setNumberOfComments(numberOfCommentsProps);
+    } else {
+      setNumberOfComments(travelPlan.post.comments.length)
     }
-
-    fetchCommentLikes();
-  }, [travelPlanId]);
+  }, [numberOfCommentsProps, travelPlan]);
 
   return (
     <>
-      <TravelPlanCardCommentButton numberOfComments={numberOfComments}/>
+      <TravelPlanCardCommentButton
+        travelPlan={travelPlan}
+        numberOfComments={numberOfComments}
+      />
     </>
   );
 };

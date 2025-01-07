@@ -1,35 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { axiosPrivate } from '../../../common/axiosPrivate';
-import { API_ROOT_URL } from '../../../consts/ApiUrl';
+
 import TravelPlanCardLikeButton from './TravelPlanCardLikeButton';
+import { TravelPlanDetail } from '../../../interfaces/TravelPlanDetail';
 
 export type TravelPlanCardLikeButtonManagementProps = {
-  travelPlanId: number | undefined;
+  travelPlan: TravelPlanDetail;
 };
 
 const TravelPlanCardLikeButtonManagement = ({
-  travelPlanId,
+  travelPlan
 }: TravelPlanCardLikeButtonManagementProps) => {
-  const [postLikes, setPostLikes] = useState<number>(0);
+  const [numberOfLikesOnPost, setNumberOfLikesOnPost] = useState<number>(0);
 
   useEffect(() => {
-    const fetchPostLikes = async () => {
-      try {
-        const res = await axiosPrivate.get(
-          `${API_ROOT_URL}plans/${travelPlanId}/likes`
-        );
-        setPostLikes(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    fetchPostLikes();
-  }, [travelPlanId]);
+    setNumberOfLikesOnPost(travelPlan.post.numberOfLikes);
+  }, [travelPlan.post.numberOfLikes]);
 
   return (
     <>
-      <TravelPlanCardLikeButton postLikes={postLikes} />
+      <TravelPlanCardLikeButton travelPlan={travelPlan} numberOfLikesOnPost={numberOfLikesOnPost} setNumberOfLikesOnPost={setNumberOfLikesOnPost}/>
     </>
   );
 };

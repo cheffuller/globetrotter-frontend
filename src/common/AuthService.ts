@@ -4,6 +4,7 @@ import { JWT_TOKEN } from '../consts/JwtConst';
 interface Token {
   sub: string;
   AccountRole: string;
+  accountId: number;
   exp: number;
   iat: number;
 }
@@ -28,6 +29,22 @@ export const getUsername = () => {
     try {
     const decodedToken: Token = jwtDecode(jwtToken);
     return decodedToken.sub;
+    } catch (err) {
+      console.log(err)
+    }
+  }
+}
+
+export const getAccountId = () => {
+  const jwtToken = getJwtToken();
+  if (jwtToken) {
+    try {
+      const decodedToken: Token = jwtDecode(jwtToken);
+      if(decodedToken.accountId) {
+        return decodedToken.accountId;
+      } else {
+        return null;
+      }
     } catch (err) {
       console.log(err)
     }
