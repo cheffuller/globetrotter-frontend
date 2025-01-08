@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Comment } from '../../../interfaces/Comment';
 import { Card } from 'react-bootstrap';
 import { timeSince } from '../../../common/TimeSinceDate';
 import { Link } from 'react-router-dom';
 import { ROOT_URL, USER_PROFILE_VIEW_URL } from '../../../consts/PageUrls';
+import { getUsername } from '../../../common/AuthService';
 
 type CommentCardProps = {
   comment: Comment;
   likeToggle: boolean;
   numberOfLikesOnComment: number;
   handleClick: React.MouseEventHandler<HTMLElement>;
+  setEditCommentToggle: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const CommentCard = ({
@@ -17,10 +19,19 @@ const CommentCard = ({
   likeToggle,
   numberOfLikesOnComment,
   handleClick,
+  setEditCommentToggle,
 }: CommentCardProps) => {
+  const username = getUsername();
+
   return (
     <Card className='comment-card'>
-      {comment.content}
+      {comment.username === username ? (
+        <div className="edit-comment" title='Edit Comment' onClick={() => setEditCommentToggle(true)}>
+          {comment.content}
+        </div>
+      ) : (
+        <div>{comment.content}</div>
+      )}
       <div className='comment-card-foot'>
         {likeToggle ? (
           <i
@@ -35,9 +46,13 @@ const CommentCard = ({
             &#xf08a; {numberOfLikesOnComment > 0 && numberOfLikesOnComment}
           </i>
         )}
-        <Link className="profile-link ms-auto" to={`${ROOT_URL}${USER_PROFILE_VIEW_URL(comment.username)}`}>{comment.username}</Link>&nbsp;-&nbsp;{timeSince(comment.commentedDate)}
-
-
+        <Link
+          className='profile-link ms-auto'
+          to={`${ROOT_URL}${USER_PROFILE_VIEW_URL(comment.username)}`}
+        >
+          {comment.username}
+        </Link>
+        &nbsp;-&nbsp;{timeSince(comment.commentedDate)}
       </div>
     </Card>
   );

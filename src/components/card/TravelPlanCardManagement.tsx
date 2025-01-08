@@ -7,7 +7,7 @@ import { TravelPlanDetail } from '../../interfaces/TravelPlanDetail';
 
 const TravelPlanCardManagement = () => {
   const [travelPlans, setTravelPlans] = useState<TravelPlanDetail[]>([]);
-
+  
   useEffect(() => {
     const fetchPlans = async () => {
       try {

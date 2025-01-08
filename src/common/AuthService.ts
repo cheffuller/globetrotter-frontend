@@ -3,7 +3,7 @@ import { JWT_TOKEN } from '../consts/JwtConst';
 
 interface Token {
   sub: string;
-  AccountRole: string;
+  accountRole: string;
   accountId: number;
   exp: number;
   iat: number;
@@ -57,6 +57,23 @@ export const isAuthenticated = () => {
     try {
       const decodedToken: Token = jwtDecode(jwtToken);
       if (decodedToken.exp * 1000 > Date.now()) {
+        return true;
+      }
+      return false;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  }
+  return false;
+};
+
+export const isModerator = () => {
+  const jwtToken = getJwtToken();
+  if (jwtToken) {
+    try {
+      const decodedToken: Token = jwtDecode(jwtToken);
+      if (decodedToken.accountRole == 'Moderator') {
         return true;
       }
       return false;

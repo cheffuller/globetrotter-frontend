@@ -232,7 +232,8 @@ code {
   font-size: 14px;
 }
 
-.comment-like {
+.comment-like,
+.edit-comment {
   cursor: pointer;
 }
 
@@ -248,7 +249,9 @@ code {
   
 }
 
-.profile-link:hover {
+.profile-link:hover,
+.edit-comment:hover,
+.comment-like:hover {
   color: #D5896F;
 }
 
