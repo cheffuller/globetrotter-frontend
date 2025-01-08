@@ -26,6 +26,7 @@ const NewCommentManagement = ({
       postId: postId,
       commentedDate: new Date(),
       content: commentContent,
+      username: username
     };
     const postComment = async (newComment: any) => {
       try {

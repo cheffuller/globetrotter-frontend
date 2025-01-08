@@ -18,7 +18,8 @@ const TravelPlanComments = ({
   return (
     <div>
       {comments.map((comment, index) => (
-        <CommentCardManagement key={index} comment={comment} />
+        <CommentCardManagement key={index} comment={comment} comments={comments}
+        setComments={setComments}/>
       ))}
       <NewCommentManagement
         postId={travelPlan.post.id}
