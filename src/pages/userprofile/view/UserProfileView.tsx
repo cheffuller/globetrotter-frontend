@@ -57,15 +57,21 @@ export function UserProfileView() {
     }
 
     return <>
-        {profileFetched ?
-            <div className="userProfile">
-                <h1>{displayName}</h1>
-                <p>{bio}</p>
-                {username != getUsernameFromJwt() ?
-                    <button onClick={followOrUnfollowUser}>{isFollowing}</button> :
-                    <> </>}
-                {getResponseMessage()}
-            </div> :
-            <></>}
+        <div className="userProfileViewContainer">
+            {profileFetched ? (
+                <div className="userProfile">
+                    <h1>{displayName}</h1>
+                    <p>{bio}</p>
+                    {username != getUsernameFromJwt() ? (
+                        <button onClick={followOrUnfollowUser}>{isFollowing}</button>
+                    ) : (
+                        <> </>
+                    )}
+                    {getResponseMessage()}
+                </div>
+            ) : (
+                <></>
+            )}
+        </div>
     </>;
 }
