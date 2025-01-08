@@ -73,7 +73,6 @@ export function UserProfileView() {
 
         startWaitingForResponse("Updating user status...");
         try {
-           
             await banOrUnbanUserRequest(bannedUser.Id, !isBanned);
             setIsBanned(!isBanned); 
             stopWaitingAfterSuccess(isBanned ? "User unbanned successfully." : "User banned successfully.");
@@ -83,18 +82,16 @@ export function UserProfileView() {
         }
     }
 
-    return (
+    return <>
         <div className="userProfileViewContainer">
             {profileFetched ? (
                 <div className="userProfile">
                     <h1>{displayName}</h1>
                     <p>{bio}</p>
-                    {username !== getUsernameFromJwt() ? (
-                        <button onClick={followOrUnfollowUser}>
-                            {isFollowing === FollowingStatus.Following ? "Unfollow" : "Follow"}
-                        </button>
+                    {username != getUsernameFromJwt() ? (
+                        <button onClick={followOrUnfollowUser}>{isFollowing}</button>
                     ) : (
-                        <></>
+                        <> </>
                     )}
                     {isMod && (
                         <button onClick={banOrUnbanUser}>
@@ -107,5 +104,6 @@ export function UserProfileView() {
                 <></>
             )}
         </div>
-    );
+    </>;
 }
+
