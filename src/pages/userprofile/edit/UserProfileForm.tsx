@@ -65,7 +65,7 @@ export function UserProfileForm() {
                         />
                     </div>
 
-                    <div>
+                    <div id="profilePrivateCheckbox">
                         <label htmlFor="isPrivate">Private Profile</label>
                         <input
                             type="checkbox"
