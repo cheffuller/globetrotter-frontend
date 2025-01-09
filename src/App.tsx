@@ -22,53 +22,56 @@ import EditTravelPlanPage from './pages/travelplan/EditTravelPlanPage';
 import TravelPlanDetail from './components/plan-detail/TravelPlanDetailManagement';
 import { UserProfileView } from './pages/userprofile/view/UserProfileView';
 import { AuthProvider } from './common/AuthContext';
+import { TravelPlanProvider } from './components/travelplan/TravelPlanContext';
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <AuthProvider>
-          <NavBarManagement />
-          <Routes>
-            <Route path={ROOT_URL} element={<HomePage />} />
-            <Route
-              path={REGISTER_URL}
-              element={<UnauthenticatedRoute element={<RegisterPage />} />}
-            />
-            <Route
-              path={LOGIN_URL}
-              element={<UnauthenticatedRoute element={<LoginPage />} />}
-            />
-            {/* Private Route Functionality now works, user must be logged in to visit pages below */}
-            <Route
-              path={HOME_URL}
-              element={<HomePage />}
-            />
-            <Route
-              path={USER_PROFILE_FORM_URL}
-              element={<PrivateRoute element={<UserProfileForm />} />}
-            />
-            <Route
-              path={USER_PROFILE_VIEW_URL()}
-              element={<PrivateRoute element={<UserProfileView />} />}
-            />
-            <Route
-              path={TRAVEL_PLAN_URL}
-              element={<PrivateRoute element={<TravelPlanPage />} />}
-            />
-            <Route
-              path={TRAVEL_PLAN_URL + '/management'}
-              element={<PrivateRoute element={<UserTravelPlanPage />} />}
-            />
-            <Route
-              path={TRAVEL_PLAN_URL + '/edit'}
-              element={<PrivateRoute element={<EditTravelPlanPage />} />}
-            />
-            <Route
-              path={TRAVEL_PLAN_URL + '/detail'}
-              element={<PrivateRoute element={<TravelPlanDetail />} />}
-            />
-          </Routes>
+          <TravelPlanProvider>
+            <NavBarManagement />
+            <Routes>
+              <Route path={ROOT_URL} element={<HomePage />} />
+              <Route
+                path={REGISTER_URL}
+                element={<UnauthenticatedRoute element={<RegisterPage />} />}
+              />
+              <Route
+                path={LOGIN_URL}
+                element={<UnauthenticatedRoute element={<LoginPage />} />}
+              />
+              {/* Private Route Functionality now works, user must be logged in to visit pages below */}
+              <Route
+                path={HOME_URL}
+                element={<HomePage />}
+              />
+              <Route
+                path={USER_PROFILE_FORM_URL}
+                element={<PrivateRoute element={<UserProfileForm />} />}
+              />
+              <Route
+                path={USER_PROFILE_VIEW_URL()}
+                element={<PrivateRoute element={<UserProfileView />} />}
+              />
+              <Route
+                path={TRAVEL_PLAN_URL}
+                element={<PrivateRoute element={<TravelPlanPage />} />}
+              />
+              <Route
+                path={TRAVEL_PLAN_URL + '/management'}
+                element={<PrivateRoute element={<UserTravelPlanPage />} />}
+              />
+              <Route
+                path={TRAVEL_PLAN_URL + '/edit'}
+                element={<PrivateRoute element={<EditTravelPlanPage />} />}
+              />
+              <Route
+                path={TRAVEL_PLAN_URL + '/detail'}
+                element={<PrivateRoute element={<TravelPlanDetail />} />}
+              />
+            </Routes>
+          </TravelPlanProvider>
         </AuthProvider>
       </BrowserRouter>
     </>

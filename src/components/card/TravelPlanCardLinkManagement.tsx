@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavLink, useLocation } from 'react-router-dom';
 import TravelPlanCardRandomImage from './TravelPlanCardRandomImage/TravelPlanCardRandomImage';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { TravelPlanDetail } from '../../interfaces/TravelPlanDetail';
+import { TravelPlanContext } from '../travelplan/TravelPlanContext';
 
 type TravelPlanCardLinkManagementProps = {
   travelPlan: TravelPlanDetail;
@@ -12,6 +13,11 @@ type TravelPlanCardLinkManagementProps = {
 const TravelPlanCardLinkManagement = ({travelPlan, index}: TravelPlanCardLinkManagementProps) => {
 
     const location = useLocation();
+    const planContext = useContext(TravelPlanContext);
+    if(!planContext) {
+        throw new Error("Travel Plan Context is null");
+    }
+    const { setTravelPlan } = planContext;
 
     const HandleLink = () => {
       if (location.pathname == '/travel-plan/detail') {
@@ -22,7 +28,8 @@ const TravelPlanCardLinkManagement = ({travelPlan, index}: TravelPlanCardLinkMan
         return (
           <NavLink
           to={`${TRAVEL_PLAN_URL}/detail`}
-          state={{ travelPlan: travelPlan }}
+          // state={{ travelPlan: travelPlan }}
+          onClick={() => setTravelPlan(travelPlan)}
         >
           <TravelPlanCardRandomImage index={index} />
         </NavLink>

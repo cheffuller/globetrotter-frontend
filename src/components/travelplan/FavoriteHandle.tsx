@@ -6,14 +6,19 @@ interface FavoriteButtonProps {
 }
 
 const FavoriteHandle : React.FC<FavoriteButtonProps> = ({ isFavorited, onToggleFavorite }) => {
-    const handleClick = () => {
-        onToggleFavorite(!isFavorited);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        onToggleFavorite(e.target.checked);
     };
 
   return (
-    <button onClick={handleClick} className={isFavorited ? 'btn btn-outline-warning' : 'btn btn-warning'}>
-        {isFavorited ? 'Unfavorite' : 'Favorite'}
-    </button>
+    <label>
+        <input
+            type="checkbox"
+            checked={isFavorited}
+            onChange={handleChange}
+        />
+        {isFavorited ? "Favorited" : "Not Favorited"}
+      </label>
 
   )
 }

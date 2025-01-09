@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { addTravelPlanLocation, createNewTravelPlan, createPost } from '../../components/travelplan/TravelPlanService';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/HttpErrors';
 import { useNavigate } from 'react-router-dom';
@@ -6,16 +6,23 @@ import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { getAccountId } from '../../common/AuthService';
 import { useLocationManagement } from '../../components/travelplan/LocationManagement';
 import FavoriteHandle from '../../components/travelplan/FavoriteHandle';
+import { TravelPlanContext } from '../../components/travelplan/TravelPlanContext';
 
 function TravelPlanPage() {
+    const planContext = useContext(TravelPlanContext);
+        if(!planContext) {
+            throw new Error("Travel Plan Context is null");
+        }
+    const { setTravelPlan, clearTravelPlan } = planContext;
+
+    useEffect(() => {
+        clearTravelPlan(); // Clear the context before creating a new travel plan
+    }, []);
+
     const navigate = useNavigate();
     const { locations, addNewLocation, removeLocation, updateLocationField, setLocations, validateLocations } = useLocationManagement();
     const [favorited, setFavorited] = useState(false);
      
-    const handleFavoriteToggle = (favored: boolean) => {
-        setFavorited(favored);
-    };
-
     useEffect(() => {
         // Initialize with a default blank location if the locations array is empty
         if (locations.length === 0) {
@@ -63,7 +70,10 @@ function TravelPlanPage() {
             console.log("Travel Plan ID: ", travelPlanId);
             const travelPost = await createPost(travelPlanId);
 
-            navigate(`${TRAVEL_PLAN_URL}/edit`, { state: { travelPlanId } });
+            const travelPlan = {id: travelPlanId, accountId: accountID, isPublished: false, isFavorited: favorited};
+            setTravelPlan(travelPlan);
+
+            navigate(`${TRAVEL_PLAN_URL}/edit`);
         } catch (error : any) {
             switch (error) {
                 case BadRequestError:
@@ -230,7 +240,9 @@ function TravelPlanPage() {
                 </button>
                 <FavoriteHandle
                     isFavorited={favorited}
-                    onToggleFavorite={handleFavoriteToggle}
+                    onToggleFavorite={(favored) => {
+                        setFavorited(favored); // Update local state
+                    }}
                 />
             </form>
         </div>

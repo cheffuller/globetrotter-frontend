@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { createPost, deleteTravelPlan, deleteTravelPlanLocations, getTravelPlan, getTravelPlanLocations, updateTravelPlan, updateTravelPlanLocation } from '../../components/travelplan/TravelPlanService'
 import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/HttpErrors';
@@ -6,32 +6,46 @@ import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { TravelPlan } from '../../interfaces/TravelPlan';
 import { getAccountId } from '../../common/AuthService';
 import { useLocationManagement } from '../../components/travelplan/LocationManagement';
+import { TravelPlanContext } from '../../components/travelplan/TravelPlanContext';
+import FavoriteHandle from '../../components/travelplan/FavoriteHandle';
 
 function EditTravelPlanPage() {
-    const [travelPlan, setTravelPlan] = useState<TravelPlan | null>(null);
+    const planContext = useContext(TravelPlanContext);
+    if(!planContext) {
+        throw new Error("Travel Plan Context is null");
+    }
+    const { travelPlan, setTravelPlan, clearTravelPlan} = planContext;
+    
     const { locations, addNewLocation, removeLocation, updateLocationField, setLocations, validateLocations } = useLocationManagement();
     
     const navigate = useNavigate();
-    const loc = useLocation();
+    // const loc = useLocation();
 
-    const travelPlanId = loc.state.travelPlanId;
+    // const travelPlanId = loc.state.travelPlanId;
     useEffect(() => {
-        if(travelPlanId === null) {
-            navigate(`${TRAVEL_PLAN_URL}/management`);
-        }
+        return () => {
+            clearTravelPlan(); // Clear context when the component unmounts
+        };
+    }, []);
+
+    useEffect(() => {
+        // if(travelPlanId === null) {
+        //     navigate(`${TRAVEL_PLAN_URL}/management`);
+        // }
         const fetchLocations = async () => {
+            if (!travelPlan?.id) return;
             try {
-                const plan = await getTravelPlan(travelPlanId);
+                const plan = await getTravelPlan(travelPlan.id);
                 setTravelPlan(plan);
 
-                const locations = await getTravelPlanLocations(travelPlanId);
-                console.log(locations);
+                const locations = await getTravelPlanLocations(travelPlan.id);
 
                 const formattedLocations = locations.map(location => ({
                     ...location,
                     startDate: location.startDate,
                     endDate: location.endDate,
                 }));
+
                 setLocations(formattedLocations);
                 console.log(locations);
             } catch (error) {
@@ -49,7 +63,16 @@ function EditTravelPlanPage() {
         };
 
         fetchLocations();
-    }, [travelPlanId]);
+    }, [travelPlan?.id]);
+
+    const handleFavoriteToggle = (favored: boolean) => {
+        if (travelPlan) {
+            setTravelPlan({
+                ...travelPlan,
+                isFavorited: favored,
+            });
+        }
+    };
 
     async function publishPlan(event: any) { //might not need this parameter
         event.preventDefault();
@@ -65,9 +88,9 @@ function EditTravelPlanPage() {
             }
 
             const updatedTravelPlan = await updateTravelPlan({
-                id: travelPlanId,
+                id: travelPlan?.id,
                 accountId: accountID, // Replace with actual accountId from JWT
-                isFavorited: travelPlan?.isFavorited ?? false,
+                isFavorited: travelPlan?.isFavorited || false,
                 isPublished: false,
             });
 
@@ -81,7 +104,7 @@ function EditTravelPlanPage() {
 
             const updatedLocations = await updateTravelPlanLocation(updatedTravelPlan, payload);
             setLocations(updatedLocations);
-
+            
             navigate(`${TRAVEL_PLAN_URL}/management`);
         } catch (error: any) {
             switch (error) {
@@ -116,9 +139,9 @@ function EditTravelPlanPage() {
             }
 
             const updatedTravelPlan = await updateTravelPlan({
-                id: travelPlanId,
+                id: travelPlan?.id,
                 accountId: accountID, // Replace with actual accountId from JWT
-                isFavorited: travelPlan?.isFavorited ?? false,
+                isFavorited: travelPlan?.isFavorited || false,
                 isPublished: false,
             });
 
@@ -161,7 +184,7 @@ function EditTravelPlanPage() {
         event.preventDefault();
         
         try {
-            await deleteTravelPlan(travelPlanId); // Replace with actual travelPlanId
+            await deleteTravelPlan(travelPlan?.id!); // Replace with actual travelPlanId
             navigate(`${TRAVEL_PLAN_URL}/management`);
         } catch (error: any) {
             switch (error) {
@@ -265,6 +288,17 @@ function EditTravelPlanPage() {
                 >
                     Publish
                 </button>
+                <FavoriteHandle
+                    isFavorited={travelPlan?.isFavorited || false}
+                    onToggleFavorite={(favored) => {
+                        if (travelPlan) {
+                            setTravelPlan({
+                                ...travelPlan,
+                                isFavorited: favored,
+                            });
+                        }
+                    }}
+                />
                 <button
                     type="button"
                     className="btn btn-danger"
