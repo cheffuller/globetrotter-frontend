@@ -4,22 +4,21 @@ import { createPost, deleteTravelPlan, deleteTravelPlanLocations, getTravelPlan,
 import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/HttpErrors';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { TravelPlan } from '../../interfaces/TravelPlan';
-import { TravelPlanLocation } from '../../interfaces/TravelPlanLocation';
-import { addTravelPlanLocation } from '../../components/travelplan/TravelPlanService';
 import { getAccountId } from '../../common/AuthService';
-import { toUTCDate } from '../../components/travelplan/Handlers';
 import { useLocationManagement } from '../../components/travelplan/LocationManagement';
-import { clear } from 'console';
 
 function EditTravelPlanPage() {
     const [travelPlan, setTravelPlan] = useState<TravelPlan | null>(null);
-    const { locations, addNewLocation, removeLocation, updateLocationField, setLocations, removedLocations, clearRemovedLocations, validateLocations } = useLocationManagement();
-
+    const { locations, addNewLocation, removeLocation, updateLocationField, setLocations, validateLocations } = useLocationManagement();
+    
     const navigate = useNavigate();
     const loc = useLocation();
 
-    const travelPlanId = loc.state?.travelPlanId;
+    const travelPlanId = loc.state.travelPlanId;
     useEffect(() => {
+        if(travelPlanId === null) {
+            navigate(`${TRAVEL_PLAN_URL}/management`);
+        }
         const fetchLocations = async () => {
             try {
                 const plan = await getTravelPlan(travelPlanId);
@@ -61,42 +60,28 @@ function EditTravelPlanPage() {
                 throw new NotFoundError("Account not found.");
             }
 
-            validateLocations();
-            const travelPlanId = await updateTravelPlan({
-                id: travelPlan?.id, // Replace with actual travelPlanId
+            if(!validateLocations()) {
+                alert("Invalid location details.");
+            }
+
+            const updatedTravelPlan = await updateTravelPlan({
+                id: travelPlanId,
                 accountId: accountID, // Replace with actual accountId from JWT
-                isFavorited: false,
-                isPublished: true,
+                isFavorited: travelPlan?.isFavorited ?? false,
+                isPublished: false,
             });
 
-            for(const location of removedLocations) {
-                await deleteTravelPlanLocations(travelPlanId, location); //go to service class and create this function
-            }
-
-            for (const location of locations) { //changed this so that we could loop thhrough multiple locations
-                if(location.id === 0) {
-                    await addTravelPlanLocation({
-                        city: location.city,
-                        country: location.country,
-                        startDate: toUTCDate(location.startDate.toISOString()),
-                        endDate: toUTCDate(location.endDate.toISOString()),
-                        travelPlanId,
-                    });
-                } else {
-                    await updateTravelPlanLocation({
-                        id: location.id,
-                        city: location.city,
-                        country: location.country,
-                        startDate: toUTCDate(location.startDate.toISOString()),
-                        endDate: toUTCDate(location.endDate.toISOString()),
-                        travelPlanId,
-                    });
+            const payload = locations.map(location => {
+                if ((location.id ?? -1) <= -1) {
+                    const { id, ...rest } = location; // this is to remove the id field from the location object
+                    return rest;
                 }
-            }
+                return location;
+            });
 
-            const travelPost = await createPost(travelPlanId);
+            const updatedLocations = await updateTravelPlanLocation(updatedTravelPlan, payload);
+            setLocations(updatedLocations);
 
-            clearRemovedLocations();
             navigate(`${TRAVEL_PLAN_URL}/management`);
         } catch (error: any) {
             switch (error) {
@@ -126,40 +111,30 @@ function EditTravelPlanPage() {
                 throw new NotFoundError("Account not found.");
             }
 
-            validateLocations();
-            const travelPlanId = await updateTravelPlan({
-                id: travelPlan?.id,
+            if(!validateLocations()) {
+                alert("Invalid location details.");
+            }
+
+            const updatedTravelPlan = await updateTravelPlan({
+                id: travelPlanId,
                 accountId: accountID, // Replace with actual accountId from JWT
-                isFavorited: false,
+                isFavorited: travelPlan?.isFavorited ?? false,
                 isPublished: false,
             });
 
-            for(const location of removedLocations) {
-                await deleteTravelPlanLocations(travelPlanId, location); //go to service class and create this function
-            }
-
-            for (const locationIndex of locations) { //changed this so that we could loop thhrough multiple locations
-                if(locationIndex.id === 0) {
-                    await addTravelPlanLocation({
-                        city: locationIndex.city,
-                        country: locationIndex.country,
-                        startDate: toUTCDate(locationIndex.startDate.toISOString()),
-                        endDate: toUTCDate(locationIndex.endDate.toISOString()),
-                        travelPlanId,
-                    });
-                } else {
-                    await updateTravelPlanLocation({
-                        id: locationIndex.id,
-                        city: locationIndex.city,
-                        country: locationIndex.country,
-                        startDate: new Date(locationIndex.startDate),
-                        endDate: new Date(locationIndex.endDate),
-                        travelPlanId,
-                    });
+            const payload = locations.map(location => {
+                if ((location.id ?? -1) <= -1) {
+                    const { id, ...rest } = location; // this is to remove the id field from the location object
+                    return rest;
                 }
-            }
-
-            clearRemovedLocations();
+                return location;
+            });
+            
+            console.log("Sending locations to backend:", payload);
+            const updatedLocations = await updateTravelPlanLocation(updatedTravelPlan, payload);
+            console.log("Received locations from backend:", updatedLocations);
+            setLocations(updatedLocations);
+            console.log("Updated locations:", locations);
             navigate(`${TRAVEL_PLAN_URL}/management`);
         } catch (error: any) {
             switch (error) {
@@ -183,8 +158,10 @@ function EditTravelPlanPage() {
     }
 
     async function deletePlan(event: any) { //might not need this parameter
+        event.preventDefault();
+        
         try {
-            await deleteTravelPlan(loc.state?.travelPlanId); // Replace with actual travelPlanId
+            await deleteTravelPlan(travelPlanId); // Replace with actual travelPlanId
             navigate(`${TRAVEL_PLAN_URL}/management`);
         } catch (error: any) {
             switch (error) {
@@ -260,7 +237,7 @@ function EditTravelPlanPage() {
                             <button
                                 type="button"
                                 className="btn btn-danger"
-                                onClick={() => removeLocation(index)}
+                                onClick={() => removeLocation(location.id as number)}
                             >
                                 Remove Location
                             </button>

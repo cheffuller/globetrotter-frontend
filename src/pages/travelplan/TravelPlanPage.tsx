@@ -4,12 +4,17 @@ import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/Htt
 import { useNavigate } from 'react-router-dom';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { getAccountId } from '../../common/AuthService';
-import { toUTCDate } from '../../components/travelplan/Handlers';
 import { useLocationManagement } from '../../components/travelplan/LocationManagement';
+import FavoriteHandle from '../../components/travelplan/FavoriteHandle';
 
 function TravelPlanPage() {
     const navigate = useNavigate();
     const { locations, addNewLocation, removeLocation, updateLocationField, setLocations, validateLocations } = useLocationManagement();
+    const [favorited, setFavorited] = useState(false);
+     
+    const handleFavoriteToggle = (favored: boolean) => {
+        setFavorited(favored);
+    };
 
     useEffect(() => {
         // Initialize with a default blank location if the locations array is empty
@@ -36,10 +41,12 @@ function TravelPlanPage() {
                 throw new NotFoundError("Account not found.");
             }
             
-            validateLocations();
+            if(!validateLocations()) {
+                alert("Invalid travel plan details.");
+            }
             const travelPlanId = await createNewTravelPlan({
                 accountId: accountID, // Replace with actual accountId from JWT
-                isFavorited: false,
+                isFavorited: favorited,
                 isPublished: false,
             });
 
@@ -87,10 +94,13 @@ function TravelPlanPage() {
                 throw new NotFoundError("Account not found.");
             }
 
-            validateLocations();
+            if(!validateLocations()) {
+                alert("Invalid travel plan details.");
+            }
+
             const travelPlanId = await createNewTravelPlan({
                 accountId: accountID, // Replace with actual accountId from JWT
-                isFavorited: false,
+                isFavorited: favorited,
                 isPublished: true,
             });
 
@@ -186,7 +196,7 @@ function TravelPlanPage() {
                                 required
                             />
                         </div>
-                        {location.id as number > 0 && (
+                        {index > 0 && (
                             <button
                                 type="button"
                                 className="btn btn-danger"
@@ -218,6 +228,10 @@ function TravelPlanPage() {
                 >
                     Publish
                 </button>
+                <FavoriteHandle
+                    isFavorited={favorited}
+                    onToggleFavorite={handleFavoriteToggle}
+                />
             </form>
         </div>
     );

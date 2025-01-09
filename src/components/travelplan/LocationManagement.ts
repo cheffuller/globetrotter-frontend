@@ -3,10 +3,9 @@ import { TravelPlanLocation } from '../../interfaces/TravelPlanLocation';
 
 export function useLocationManagement(initialLocations: TravelPlanLocation[] = []) {
   const [locations, setLocations] = useState<TravelPlanLocation[]>(initialLocations);
-  const [removedLocations, setRemovedLocations] = useState<number[]>([]);
 
   const addNewLocation = () => {
-    const newId = locations.length > 0 ? Math.min(...locations.map(loc => loc.id ?? 0)) - 1 : -1;
+    const newId = locations.length > 0 ? Math.min(...locations.map(loc => loc.id ?? 0), 0) - 1 : -1;
     setLocations([
       ...locations,
       {
@@ -21,7 +20,6 @@ export function useLocationManagement(initialLocations: TravelPlanLocation[] = [
   };
 
   const removeLocation = (id: number) => {
-    if (id > 0) setRemovedLocations([...removedLocations, id]);
     setLocations(locations.filter(location => location.id !== id));
   };
 
@@ -29,10 +27,6 @@ export function useLocationManagement(initialLocations: TravelPlanLocation[] = [
     setLocations(
       locations.map(location => (location.id === id ? { ...location, [field]: value } : location))
     );
-  };
-
-  const clearRemovedLocations = () => {
-    setRemovedLocations([]);
   };
 
   const validateLocations = () => {
@@ -48,5 +42,5 @@ export function useLocationManagement(initialLocations: TravelPlanLocation[] = [
     return true;
   }
 
-  return { locations, setLocations, removedLocations, addNewLocation, removeLocation, updateLocationField, clearRemovedLocations, validateLocations };
+  return { locations, setLocations, addNewLocation, removeLocation, updateLocationField, validateLocations };
 }
