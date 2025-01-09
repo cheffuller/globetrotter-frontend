@@ -9,6 +9,7 @@ import TravelPlanCardLinkManagement from './TravelPlanCardLinkManagement';
 import { isAuthenticated } from '../../common/AuthService';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { TravelPlanDetail } from '../../interfaces/TravelPlanDetail';
+import GetWeather from '../APIComponents/GetWeather';
 
 export type TravelPlanCardProps = {
   travelPlan: TravelPlanDetail;
@@ -29,6 +30,7 @@ const TravelPlanCard = ({
           <TravelPlanCardLinkManagement travelPlan={travelPlan} index={index} />
           <Card.Body className='d-flex flex-column'>
             <TravelPlanCardLocationManagement travelPlan={travelPlan} />
+            <GetWeather travelPlan={travelPlan} />
             <Card.Subtitle>
               <TravelPlanCardUsernameManagement
                 username={travelPlan.post.username}
