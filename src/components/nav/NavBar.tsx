@@ -1,16 +1,28 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { LOGIN_URL, REGISTER_URL, ROOT_URL, TRAVEL_PLAN_MANAGEMENT_URL, TRAVEL_PLAN_URL, USER_PROFILE_FORM_URL, USER_PROFILE_VIEW_URL } from '../../consts/PageUrls';
 import {
+    Button,
+    Col,
     Container,
+    Form,
     Nav,
     Navbar,
     NavDropdown,
+    Row,
 } from 'react-bootstrap';
 import { useAuth } from '../../common/AuthContext';
 import { getUsernameFromJwt } from '../../utils/LocalStorageUtils';
+import { useRef, useState } from 'react';
 
 const NavBar = () => {
     const { isLoggedIn, logout } = useAuth();
+    const navigate = useNavigate();
+    const [username, setUsername] = useState<string>("");
+
+    function searchUser(event: any) {
+        event.preventDefault();
+        navigate(USER_PROFILE_VIEW_URL(username));
+    }
 
     return (
         <Navbar expand='md' className='navbar-custom' variant="dark">
@@ -45,7 +57,26 @@ const NavBar = () => {
                         </>
                         }
                     </Nav>
-                    
+
+                    <Form onSubmit={searchUser}>
+                        <Row>
+                            <Col xs='auto'>
+                                <Form.Control
+                                    type='text'
+                                    placeholder='Username'
+                                    className=' mr-sm-2'
+                                    onChange={e => setUsername(e.target.value)}
+                                />
+                            </Col>
+                            <Col xs='auto'>
+                                <Button
+                                    type="submit"
+                                    className='search'>
+                                    Search
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Form>
                 </Navbar.Collapse>
                 <Navbar.Brand className='navbar-brand'></Navbar.Brand>
             </Container>

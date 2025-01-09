@@ -19,7 +19,7 @@ export function UserProfileView() {
 
     useEffect(() => {
         loadProfile();
-    }, []);
+    }, [username]);
 
     async function loadProfile() {
         try {
