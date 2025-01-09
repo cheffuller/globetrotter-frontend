@@ -7,7 +7,6 @@ import { getJwtToken } from '../../common/AuthService';
 import { getAccountId } from '../../common/AuthService';
 import UserTravelPlan from './UserTravelPlan';
 
-
 //as a user i should be able to manage my travel plans
 //in here i can either go to this page manually or be redirected here after creating a travel plan draft
 //in this page i should be able to see all my travel plans

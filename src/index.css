@@ -12,8 +12,21 @@ code {
     monospace;
 }
 
-.navbar-custom {
+.navbar-custom, .navbar-custom:active {
+  --bs-navbar-color: white;
+  --bs-navbar-active-color: white;
+  --bs-navbar-hover-color: #d5896f;
+  --bs-navbar-brand-hover-color: #d5896f;
   background-color: #04395e;
+}
+
+.navbar-toggler {
+  margin-right: 0;
+  padding: 0;
+}
+
+.navbar-brand {
+  width: 15%;
 }
 
 .navbar-brand,
@@ -70,16 +83,23 @@ code {
   background-color: #f0f0f0;
 }
 
-.login button {
+.login button,
+.delete-button {
   color: white;
   background-color: #04395e;
   border-color: #04395e;
 }
 
-.login button:hover {
+.login button:hover,
+.delete-button:hover {
   color: #d5896f;
   background-color: #031d44;
   border-color: #d5896f;
+}
+
+.delete-text {
+  color:#031d44;
+  font-weight: 500;
 }
 
 .d-block.w-100 {
@@ -232,7 +252,9 @@ code {
   font-size: 14px;
 }
 
-.comment-like {
+.comment-like,
+.edit-comment,
+.delete-comment {
   cursor: pointer;
 }
 
@@ -242,13 +264,15 @@ code {
   background-color: transparent;
 }
 
-.profile-link {
+.profile-link, .delete-comment {
   color: #031d44;
   text-decoration: none;
-  
 }
 
-.profile-link:hover {
+.profile-link:hover,
+.edit-comment:hover,
+.comment-like:hover,
+.delete-comment:hover {
   color: #D5896F;
 }
 

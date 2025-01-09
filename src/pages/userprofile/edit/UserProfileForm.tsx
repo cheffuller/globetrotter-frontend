@@ -53,38 +53,40 @@ export function UserProfileForm() {
 
     return <>
         <form>
-            <fieldset className="userProfileForm">
-                <div>
-                    <label htmlFor="displayName">Display Name</label>
-                    <input
-                        type="text"
-                        name="displayName"
-                        value={displayName}
-                        onChange={e => setDisplayName(e.target.value)}
+            <div className="userProfileContainer">
+                <fieldset className="userProfileForm">
+                    <div>
+                        <label htmlFor="displayName">Display Name</label>
+                        <input
+                            type="text"
+                            name="displayName"
+                            value={displayName}
+                            onChange={e => setDisplayName(e.target.value)}
+                        />
+                    </div>
+
+                    <div id="profilePrivateCheckbox">
+                        <label htmlFor="isPrivate">Private Profile</label>
+                        <input
+                            type="checkbox"
+                            name="isPrivate"
+                            checked={isPrivate}
+                            onChange={e => setIsPrivate(e.target.checked)}
+                        />
+                    </div>
+
+                    <label htmlFor="bio">Bio</label>
+                    <textarea
+                        name="bio"
+                        value={bio}
+                        onChange={e => setBio(e.target.value)}
                     />
-                </div>
 
-                <div>
-                    <label htmlFor="isPrivate">Private Profile</label>
-                    <input
-                        type="checkbox"
-                        name="isPrivate"
-                        checked={isPrivate}
-                        onChange={e => setIsPrivate(e.target.checked)}
-                    />
-                </div>
+                    {getResponseMessage()}
 
-                <label htmlFor="bio">Bio</label>
-                <textarea
-                    name="bio"
-                    value={bio}
-                    onChange={e => setBio(e.target.value)}
-                />
-
-                {getResponseMessage()}
-
-                <button onClick={saveProfile}>Save Profile</button>
-            </fieldset>
+                    <button onClick={saveProfile}>Save Profile</button>
+                </fieldset>
+            </div>
         </form>
     </>;
 }

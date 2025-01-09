@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { createPost, deleteTravelPlan, deleteTravelPlanLocations, getTravelPlan, getTravelPlanLocations, updateTravelPlan, updateTravelPlanLocation } from '../../components/travelplan/TravelPlanService'
 import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/HttpErrors';
@@ -23,10 +23,10 @@ function EditTravelPlanPage() {
             try {
                 const plan = await getTravelPlan(travelPlanId);
                 setTravelPlan(plan);
-    
+
                 const locations = await getTravelPlanLocations(travelPlanId);
                 console.log(locations);
-    
+
                 const formattedLocations = locations.map(location => ({
                     ...location,
                     startDate: location.startDate,
@@ -47,16 +47,16 @@ function EditTravelPlanPage() {
                 }
             }
         };
-    
+
         fetchLocations();
     }, [travelPlanId]);
-    
+
     async function publishPlan(event: any) { //might not need this parameter
         event.preventDefault();
 
-        try {   
+        try {
             const accountID = getAccountId();
-            if(accountID === null || accountID === undefined) {
+            if (accountID === null || accountID === undefined) {
                 throw new NotFoundError("Account not found.");
             }
 
@@ -107,7 +107,7 @@ function EditTravelPlanPage() {
     async function savePlan(event: any) { //might not need this parameter
         try {
             const accountID = getAccountId();
-            if(accountID === null || accountID === undefined) {
+            if (accountID === null || accountID === undefined) {
                 throw new NotFoundError("Account not found.");
             }
 
@@ -171,13 +171,13 @@ function EditTravelPlanPage() {
                     // log them out and make them re-authenticate
                     break;
                 case Error:
-                    // server is unavailable.
+                // server is unavailable.
             }
         }
     }
 
-  return (
-    <div className="container">
+    return (
+        <div className="container">
             <form className="travel-plan-form p-3">
                 <h2>Edit your Travel Plan</h2>
                 {locations.map((location, index) => (
@@ -258,14 +258,14 @@ function EditTravelPlanPage() {
                 >
                     Save Draft
                 </button>
-                <button 
+                <button
                     type="button"
                     className="btn btn-primary"
                     onClick={e => publishPlan(e)}
                 >
                     Publish
                 </button>
-                <button 
+                <button
                     type="button"
                     className="btn btn-danger"
                     onClick={e => deletePlan(e)}
@@ -274,7 +274,7 @@ function EditTravelPlanPage() {
                 </button>
             </form>
         </div>
-  )
+    )
 }
 
 export default EditTravelPlanPage

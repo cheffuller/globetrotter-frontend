@@ -1,0 +1,44 @@
+.userProfileViewContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #031d44;
+}
+
+.userProfile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.753);
+}
+
+.userProfile h1 {
+    font-size: bold;
+    margin-bottom: 10px;
+    color: #000000;
+}
+
+.userProfile p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #5a5a5a;
+    text-align: center;
+}
+
+.userProfile button {
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #04395E;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.userProfile button:hover {
+    background-color: #011524;
+}

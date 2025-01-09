@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { addTravelPlanLocation, createNewTravelPlan, createPost } from '../../components/travelplan/TravelPlanService';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/HttpErrors';
 import { useNavigate } from 'react-router-dom';

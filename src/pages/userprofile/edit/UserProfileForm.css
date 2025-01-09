@@ -1,27 +1,73 @@
+.userProfileContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #031d44;
+}
 .userProfileForm {
-    border: 5px solid black;
-    width: 80%;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 40%;
     display: flex;
     flex-direction: column;
-    margin: 10px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.753);
 }
 
 .userProfileForm label {
-    margin: 0px 10px;
+    margin: 10px 0;
+    font-weight: bold;
 }
 
-.userProfileForm input {
-    margin: 10px 0px;
+.userProfileForm input,
+.userProfileForm textarea {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: calc(100% - 22px); /* Adjust width to account for padding and border */
 }
+
 
 .userProfileForm textarea {
-    margin: 0px 10px 10px 10px;
+    resize: vertical;
 }
 
+
 .userProfileForm button {
-    margin: 0px 10px 10px 10px;
+    width: 120px;
+    height: 50px;
+    border: none;
+    border-radius: 5px;
+    background-color: #04395E;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.userProfileForm button:hover {
+    background-color: #011524;
 }
 
 .userProfileForm p {
-    margin: 10px;
+    margin: 10px 0;
+    color: #666;
+}
+
+#profilePrivateCheckbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+#profilePrivateCheckbox label {
+    flex-shrink: 0;
+}
+
+#profilePrivateCheckbox input {
+    width: 50px;
+    flex-shrink: 0;
+    padding: 10px;
 }

@@ -30,7 +30,6 @@ const NewComment = ({
         />
       </Form>
       {commentContent && (
-        
         <div className='comment-card-foot'><div></div>{username}</div>
       )}
     </Card>
