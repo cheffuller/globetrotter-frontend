@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { createPost, deleteTravelPlan, deleteTravelPlanLocations, getTravelPlan, getTravelPlanLocations, updateTravelPlan, updateTravelPlanLocation } from '../../components/travelplan/TravelPlanService'
 import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/HttpErrors';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { TravelPlan } from '../../interfaces/TravelPlan';
-import { TravelPlanLocation } from '../../interfaces/TravelPlanLocation';
 import { addTravelPlanLocation } from '../../components/travelplan/TravelPlanService';
 import { getAccountId } from '../../common/AuthService';
 import { toUTCDate } from '../../components/travelplan/Handlers';
 import { useLocationManagement } from '../../components/travelplan/LocationManagement';
-import { clear } from 'console';
 
 function EditTravelPlanPage() {
     const [travelPlan, setTravelPlan] = useState<TravelPlan | null>(null);
@@ -24,10 +22,10 @@ function EditTravelPlanPage() {
             try {
                 const plan = await getTravelPlan(travelPlanId);
                 setTravelPlan(plan);
-    
+
                 const locations = await getTravelPlanLocations(travelPlanId);
                 console.log(locations);
-    
+
                 const formattedLocations = locations.map(location => ({
                     ...location,
                     startDate: location.startDate,
@@ -48,16 +46,16 @@ function EditTravelPlanPage() {
                 }
             }
         };
-    
+
         fetchLocations();
     }, [travelPlanId]);
-    
+
     async function publishPlan(event: any) { //might not need this parameter
         event.preventDefault();
 
-        try {   
+        try {
             const accountID = getAccountId();
-            if(accountID === null || accountID === undefined) {
+            if (accountID === null || accountID === undefined) {
                 throw new NotFoundError("Account not found.");
             }
 
@@ -69,12 +67,12 @@ function EditTravelPlanPage() {
                 isPublished: true,
             });
 
-            for(const location of removedLocations) {
+            for (const location of removedLocations) {
                 await deleteTravelPlanLocations(travelPlanId, location); //go to service class and create this function
             }
 
             for (const location of locations) { //changed this so that we could loop thhrough multiple locations
-                if(location.id === 0) {
+                if (location.id === 0) {
                     await addTravelPlanLocation({
                         city: location.city,
                         country: location.country,
@@ -122,7 +120,7 @@ function EditTravelPlanPage() {
     async function savePlan(event: any) { //might not need this parameter
         try {
             const accountID = getAccountId();
-            if(accountID === null || accountID === undefined) {
+            if (accountID === null || accountID === undefined) {
                 throw new NotFoundError("Account not found.");
             }
 
@@ -134,12 +132,12 @@ function EditTravelPlanPage() {
                 isPublished: false,
             });
 
-            for(const location of removedLocations) {
+            for (const location of removedLocations) {
                 await deleteTravelPlanLocations(travelPlanId, location); //go to service class and create this function
             }
 
             for (const locationIndex of locations) { //changed this so that we could loop thhrough multiple locations
-                if(locationIndex.id === 0) {
+                if (locationIndex.id === 0) {
                     await addTravelPlanLocation({
                         city: locationIndex.city,
                         country: locationIndex.country,
@@ -194,13 +192,13 @@ function EditTravelPlanPage() {
                     // log them out and make them re-authenticate
                     break;
                 case Error:
-                    // server is unavailable.
+                // server is unavailable.
             }
         }
     }
 
-  return (
-    <div className="container">
+    return (
+        <div className="container">
             <form className="travel-plan-form p-3">
                 <h2>Edit your Travel Plan</h2>
                 {locations.map((location, index) => (
@@ -281,14 +279,14 @@ function EditTravelPlanPage() {
                 >
                     Save Draft
                 </button>
-                <button 
+                <button
                     type="button"
                     className="btn btn-primary"
                     onClick={e => publishPlan(e)}
                 >
                     Publish
                 </button>
-                <button 
+                <button
                     type="button"
                     className="btn btn-danger"
                     onClick={e => deletePlan(e)}
@@ -297,7 +295,7 @@ function EditTravelPlanPage() {
                 </button>
             </form>
         </div>
-  )
+    )
 }
 
 export default EditTravelPlanPage

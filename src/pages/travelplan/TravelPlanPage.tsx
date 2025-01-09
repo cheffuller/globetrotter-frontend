@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { addTravelPlanLocation, createNewTravelPlan, createPost } from '../../components/travelplan/TravelPlanService';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/HttpErrors';
 import { useNavigate } from 'react-router-dom';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { getAccountId } from '../../common/AuthService';
-import { toUTCDate } from '../../components/travelplan/Handlers';
 import { useLocationManagement } from '../../components/travelplan/LocationManagement';
 
 function TravelPlanPage() {

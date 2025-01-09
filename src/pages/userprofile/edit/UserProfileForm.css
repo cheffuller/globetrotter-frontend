@@ -55,3 +55,19 @@
     margin: 10px 0;
     color: #666;
 }
+
+#profilePrivateCheckbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+#profilePrivateCheckbox label {
+    flex-shrink: 0;
+}
+
+#profilePrivateCheckbox input {
+    width: 50px;
+    flex-shrink: 0;
+    padding: 10px;
+}
