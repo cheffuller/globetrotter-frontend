@@ -23,6 +23,7 @@ export function UserProfileView() {
 
     async function loadProfile() {
         try {
+            setProfileFetched(false);
             startWaitingForResponse("Waiting for response from the server");
             const profile: UserProfile = await getProfileByUsernameRequest(username as string);
             const status: FollowingStatus = await getFollowingStatusRequest(username as string);
@@ -36,6 +37,9 @@ export function UserProfileView() {
             switch (error.status) {
                 case HttpStatusCode.NotFound:
                     stopWaitingAfterFailure("User not found.");
+                    break;
+                case HttpStatusCode.Unauthorized:
+                    stopWaitingAfterFailure("User is private.");
                     break;
                 default:
                     stopWaitingAfterFailure("Server is unavailable.");
@@ -62,16 +66,15 @@ export function UserProfileView() {
                 <div className="userProfile">
                     <h1>{displayName}</h1>
                     <p>{bio}</p>
-                    {username != getUsernameFromJwt() ? (
+                    {username != getUsernameFromJwt() &&
                         <button onClick={followOrUnfollowUser}>{isFollowing}</button>
-                    ) : (
-                        <> </>
-                    )}
+                    }
+                </div>
+            ) : (<>
+                <div className="userProfile">
                     {getResponseMessage()}
                 </div>
-            ) : (
-                <></>
-            )}
+            </>)}
         </div>
     </>;
 }
