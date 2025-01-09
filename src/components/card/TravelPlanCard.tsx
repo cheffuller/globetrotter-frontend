@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Card, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import TravelPlanCardLikeButtonManagement from './TravelPlanCardButtons/TravelPlanCardLikeButtonManagement';
@@ -9,6 +9,9 @@ import TravelPlanCardLinkManagement from './TravelPlanCardLinkManagement';
 import { isAuthenticated } from '../../common/AuthService';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { TravelPlanDetail } from '../../interfaces/TravelPlanDetail';
+import TravelPlanContext from '../travelplan/TravelPlanContext';
+import { clear } from 'console';
+import { normalize } from 'path';
 
 export type TravelPlanCardProps = {
   travelPlan: TravelPlanDetail;
@@ -21,7 +24,21 @@ const TravelPlanCard = ({
   index,
   numberOfCommentsProps,
 }: TravelPlanCardProps) => {
-
+  const planContext = useContext(TravelPlanContext);
+  if(!planContext) {
+      throw new Error("Travel Plan Context is null");
+  }
+  const { setTravelPlan, clearTravelPlan } = planContext;
+  const handleEditClick = () => {
+    clearTravelPlan(); // Clear the travel plan in the context
+    const normalizedTravelPlan = {
+      id: travelPlan.id,
+      accountId: travelPlan.accountId,
+      isFavorited: travelPlan.isFavorited,
+      isPublished: travelPlan.isPublished,
+    };
+    setTravelPlan(normalizedTravelPlan); // Set the travel plan in the context
+  };
   return (
     <>
       <Col className='d-flex align-items-stretch mb-5'>
@@ -51,6 +68,7 @@ const TravelPlanCard = ({
                   <Link
                     to={`${TRAVEL_PLAN_URL}/edit`}
                     className='edit-link'
+                    onClick={handleEditClick}
                     state={{ travelPlanId: travelPlan.id }}
                   >
                     Edit/Publish<br/>Travel Plan
