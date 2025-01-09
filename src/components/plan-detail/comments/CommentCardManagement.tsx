@@ -4,6 +4,7 @@ import { axiosPrivate } from '../../../common/axiosPrivate';
 import { API_ROOT_URL } from '../../../consts/ApiUrl';
 import CommentCard from './CommentCard';
 import EditCommentManagement from './EditCommentManagement';
+import DeleteCommentModal from './DeleteCommentModal';
 
 type CommentCardManagementProps = {
   comment: Comment;
@@ -11,11 +12,17 @@ type CommentCardManagementProps = {
   setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
 };
 
-const CommentCardManagement = ({ comment, comments, setComments }: CommentCardManagementProps) => {
+const CommentCardManagement = ({
+  comment,
+  comments,
+  setComments,
+}: CommentCardManagementProps) => {
   const [likeToggle, setLikeToggle] = useState<boolean>(false);
   const [numberOfLikesOnComment, setNumberOfLikesOnComment] =
     useState<number>(0);
   const [editCommentToggle, setEditCommentToggle] = useState<boolean>(false);
+  const [deleteCommentToggle, setDeleteCommentToggle] =
+    useState<boolean>(false);
 
   useEffect(() => {
     const fetchNumberOfLikesOnComment = async () => {
@@ -48,7 +55,7 @@ const CommentCardManagement = ({ comment, comments, setComments }: CommentCardMa
     fetchLikeToggle();
   }, [comment.id]);
 
-  const handleClick = async () => {
+  const handleLikeClick = async () => {
     try {
       if (!likeToggle) {
         await axiosPrivate.post(`${API_ROOT_URL}comments/${comment.id}/likes`);
@@ -69,15 +76,25 @@ const CommentCardManagement = ({ comment, comments, setComments }: CommentCardMa
   return (
     <>
       {!editCommentToggle ? (
-        <CommentCard
-          comment={comment}
-          likeToggle={likeToggle}
-          numberOfLikesOnComment={numberOfLikesOnComment}
-          handleClick={handleClick}
-          setEditCommentToggle={setEditCommentToggle}
-        />
+        <>
+          <CommentCard
+            comment={comment}
+            likeToggle={likeToggle}
+            numberOfLikesOnComment={numberOfLikesOnComment}
+            handleLikeClick={handleLikeClick}
+            setEditCommentToggle={setEditCommentToggle}
+            setDeleteCommentToggle={setDeleteCommentToggle}
+          />
+          <DeleteCommentModal
+            deleteCommentToggle={deleteCommentToggle}
+            setDeleteCommentToggle={setDeleteCommentToggle}
+            commentId={comment.id}
+            comments={comments}
+            setComments={setComments}
+          />
+        </>
       ) : (
-        <EditCommentManagement 
+        <EditCommentManagement
           comment={comment}
           comments={comments}
           setComments={setComments}

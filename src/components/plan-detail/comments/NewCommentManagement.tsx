@@ -24,7 +24,6 @@ const NewCommentManagement = ({
     event.preventDefault();
     const newComment = {
       postId: postId,
-      commentedDate: new Date(),
       content: commentContent,
       username: username
     };

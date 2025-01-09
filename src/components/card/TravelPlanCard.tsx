@@ -6,10 +6,9 @@ import TravelPlanCardCommentButtonManagement from './TravelPlanCardButtons/Trave
 import TravelPlanCardUsernameManagement from './TravelPlanCardUsername/TravelPlanCardUsernameManagement';
 import TravelPlanCardLocationManagement from './TravelPlanCardLocation/TravelPlanCardLocationManagement';
 import TravelPlanCardLinkManagement from './TravelPlanCardLinkManagement';
-import { isAuthenticated, isModerator } from '../../common/AuthService';
+import { isAuthenticated } from '../../common/AuthService';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { TravelPlanDetail } from '../../interfaces/TravelPlanDetail';
-
 
 export type TravelPlanCardProps = {
   travelPlan: TravelPlanDetail;
@@ -22,7 +21,6 @@ const TravelPlanCard = ({
   index,
   numberOfCommentsProps,
 }: TravelPlanCardProps) => {
-  const isLoggedIn = isAuthenticated();
 
   return (
     <>
@@ -38,7 +36,7 @@ const TravelPlanCard = ({
             </Card.Subtitle>
             <br />
             <Card.Footer className='travel-card-footer'>
-              {travelPlan.isPublished && isLoggedIn && (
+              {travelPlan.isPublished && isAuthenticated() && (
                 <>
                   <TravelPlanCardLikeButtonManagement
                     travelPlan={travelPlan}
