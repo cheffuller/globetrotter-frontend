@@ -302,8 +302,3 @@ code {
   transition: transform 0.2s ease, color 0.2s ease;
 }
 
-/* .hide-checkbox:checked + i {
-  transform: scale(1.2); /* Add a zoom effect */
-/* } */ 
-
-

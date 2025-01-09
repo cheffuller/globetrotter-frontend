@@ -7,6 +7,7 @@ import { getAccountId } from '../../common/AuthService';
 import { useLocationManagement } from '../../components/travelplan/LocationManagement';
 import FavoriteHandle from '../../components/travelplan/FavoriteHandle';
 import { TravelPlanContext } from '../../components/travelplan/TravelPlanContext';
+import { useAuth } from '../../common/AuthContext';
 
 function TravelPlanPage() {
     const planContext = useContext(TravelPlanContext);
@@ -14,6 +15,7 @@ function TravelPlanPage() {
             throw new Error("Travel Plan Context is null");
         }
     const { setTravelPlan, clearTravelPlan } = planContext;
+    const { logout } = useAuth();
 
     useEffect(() => {
         clearTravelPlan(); // Clear the context before creating a new travel plan
@@ -31,8 +33,8 @@ function TravelPlanPage() {
               id: -1, // Temporary ID for new locations
               city: '',
               country: '',
-              startDate: new Date(), // Today's date
-              endDate: new Date(), // Today's date
+              startDate: new Date(), 
+              endDate: new Date(), 
               travelPlanId: 0, // Will be set when saved
             },
           ]);
@@ -52,12 +54,12 @@ function TravelPlanPage() {
                 alert("Invalid travel plan details.");
             }
             const travelPlanId = await createNewTravelPlan({
-                accountId: accountID, // Replace with actual accountId from JWT
+                accountId: accountID, 
                 isFavorited: favorited,
                 isPublished: false,
             });
 
-            for (const location of locations) { //changed this so that we could loop thhrough multiple locations
+            for (const location of locations) { 
                 await addTravelPlanLocation({
                     city: location.city,
                     country: location.country,
@@ -67,8 +69,7 @@ function TravelPlanPage() {
                 });
             }
 
-            console.log("Travel Plan ID: ", travelPlanId);
-            const travelPost = await createPost(travelPlanId);
+            await createPost(travelPlanId);
 
             const travelPlan = {id: travelPlanId, accountId: accountID, isPublished: false, isFavorited: favorited};
             setTravelPlan(travelPlan);
@@ -78,15 +79,20 @@ function TravelPlanPage() {
             switch (error) {
                 case BadRequestError:
                     // custom logic: tell the user they put in invalid data
+                    alert("Invalid travel plan details.");
                     break;
                 case NotFoundError:
                     // their jwt token is invalid because we get the account id from the jwt token.
                     // e.g. their account got banned
                     // log them out and make them re-authenticate
+                    alert("User not found. Please log in again.");
+                    logout();
                     break;
                 case ForbiddenError:
                     // their jwt token is invalid. their jwt expired
                     // log them out and make them re-authenticate
+                    alert("Login expired. Please log in again.");
+                    logout();
                     break;
                 case Error:
                     // server is unavailable.
@@ -109,7 +115,7 @@ function TravelPlanPage() {
             }
 
             const travelPlanId = await createNewTravelPlan({
-                accountId: accountID, // Replace with actual accountId from JWT
+                accountId: accountID, 
                 isFavorited: favorited,
                 isPublished: true,
             });
@@ -118,28 +124,33 @@ function TravelPlanPage() {
                 await addTravelPlanLocation({
                     city: location.city,
                     country: location.country,
-                    startDate: location.startDate, //make sure to look at if this affects post by make date null
+                    startDate: location.startDate, 
                     endDate: location.endDate,
                     travelPlanId,
                 });
             }
 
-            const travelPost = await createPost(travelPlanId);
+            await createPost(travelPlanId);
 
             navigate(`${TRAVEL_PLAN_URL}/management`);
         } catch (error: any) {
             switch (error) {
                 case BadRequestError:
                     // custom logic: tell the user they put in invalid data
+                    alert("Invalid travel plan details.");
                     break;
                 case NotFoundError:
                     // their jwt token is invalid because we get the account id from the jwt token.
                     // e.g. their account got banned
                     // log them out and make them re-authenticate
+                    alert("User not found. Please log in again.");
+                    logout();   
                     break;
                 case ForbiddenError:
                     // their jwt token is invalid. their jwt expired
                     // log them out and make them re-authenticate
+                    alert("Login expired. Please log in again.");
+                    logout();
                     break;
                 case Error:
                     // server is unavailable.
@@ -148,7 +159,6 @@ function TravelPlanPage() {
         }
     }
     
-
     return (
         <div className="container">
             <form className="travel-plan-form p-3">
@@ -241,7 +251,7 @@ function TravelPlanPage() {
                 <FavoriteHandle
                     isFavorited={favorited}
                     onToggleFavorite={(favored) => {
-                        setFavorited(favored); // Update local state
+                        setFavorited(favored); 
                     }}
                 />
             </form>

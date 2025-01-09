@@ -1,13 +1,13 @@
-import { useState, useEffect, useContext } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { createPost, deleteTravelPlan, deleteTravelPlanLocations, getTravelPlan, getTravelPlanLocations, updateTravelPlan, updateTravelPlanLocation } from '../../components/travelplan/TravelPlanService'
+import { useEffect, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { deleteTravelPlan, getTravelPlan, getTravelPlanLocations, updateTravelPlan, updateTravelPlanLocation } from '../../components/travelplan/TravelPlanService'
 import { BadRequestError, ForbiddenError, NotFoundError } from '../../errors/HttpErrors';
 import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
-import { TravelPlan } from '../../interfaces/TravelPlan';
 import { getAccountId } from '../../common/AuthService';
 import { useLocationManagement } from '../../components/travelplan/LocationManagement';
 import { TravelPlanContext } from '../../components/travelplan/TravelPlanContext';
 import FavoriteHandle from '../../components/travelplan/FavoriteHandle';
+import { useAuth } from '../../common/AuthContext';
 
 function EditTravelPlanPage() {
     const planContext = useContext(TravelPlanContext);
@@ -15,13 +15,12 @@ function EditTravelPlanPage() {
         throw new Error("Travel Plan Context is null");
     }
     const { travelPlan, setTravelPlan, clearTravelPlan} = planContext;
+    const { logout } = useAuth();
     
     const { locations, addNewLocation, removeLocation, updateLocationField, setLocations, validateLocations } = useLocationManagement();
     
     const navigate = useNavigate();
-    // const loc = useLocation();
 
-    // const travelPlanId = loc.state.travelPlanId;
     useEffect(() => {
         return () => {
             clearTravelPlan(); // Clear context when the component unmounts
@@ -29,9 +28,6 @@ function EditTravelPlanPage() {
     }, []);
 
     useEffect(() => {
-        // if(travelPlanId === null) {
-        //     navigate(`${TRAVEL_PLAN_URL}/management`);
-        // }
         const fetchLocations = async () => {
             if (!travelPlan?.id) return;
             try {
@@ -53,7 +49,8 @@ function EditTravelPlanPage() {
                     case NotFoundError:
                         // their jwt token is invalid because we get the account id from the jwt token.
                         // e.g. their account got banned
-                        // log them out and make them re-authenticate
+                        alert("User not found. Please log in again.");
+                        logout(); // log them out and make them re-authenticate
                         break;
                     case Error:
                         // server is unavailable.
@@ -65,7 +62,7 @@ function EditTravelPlanPage() {
         fetchLocations();
     }, [travelPlan?.id]);
 
-    async function publishPlan(event: any) { //might not need this parameter
+    async function publishPlan(event: any) { 
         event.preventDefault();
 
         try {
@@ -80,7 +77,7 @@ function EditTravelPlanPage() {
 
             const updatedTravelPlan = await updateTravelPlan({
                 id: travelPlan?.id,
-                accountId: accountID, // Replace with actual accountId from JWT
+                accountId: accountID, 
                 isFavorited: travelPlan?.isFavorited || false,
                 isPublished: true,
             });
@@ -100,16 +97,15 @@ function EditTravelPlanPage() {
         } catch (error: any) {
             switch (error) {
                 case BadRequestError:
-                    // custom logic: tell the user they put in invalid data
+                    alert("Invalid data. Please check your input.");
                     break;
                 case NotFoundError:
-                    // their jwt token is invalid because we get the account id from the jwt token.
-                    // e.g. their account got banned
-                    // log them out and make them re-authenticate
+                    alert("User not found. Please log in again.");
+                    logout(); // log them out and make them re-authenticate
                     break;
                 case ForbiddenError:
-                    // their jwt token is invalid. their jwt expired
-                    // log them out and make them re-authenticate
+                    alert("Login expired. Please log in again.");
+                    logout();
                     break;
                 case Error:
                     // server is unavailable.
@@ -118,7 +114,7 @@ function EditTravelPlanPage() {
         }
     }
 
-    async function savePlan(event: any) { //might not need this parameter
+    async function savePlan(event: any) {
         try {
             const accountID = getAccountId();
             if (accountID === null || accountID === undefined) {
@@ -131,7 +127,7 @@ function EditTravelPlanPage() {
 
             const updatedTravelPlan = await updateTravelPlan({
                 id: travelPlan?.id,
-                accountId: accountID, // Replace with actual accountId from JWT
+                accountId: accountID,
                 isFavorited: travelPlan?.isFavorited || false,
                 isPublished: false,
             });
@@ -154,15 +150,20 @@ function EditTravelPlanPage() {
             switch (error) {
                 case BadRequestError:
                     // custom logic: tell the user they put in invalid data
+                    alert("Invalid data. Please check your input.");
                     break;
                 case NotFoundError:
                     // their jwt token is invalid because we get the account id from the jwt token.
                     // e.g. their account got banned
                     // log them out and make them re-authenticate
+                    alert("User not found. Please log in again.");
+                    logout(); // log them out and make them re-authenticate
                     break;
                 case ForbiddenError:
                     // their jwt token is invalid. their jwt expired
                     // log them out and make them re-authenticate
+                    alert("Login expired. Please log in again.");
+                    logout();
                     break;
                 case Error:
                     // server is unavailable.
@@ -183,6 +184,8 @@ function EditTravelPlanPage() {
                     // their jwt token is invalid because we get the account id from the jwt token.
                     // e.g. their account got banned
                     // log them out and make them re-authenticate
+                    alert("User not found. Please log in again.");
+                    logout(); // log them out and make them re-authenticate
                     break;
                 case Error:
                 // server is unavailable.
