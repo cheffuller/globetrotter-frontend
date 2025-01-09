@@ -65,15 +65,6 @@ function EditTravelPlanPage() {
         fetchLocations();
     }, [travelPlan?.id]);
 
-    const handleFavoriteToggle = (favored: boolean) => {
-        if (travelPlan) {
-            setTravelPlan({
-                ...travelPlan,
-                isFavorited: favored,
-            });
-        }
-    };
-
     async function publishPlan(event: any) { //might not need this parameter
         event.preventDefault();
 
@@ -91,7 +82,7 @@ function EditTravelPlanPage() {
                 id: travelPlan?.id,
                 accountId: accountID, // Replace with actual accountId from JWT
                 isFavorited: travelPlan?.isFavorited || false,
-                isPublished: false,
+                isPublished: true,
             });
 
             const payload = locations.map(location => {
