@@ -28,9 +28,12 @@ const TravelPlanCardLinkManagement = ({travelPlan, index}: TravelPlanCardLinkMan
         return (
           <NavLink
           to={`${TRAVEL_PLAN_URL}/detail`}
-          // state={{ travelPlan: travelPlan }}
-          onClick={() => setTravelPlan(travelPlan)}
-        >
+          state={{ travelPlan: travelPlan }}
+          onClick={() => setTravelPlan({ id: travelPlan.id,
+            accountId: travelPlan.accountId,
+            isFavorited: travelPlan.isFavorited,
+            isPublished: travelPlan.isPublished })}
+          >
           <TravelPlanCardRandomImage index={index} />
         </NavLink>
         )

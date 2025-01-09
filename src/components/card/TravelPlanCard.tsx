@@ -69,7 +69,7 @@ const TravelPlanCard = ({
                     to={`${TRAVEL_PLAN_URL}/edit`}
                     className='edit-link'
                     onClick={handleEditClick}
-                    // state={{ travelPlanId: travelPlan.id }}
+                    state={{ travelPlanId: travelPlan.id }}
                   >
                     Edit/Publish<br/>Travel Plan
                   </Link>
