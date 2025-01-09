@@ -38,9 +38,6 @@ export function UserProfileView() {
                 case HttpStatusCode.NotFound:
                     stopWaitingAfterFailure("User not found.");
                     break;
-                case HttpStatusCode.Unauthorized:
-                    stopWaitingAfterFailure("User is private.");
-                    break;
                 default:
                     stopWaitingAfterFailure("Server is unavailable.");
             }
