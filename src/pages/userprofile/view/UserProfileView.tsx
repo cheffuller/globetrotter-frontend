@@ -19,10 +19,11 @@ export function UserProfileView() {
 
     useEffect(() => {
         loadProfile();
-    }, []);
+    }, [username]);
 
     async function loadProfile() {
         try {
+            setProfileFetched(false);
             startWaitingForResponse("Waiting for response from the server");
             const profile: UserProfile = await getProfileByUsernameRequest(username as string);
             const status: FollowingStatus = await getFollowingStatusRequest(username as string);
@@ -62,16 +63,15 @@ export function UserProfileView() {
                 <div className="userProfile">
                     <h1>{displayName}</h1>
                     <p>{bio}</p>
-                    {username != getUsernameFromJwt() ? (
+                    {username != getUsernameFromJwt() &&
                         <button onClick={followOrUnfollowUser}>{isFollowing}</button>
-                    ) : (
-                        <> </>
-                    )}
+                    }
+                </div>
+            ) : (<>
+                <div className="userProfile">
                     {getResponseMessage()}
                 </div>
-            ) : (
-                <></>
-            )}
+            </>)}
         </div>
     </>;
 }

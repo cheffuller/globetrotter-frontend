@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { axiosPrivate } from '../../common/axiosPrivate';
-import TravelPlanCard from '../card/TravelPlanCard';
 import { TravelPlan } from '../../interfaces/TravelPlan'
 import { API_ROOT_URL } from '../../consts/ApiUrl';
-import { getJwtToken } from '../../common/AuthService';
 import { getAccountId } from '../../common/AuthService';
 import UserTravelPlan from './UserTravelPlan';
 
