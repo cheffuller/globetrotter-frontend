@@ -6,3 +6,5 @@ export const HOME_URL = "/home";
 export const ROOT_URL = "/";
 export const USER_PROFILE_FORM_URL = "/profile/edit";
 export const USER_PROFILE_VIEW_URL = (username: string = ":username") => `profile/user/${username}`;
+export const PLAN_DETAIL_URL = "/detail";
+export const FOLLOWING_URL = "/following";

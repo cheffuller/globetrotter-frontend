@@ -9,10 +9,13 @@ import { useNavigate } from 'react-router-dom';
 import { HOME_URL } from '../../consts/PageUrls';
 import { AccountRole } from '../../enums/AccountRole';
 
-export function LoginForm() {
+type LoginFormProps = {
+    loginMode: AccountRole;
+}
+
+export function LoginForm({ loginMode }: LoginFormProps) {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [loginMode, setLoginMode] = useState<AccountRole>(AccountRole.User);
     const { startWaitingForResponse, stopWaitingAfterFailure, stopWaitingAfterSuccess, getResponseMessage } = ResponseMessage();
     const { login } = useAuth();
     const navigate = useNavigate();
@@ -47,24 +50,10 @@ export function LoginForm() {
         }
     };
 
-    function changeLoginMode() {
-        if (loginMode === AccountRole.User) {
-            setLoginMode(AccountRole.Moderator);
-        } else {
-            setLoginMode(AccountRole.User);
-        }
-    }
-
     return <>
-        <div className='container mt-5 text-center login'>
+        {/* <div className='container text-center login'> */}
             <Form onSubmit={handleLogin}>
-                <h4>
-                    {loginMode === AccountRole.User ?
-                        "User Login" :
-                        "Moderator Login"
-                    }
-                </h4>
-                <Form.Group className="mb-3" controlId="formUsername">
+                <Form.Group className="mb-3">
                     <Form.Label>Username</Form.Label>
                     <Form.Control
                         type="text"
@@ -73,7 +62,7 @@ export function LoginForm() {
                         onChange={(e) => setUsername(e.target.value)} />
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formPassword">
+                <Form.Group className="mb-3">
                     <Form.Label>Password</Form.Label>
                     <Form.Control
                         type="password"
@@ -84,16 +73,10 @@ export function LoginForm() {
 
                 {getResponseMessage()}
 
-                <Button variant="primary" type="submit" className="loginFormButton">
+                <Button variant="primary" type="submit" className="loginFormButton mt-4">
                     Login
                 </Button>
-                <Button onClick={changeLoginMode} className="loginFormButton">
-                    {loginMode === AccountRole.User ?
-                        "Switch to moderator login" :
-                        "Switch to user login"
-                    }
-                </Button>
             </Form>
-        </div>
+        {/* </div> */}
     </>;
 }
