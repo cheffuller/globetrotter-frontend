@@ -20,8 +20,9 @@ const FavoriteHandle : React.FC<FavoriteButtonProps> = ({ isFavorited, onToggleF
         className="hide-checkbox" // Hide the default checkbox
       />
       <i
+        title="favorite plan"
         className={`fa ${isFavorited ? 'fa-star' : 'fa-star-o'}`} // Use Font Awesome icons
-        style={{ color: isFavorited ? '#F8AB91' : '#ccc', fontSize: '24px' }}
+        style={{ color: isFavorited ? '#F8AB91' : '#ccc', fontSize: '36px' }}
       ></i>
     </label>
   )

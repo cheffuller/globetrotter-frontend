@@ -8,7 +8,7 @@ import TravelPlanCardUsernameManagement from './TravelPlanCardUsername/TravelPla
 import TravelPlanCardLocationManagement from './TravelPlanCardLocation/TravelPlanCardLocationManagement';
 import TravelPlanCardLinkManagement from './TravelPlanCardLinkManagement';
 import { isAuthenticated } from '../../common/AuthService';
-import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
+import { TRAVEL_PLAN_EDIT_URL, TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { TravelPlanDetail } from '../../interfaces/TravelPlanDetail';
 import TravelPlanContext from '../travelplan/TravelPlanContext';
 import { clear } from 'console';
@@ -29,7 +29,7 @@ const TravelPlanCard = ({
   const [travelPlanState, setTravelPlanState] = useState<TravelPlanDetail>(travelPlan);
   const location = useLocation();
   const travelPlanManagement: boolean =
-    location.pathname === '/travel-plan/management';
+    location.pathname === '/management';
 
   const planContext = useContext(TravelPlanContext);
   if(!planContext) {
@@ -79,10 +79,11 @@ const TravelPlanCard = ({
                   {!travelPlan.isPublished && <>Travel Plan saved as Draft</>}
                   <Button className='comment-button'>
                     <NavLink
-                      to={`${TRAVEL_PLAN_URL}/edit`}
+                      to={`${TRAVEL_PLAN_EDIT_URL}`}
                       className='edit-link'
                       title='Edit Travel Plan'
                       state={{ travelPlanId: travelPlanState.id }}
+                      onClick={handleEditClick}
                     >
                       <i className='fa edit-link mb-3'> &#xf044;</i>
                     </NavLink>
