@@ -10,6 +10,8 @@ import {
   TRAVEL_PLAN_URL,
   PLAN_DETAIL_URL,
   FOLLOWING_URL,
+  TRAVEL_PLAN_MANAGEMENT_URL,
+  TRAVEL_PLAN_EDIT_URL,
 } from './consts/PageUrls';
 import { PrivateRoute } from './components/routes/PrivateRoute';
 import { LoginPage } from './pages/login/LoginPage';
@@ -63,11 +65,11 @@ function App() {
                 element={<PrivateRoute element={<TravelPlanPage />} />}
               />
               <Route
-                path={TRAVEL_PLAN_URL + '/management'}
+                path={TRAVEL_PLAN_MANAGEMENT_URL}
                 element={<PrivateRoute element={<UserTravelPlanPage />} />}
               />
               <Route
-                path={TRAVEL_PLAN_URL + '/edit'}
+                path={TRAVEL_PLAN_EDIT_URL}
                 element={<PrivateRoute element={<EditTravelPlanPage />} />}
               />
             <Route
