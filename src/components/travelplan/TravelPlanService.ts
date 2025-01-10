@@ -50,8 +50,8 @@ export async function updateTravelPlan(data: TravelPlan): Promise<number> {
     return travelPlan.id as number;
 }
 
-export async function updateTravelPlanLocation(data: TravelPlanLocation) : Promise<TravelPlanLocation> {
-    const response = await axiosPrivate.put(API_ROOT_URL + `plans/${data.travelPlanId}/locations`, data);
+export async function updateTravelPlanLocation(travelPlanId: number, data: TravelPlanLocation[]) : Promise<TravelPlanLocation[]> {
+    const response = await axiosPrivate.put(API_ROOT_URL + `plans/${travelPlanId}/locations`, data);
 
     if(response.status === HttpStatusCode.BadRequest) {
         throw new BadRequestError("Invalid travel plan location details.");
@@ -59,8 +59,8 @@ export async function updateTravelPlanLocation(data: TravelPlanLocation) : Promi
         throw new NotFoundError("Travel plan not found.");
     } 
 
-    const travelPlanLocation: TravelPlanLocation = await response.data;
-    return travelPlanLocation;
+    const travelPlanLocations: TravelPlanLocation[] = await response.data;
+    return travelPlanLocations;
 }
 
 export async function deleteTravelPlan(id: number) : Promise<void> { // do we need to return a promise object here?
@@ -74,6 +74,7 @@ export async function deleteTravelPlan(id: number) : Promise<void> { // do we ne
 }
 
 export async function getTravelPlan(id: number) : Promise<TravelPlan> {
+    console.log("Plan ID being sent to backend ", id);
     const response = await axiosPrivate.get(API_ROOT_URL + `plans/${id}`);
 
     if (response.status === HttpStatusCode.NotFound) {

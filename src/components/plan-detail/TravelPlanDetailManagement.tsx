@@ -16,7 +16,7 @@ const TravelPlanDetailManagement = () => {
   return (
     <div className='container mt-5 row justify-content-center mx-auto' >
       <div className='col-12 col-sm-5 col-md-4 col-lg-3'>
-      {travelPlan && <TravelPlanCard travelPlan={travelPlan!} index={1} numberOfCommentsProps={comments.length} />}
+      {travelPlan && <TravelPlanCard travelPlan={travelPlan} index={1} numberOfCommentsProps={comments.length} />}
       </div>
       <div className='col-7'>
       {comments && <TravelPlanComments comments={comments} setComments={setComments} travelPlan={travelPlan} />}

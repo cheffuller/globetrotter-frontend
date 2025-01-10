@@ -1,5 +1,5 @@
-import "./LoginForm.css";
-import { useState } from 'react'
+import './LoginForm.css';
+import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { loginRequest } from './LoginService';
 import { ResponseMessage } from '../response-message/ResponseMessage';
@@ -9,91 +9,85 @@ import { useNavigate } from 'react-router-dom';
 import { HOME_URL } from '../../consts/PageUrls';
 import { AccountRole } from '../../enums/AccountRole';
 
-export function LoginForm() {
-    const [username, setUsername] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [loginMode, setLoginMode] = useState<AccountRole>(AccountRole.User);
-    const { startWaitingForResponse, stopWaitingAfterFailure, stopWaitingAfterSuccess, getResponseMessage } = ResponseMessage();
-    const { login } = useAuth();
-    const navigate = useNavigate();
+type LoginFormProps = {
+  loginMode: AccountRole;
+};
 
-    async function handleLogin(e: any) {
-        e.preventDefault();
+export function LoginForm({ loginMode }: LoginFormProps) {
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const {
+    startWaitingForResponse,
+    stopWaitingAfterFailure,
+    stopWaitingAfterSuccess,
+    getResponseMessage,
+  } = ResponseMessage();
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-        const credentials = {
-            accountRole: loginMode,
-            username: username,
-            password: password
-        };
+  async function handleLogin(e: any) {
+    e.preventDefault();
 
-        try {
-            startWaitingForResponse("Waiting for response from the server");
-            const jwtToken = await loginRequest(credentials);
-            stopWaitingAfterSuccess("Login successful.");
-            login(jwtToken);
-            navigate(HOME_URL);
-        } catch (error: any) {
-            switch (error.status) {
-                case HttpStatusCode.Unauthorized:
-                    stopWaitingAfterFailure("Invalid login credentials.");
-                    // send user to login and remove their current jwt
-                    break;
-                case HttpStatusCode.BadRequest:
-                    stopWaitingAfterFailure("Invalid user profile details.");
-                    break;
-                default:
-                    stopWaitingAfterFailure("Server is unavailable.");
-            }
-        }
+    const credentials = {
+      accountRole: loginMode,
+      username: username,
+      password: password,
     };
 
-    function changeLoginMode() {
-        if (loginMode === AccountRole.User) {
-            setLoginMode(AccountRole.Moderator);
-        } else {
-            setLoginMode(AccountRole.User);
-        }
+    try {
+      startWaitingForResponse('Waiting for response from the server');
+      const jwtToken = await loginRequest(credentials);
+      stopWaitingAfterSuccess('Login successful.');
+      login(jwtToken);
+      navigate(HOME_URL);
+    } catch (error: any) {
+      switch (error.status) {
+        case HttpStatusCode.Unauthorized:
+          stopWaitingAfterFailure('Invalid login credentials.');
+          // send user to login and remove their current jwt
+          break;
+        case HttpStatusCode.BadRequest:
+          stopWaitingAfterFailure('Invalid user profile details.');
+          break;
+        default:
+          stopWaitingAfterFailure('Server is unavailable.');
+      }
     }
+  }
 
-    return <>
-        <div className='container mt-5 text-center login'>
-            <Form onSubmit={handleLogin}>
-                <h4>
-                    {loginMode === AccountRole.User ?
-                        "User Login" :
-                        "Moderator Login"
-                    }
-                </h4>
-                <Form.Group className="mb-3" controlId="formUsername">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Enter username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)} />
-                </Form.Group>
+  return (
+    <>
+      <Form onSubmit={handleLogin}>
+        <Form.Group className='mb-3'>
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Enter username'
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Enter Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)} />
-                </Form.Group>
+        <Form.Group className='mb-3'>
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type='password'
+            placeholder='Enter Password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Form.Group>
 
-                {getResponseMessage()}
+        {getResponseMessage()}
 
-                <Button variant="primary" type="submit" className="loginFormButton">
-                    Login
-                </Button>
-                <Button onClick={changeLoginMode} className="loginFormButton">
-                    {loginMode === AccountRole.User ?
-                        "Switch to moderator login" :
-                        "Switch to user login"
-                    }
-                </Button>
-            </Form>
-        </div>
-    </>;
+        <Button
+          variant='primary'
+          type='submit'
+          className='loginFormButton mt-4'
+        >
+          Login
+        </Button>
+      </Form>
+    </>
+  );
 }

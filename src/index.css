@@ -13,10 +13,6 @@ code {
 }
 
 .navbar-custom, .navbar-custom:active {
-  --bs-navbar-color: white;
-  --bs-navbar-active-color: white;
-  --bs-navbar-hover-color: #d5896f;
-  --bs-navbar-brand-hover-color: #d5896f;
   background-color: #04395e;
 }
 
@@ -46,6 +42,43 @@ code {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.dropdown-menu {
+  --bs-dropdown-color: #212529;
+  --bs-dropdown-inner-border-radius: calc(1rem - 5px);
+  --bs-dropdown-divider-bg: #04395e;
+  --bs-dropdown-divider-margin-y: 2rem;
+  --bs-dropdown-link-color: #04395e;
+  --bs-dropdown-link-hover-color: #d5896f;
+  --bs-dropdown-link-hover-bg: white;
+  --bs-dropdown-link-active-color: white;
+  --bs-dropdown-link-active-bg: #d5896f;
+}
+
+
+a.dropdown-item {
+  background-color:white;
+  color:#04395e;
+}
+
+a.dropdown-item:active {
+  background-color:#d5896f;
+}
+
+.btn-primary {
+  background-color: #04395e;
+  margin:2px;
+}
+
+.btn-primary:active {
+  --bs-btn-active-bg: white;
+  --bs-btn-active-border-color: white;
+}
+
+.btn-primary:hover {
+  background-color: #04395e;
+  color:#d5896f;
+}
+
 .search {
   color: white;
   background-color: #04395e;
@@ -59,7 +92,7 @@ code {
 }
 
 .login {
-  width: 20rem;
+  min-width: 400px;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -73,7 +106,6 @@ code {
 }
 
 .login-background {
-  background-image: url('travel-images/ashim-d-silva-pGcqw1ARGyg-unsplash.jpg');
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -134,6 +166,11 @@ code {
   color: #D5896F;
 }
 
+i.edit-link {
+  font-size: 2rem;
+  font-weight: lighterbtn;
+}
+
 .like-button,
 .comment-button {
   font-size: 0.9rem;
@@ -141,11 +178,6 @@ code {
   background-color: white;
   border-color: white;
   padding-bottom: 0;
-}
-
-.btn-primary:active {
-  --bs-btn-active-bg: white;
-  --bs-btn-active-border-color: white;
 }
 
 .like-button:hover,
@@ -165,17 +197,29 @@ code {
   color: #dab785;
 }
 
-.travel-card-footer {
+.login-tab > li > button {
+  background-color:lightgray;
+  color:#031d44;
+  border-color:#f0f0f0;
+}
+
+.login-tab > li > button:hover {
+  background-color:lightgray;
+  color:#031d44;
+  border-color:#f0f0f0;
+}
+
+div.travel-card-footer.card-footer {
   background-color: white;
   padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .register-container {
   background-image: url('/src/travel-images/register-background-image/register-background.jpg');
   background-size: cover;
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
   height: 100vh;
   background-color: #f0f0f0;
@@ -285,3 +329,47 @@ code {
 #D5896F - reddish
 
 */
+
+.favorite-button {
+  margin-bottom: 5px;
+  margin-left: 5px;
+  display: inline-flex;
+  align-items: flex-end;
+  cursor: pointer;
+}
+
+.hide-checkbox {
+  display: none;
+}
+
+.favorite-button i {
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.profile-container,
+.travel-plan-container {
+  min-width: 300px;
+  max-width: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 5px;
+  padding: 10px;
+  border-color: #031d44;
+  color: #031d44;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.profile-background {
+  background-image: url('/src/travel-images/profile-bg-image.jpg');
+}
+
+.travel-plan-background {
+  background-image: url('/src/travel-images/travel-bg-image.jpg');
+}
+.profile-background, .travel-plan-background {
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f0f0f0;
+}

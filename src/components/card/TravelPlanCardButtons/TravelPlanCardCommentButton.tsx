@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import { TRAVEL_PLAN_URL } from '../../../consts/PageUrls';
+import { PLAN_DETAIL_URL } from '../../../consts/PageUrls';
 import { TravelPlanDetail } from '../../../interfaces/TravelPlanDetail';
 
 type TravelPlanCardCommentButtonProps = {
@@ -17,7 +17,7 @@ const TravelPlanCardCommentButton = ({
     <>
       <Button className='comment-button'>
         <NavLink className='comment-button'
-          to={`${TRAVEL_PLAN_URL}/detail`}
+          to={`${PLAN_DETAIL_URL}`}
           state={{ travelPlan: travelPlan }}
         >
           <i className='fa'>&#xf0e6;</i>
