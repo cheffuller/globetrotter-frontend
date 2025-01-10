@@ -11,6 +11,7 @@ import { ResponseMessage } from '../../../components/response-message/ResponseMe
 import { HttpStatusCode } from 'axios';
 import { getUsernameFromJwt } from '../../../utils/LocalStorageUtils';
 import { FollowingStatus } from '../../../enums/FollowingStatus';
+import { Button } from 'react-bootstrap';
 
 export function UserProfileView() {
   const { username } = useParams<string>();
@@ -80,10 +81,10 @@ export function UserProfileView() {
             <div className='text-center'>
           {profileFetched ? (
             <div className='userProfile'>
-              <h2>{displayName}</h2>
+              <h2 className='mt-2'>{displayName}</h2>
               <p className='mt-5'>{bio}</p>
               {username != getUsernameFromJwt() && (
-                <button onClick={followOrUnfollowUser}>{isFollowing}</button>
+                <Button onClick={followOrUnfollowUser}>{isFollowing}</Button>
               )}
             </div>
           ) : (

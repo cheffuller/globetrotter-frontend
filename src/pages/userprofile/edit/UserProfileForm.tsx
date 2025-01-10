@@ -11,7 +11,7 @@ import {
   getProfileByUsernameRequest,
   updateProfileRequest,
 } from '../UserProfileService';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, FormCheck } from 'react-bootstrap';
 
 export function UserProfileForm() {
   const [bio, setBio] = useState<string>('');
@@ -47,7 +47,6 @@ export function UserProfileForm() {
     };
 
     try {
-        console.log(profile);
       startWaitingForResponse('Waiting for response from the server');
       await updateProfileRequest(profile);
       stopWaitingAfterSuccess('User profile saved.');
@@ -69,7 +68,7 @@ export function UserProfileForm() {
   return (
     <div className='profile-background'>
       <div className='container mt-5 profile-container text-center'>
-        <h2>User Profile</h2>
+        <h2 className='mt-2'>User Profile</h2>
         <Form className='mt-3'>
           <Form.Group className='text-center'>
             <Form.Label htmlFor='displayName'>Display Name</Form.Label>
@@ -90,7 +89,7 @@ export function UserProfileForm() {
             />
 
             <Form.Label htmlFor='isPrivate' className='mt-3'>Private Profile</Form.Label>
-            <Form.Check
+            <FormCheck
               type='checkbox'
               name='isPrivate'
               checked={isPrivate}
