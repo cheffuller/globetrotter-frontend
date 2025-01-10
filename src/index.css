@@ -332,3 +332,20 @@ div.travel-card-footer.card-footer {
 #D5896F - reddish
 
 */
+
+.favorite-button {
+  margin-bottom: 5px;
+  margin-left: 5px;
+  display: inline-flex;
+  align-items: flex-end;
+  cursor: pointer;
+}
+
+.hide-checkbox {
+  display: none;
+}
+
+.favorite-button i {
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+

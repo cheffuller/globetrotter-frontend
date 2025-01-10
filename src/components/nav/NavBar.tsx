@@ -1,4 +1,5 @@
-import { NavLink } from 'react-router-dom';
+
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   FOLLOWING_URL,
   LOGIN_URL,
@@ -9,23 +10,41 @@ import {
   USER_PROFILE_FORM_URL,
   USER_PROFILE_VIEW_URL,
 } from '../../consts/PageUrls';
-import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import {
+    Button,
+    Col,
+    Container,
+    Form,
+    Nav,
+    Navbar,
+    NavDropdown,
+    Row,
+} from 'react-bootstrap';
+
 import { useAuth } from '../../common/AuthContext';
 import { getUsernameFromJwt } from '../../utils/LocalStorageUtils';
+import { useRef, useState } from 'react';
 
 const NavBar = () => {
-  const { isLoggedIn, logout } = useAuth();
+    const { isLoggedIn, logout } = useAuth();
+    const navigate = useNavigate();
+    const [username, setUsername] = useState<string>("");
 
-  return (
-    <Navbar expand='md' className='navbar-custom' variant='dark'>
-      <Container>
-        <Navbar.Brand as={NavLink} to={ROOT_URL} className='navbar-brand'>
-          GlobeTrotter
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls='basic-navbar-nav' />
-        <Navbar.Collapse id='basic-navbar-nav'>
-          <Nav className='ms-auto'>
-            {isLoggedIn ? (
+    function searchUser(event: any) {
+        event.preventDefault();
+        navigate(USER_PROFILE_VIEW_URL(username));
+    }
+
+    return (
+        <Navbar expand='md' className='navbar-custom' variant="dark">
+            <Container>
+                <Navbar.Brand as={NavLink} to={ROOT_URL} className='navbar-brand'>
+                    GlobeTrotter
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls='basic-navbar-nav' />
+                <Navbar.Collapse id='basic-navbar-nav'>
+                    <Nav className='m-auto'>
+                                    {isLoggedIn ? (
               <>
                 <NavDropdown
                   title={getUsernameFromJwt()}
@@ -64,11 +83,32 @@ const NavBar = () => {
                 </Nav.Link>
               </>
             )}
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
+                    </Nav>
+
+                    <Form onSubmit={searchUser}>
+                        <Row>
+                            <Col xs='auto'>
+                                <Form.Control
+                                    type='text'
+                                    placeholder='Username'
+                                    className=' mr-sm-2'
+                                    onChange={e => setUsername(e.target.value)}
+                                />
+                            </Col>
+                            <Col xs='auto'>
+                                <Button
+                                    type="submit"
+                                    className='search'>
+                                    Search
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Form>
+                </Navbar.Collapse>
+                <Navbar.Brand className='navbar-brand'></Navbar.Brand>
+            </Container>
+        </Navbar>
+    );
 };
 
 export default NavBar;
