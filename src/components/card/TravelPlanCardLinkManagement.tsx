@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink, useLocation } from 'react-router-dom';
 import TravelPlanCardRandomImage from './TravelPlanCardRandomImage/TravelPlanCardRandomImage';
-import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
+import { PLAN_DETAIL_URL } from '../../consts/PageUrls';
 import { TravelPlanDetail } from '../../interfaces/TravelPlanDetail';
 
 type TravelPlanCardLinkManagementProps = {
@@ -14,14 +14,14 @@ const TravelPlanCardLinkManagement = ({travelPlan, index}: TravelPlanCardLinkMan
     const location = useLocation();
 
     const HandleLink = () => {
-      if (location.pathname == '/travel-plan/detail') {
+      if (location.pathname == `${PLAN_DETAIL_URL}`) {
         return (
           <TravelPlanCardRandomImage index={index} />
         )
       } else {
         return (
           <NavLink
-          to={`${TRAVEL_PLAN_URL}/detail`}
+          to={`${PLAN_DETAIL_URL}`}
           state={{ travelPlan: travelPlan }}
         >
           <TravelPlanCardRandomImage index={index} />

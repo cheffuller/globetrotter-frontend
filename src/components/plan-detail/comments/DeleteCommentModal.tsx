@@ -27,18 +27,13 @@ const DeleteCommentModal = ({
         const res = await axiosPrivate.delete(
           `${API_ROOT_URL}comments/${commentId}`
         );
-        console.log(comments);
-
         const newComments = comments.filter((comment) => comment.id != commentId);
-        console.log(newComments);
         setComments(newComments);
       } catch (err) {
         console.log(err);
       }
     };
     deleteComment(commentId);
-
-    console.log('Confirmed!');
     handleClose();
   };
 

@@ -23,6 +23,9 @@
     "typescript": "^4.4.2",
     "web-vitals": "^2.1.0"
   },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11"
+  },
   "scripts": {
     "start": "set PORT=5173 && react-scripts start",
     "build": "react-scripts build",

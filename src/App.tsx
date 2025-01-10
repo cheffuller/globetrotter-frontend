@@ -8,6 +8,8 @@ import {
   USER_PROFILE_FORM_URL,
   USER_PROFILE_VIEW_URL,
   TRAVEL_PLAN_URL,
+  PLAN_DETAIL_URL,
+  FOLLOWING_URL,
 } from './consts/PageUrls';
 import { PrivateRoute } from './components/routes/PrivateRoute';
 import { LoginPage } from './pages/login/LoginPage';
@@ -22,6 +24,7 @@ import EditTravelPlanPage from './pages/travelplan/EditTravelPlanPage';
 import TravelPlanDetail from './components/plan-detail/TravelPlanDetailManagement';
 import { UserProfileView } from './pages/userprofile/view/UserProfileView';
 import { AuthProvider } from './common/AuthContext';
+import FollowingPage from './pages/following/FollowingPage';
 
 function App() {
   return (
@@ -65,8 +68,12 @@ function App() {
               element={<PrivateRoute element={<EditTravelPlanPage />} />}
             />
             <Route
-              path={TRAVEL_PLAN_URL + '/detail'}
+              path={PLAN_DETAIL_URL}
               element={<PrivateRoute element={<TravelPlanDetail />} />}
+            />
+                        <Route
+              path={FOLLOWING_URL}
+              element={<PrivateRoute element={<FollowingPage />} />}
             />
           </Routes>
         </AuthProvider>

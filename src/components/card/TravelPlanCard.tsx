@@ -1,6 +1,6 @@
-import React from 'react';
-import { Card, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Button, Card, Col } from 'react-bootstrap';
+import { NavLink, useLocation } from 'react-router-dom';
 import TravelPlanCardLikeButtonManagement from './TravelPlanCardButtons/TravelPlanCardLikeButtonManagement';
 import TravelPlanCardCommentButtonManagement from './TravelPlanCardButtons/TravelPlanCardCommentButtonManagement';
 import TravelPlanCardUsernameManagement from './TravelPlanCardUsername/TravelPlanCardUsernameManagement';
@@ -21,40 +21,53 @@ const TravelPlanCard = ({
   index,
   numberOfCommentsProps,
 }: TravelPlanCardProps) => {
+  const [travelPlanState, setTravelPlanState] = useState<TravelPlanDetail>(travelPlan);
+  const location = useLocation();
+  const travelPlanManagement: boolean =
+    location.pathname === '/travel-plan/management';
 
   return (
     <>
       <Col className='d-flex align-items-stretch mb-5'>
         <Card className='travel-card mx-auto'>
-          <TravelPlanCardLinkManagement travelPlan={travelPlan} index={index} />
+          <TravelPlanCardLinkManagement travelPlan={travelPlanState} index={index} />
           <Card.Body className='d-flex flex-column'>
-            <TravelPlanCardLocationManagement travelPlan={travelPlan} />
+            <TravelPlanCardLocationManagement travelPlan={travelPlanState} />
             <Card.Subtitle>
               <TravelPlanCardUsernameManagement
                 username={travelPlan.post.username}
               />
             </Card.Subtitle>
+
             <br />
             <Card.Footer className='travel-card-footer'>
               {travelPlan.isPublished && isAuthenticated() && (
                 <>
                   <TravelPlanCardLikeButtonManagement
-                    travelPlan={travelPlan}
+                    travelPlan={travelPlanState}
+                    setTravelPlanState={setTravelPlanState}
                   />
                   <TravelPlanCardCommentButtonManagement
-                    travelPlan={travelPlan}
+                    travelPlan={travelPlanState}
                     numberOfCommentsProps={numberOfCommentsProps}
                   />
                 </>
               )}
-              {!travelPlan.isPublished && (
-                  <Link
-                    to={`${TRAVEL_PLAN_URL}/edit`}
-                    className='edit-link'
-                    state={{ travelPlanId: travelPlan.id }}
-                  >
-                    Edit/Publish<br/>Travel Plan
-                  </Link>
+              {travelPlanManagement && (
+                <>
+                  {!travelPlan.isPublished && <>Travel Plan saved as Draft</>}
+                  <Button className='comment-button'>
+                    <NavLink
+                      to={`${TRAVEL_PLAN_URL}/edit`}
+                      className='edit-link'
+                      title='Edit Travel Plan'
+                      state={{ travelPlanId: travelPlanState.id }}
+                    >
+                      <i className='fa edit-link mb-3'> &#xf044;</i>
+                    </NavLink>
+                    <br />
+                  </Button>
+                </>
               )}
             </Card.Footer>
           </Card.Body>
