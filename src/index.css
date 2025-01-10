@@ -221,8 +221,8 @@ div.travel-card-footer.card-footer {
   background-image: url('/src/travel-images/register-background-image/register-background.jpg');
   background-size: cover;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center;
+  align-items: center; */
   flex-direction: column;
   height: 100vh;
   background-color: #f0f0f0;

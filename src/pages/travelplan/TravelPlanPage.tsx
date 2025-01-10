@@ -160,7 +160,7 @@ function TravelPlanPage() {
     }
     
     return (
-        <div className="container">
+        <div className="container mt-5 w-50">
             <form className="travel-plan-form p-3">
                 <h2>Create a Travel Plan</h2>
                 {locations.map((location, index) => (

@@ -5,6 +5,7 @@ import { AccountRole } from '../../enums/AccountRole';
 
 export function LoginPage() {
   return (
+    <div className='register-container'>
     <Container className='w-25 mt-5 text-center login'>
       <Tabs
         defaultActiveKey='login'
@@ -20,6 +21,6 @@ export function LoginPage() {
         <LoginForm loginMode={AccountRole.Moderator}/>
         </Tab>
       </Tabs>
-    </Container>
+    </Container></div>
   );
 }
