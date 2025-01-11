@@ -10,9 +10,12 @@ import TravelPlanCardLinkManagement from './TravelPlanCardLinkManagement';
 import { isAuthenticated } from '../../common/AuthService';
 import { TRAVEL_PLAN_EDIT_URL, TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { TravelPlanDetail } from '../../interfaces/TravelPlanDetail';
+
+import GetWeather from '../APIComponents/GetWeather';
 import TravelPlanContext from '../travelplan/TravelPlanContext';
 import { clear } from 'console';
 import { normalize } from 'path';
+
 
 export type TravelPlanCardProps = {
   travelPlan: TravelPlanDetail;
@@ -53,7 +56,9 @@ const TravelPlanCard = ({
         <Card className='travel-card mx-auto'>
           <TravelPlanCardLinkManagement travelPlan={travelPlanState} index={index} />
           <Card.Body className='d-flex flex-column'>
-            <TravelPlanCardLocationManagement travelPlan={travelPlanState} />
+            <TravelPlanCardLocationManagement travelPlan={travelPlan} />
+            <GetWeather travelPlan={travelPlan} />
+
             <Card.Subtitle>
               <TravelPlanCardUsernameManagement
                 username={travelPlan.post.username}
