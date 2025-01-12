@@ -159,14 +159,11 @@ function EditTravelPlanPage() {
         return location;
       });
 
-      console.log('Sending locations to backend:', payload);
       const updatedLocations = await updateTravelPlanLocation(
         updatedTravelPlan,
         payload
       );
-      console.log('Received locations from backend:', updatedLocations);
       setLocations(updatedLocations);
-      console.log('Updated locations:', locations);
       navigate(`${TRAVEL_PLAN_MANAGEMENT_URL}`);
     } catch (error: any) {
       switch (error) {
