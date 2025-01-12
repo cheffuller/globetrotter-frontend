@@ -9,8 +9,8 @@ import {
   ForbiddenError,
   NotFoundError,
 } from '../../errors/HttpErrors';
-import { useNavigate } from 'react-router-dom';
-import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
+import { useNavigate } from 'react-router';
+import { TRAVEL_PLAN_EDIT_URL, TRAVEL_PLAN_MANAGEMENT_URL, TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { getAccountId } from '../../common/AuthService';
 import { useLocationManagement } from '../../components/travelplan/LocationManagement';
 import FavoriteHandle from '../../components/travelplan/FavoriteHandle';
@@ -94,7 +94,7 @@ function TravelPlanPage() {
       };
       setTravelPlan(travelPlan);
 
-      navigate(`${TRAVEL_PLAN_URL}/edit`);
+      navigate(`${TRAVEL_PLAN_EDIT_URL}`);
     } catch (error: any) {
       switch (error) {
         case BadRequestError:
@@ -152,7 +152,7 @@ function TravelPlanPage() {
 
       await createPost(travelPlanId);
 
-      navigate(`${TRAVEL_PLAN_URL}/management`);
+      navigate(`${TRAVEL_PLAN_MANAGEMENT_URL}`);
     } catch (error: any) {
       switch (error) {
         case BadRequestError:

@@ -1,5 +1,5 @@
 import { useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import {
   deleteTravelPlan,
   getTravelPlan,
@@ -12,7 +12,7 @@ import {
   ForbiddenError,
   NotFoundError,
 } from '../../errors/HttpErrors';
-import { TRAVEL_PLAN_URL } from '../../consts/PageUrls';
+import { TRAVEL_PLAN_MANAGEMENT_URL, TRAVEL_PLAN_URL } from '../../consts/PageUrls';
 import { getAccountId } from '../../common/AuthService';
 import { useLocationManagement } from '../../components/travelplan/LocationManagement';
 import { TravelPlanContext } from '../../components/travelplan/TravelPlanContext';
@@ -60,7 +60,6 @@ function EditTravelPlanPage() {
         }));
 
         setLocations(formattedLocations);
-        console.log(locations);
       } catch (error) {
         switch (error) {
           case NotFoundError:
@@ -113,7 +112,7 @@ function EditTravelPlanPage() {
       );
       setLocations(updatedLocations);
 
-      navigate(`${TRAVEL_PLAN_URL}/management`);
+      navigate(`${TRAVEL_PLAN_MANAGEMENT_URL}`);
     } catch (error: any) {
       switch (error) {
         case BadRequestError:
@@ -168,7 +167,7 @@ function EditTravelPlanPage() {
       console.log('Received locations from backend:', updatedLocations);
       setLocations(updatedLocations);
       console.log('Updated locations:', locations);
-      navigate(`${TRAVEL_PLAN_URL}/management`);
+      navigate(`${TRAVEL_PLAN_MANAGEMENT_URL}`);
     } catch (error: any) {
       switch (error) {
         case BadRequestError:
@@ -201,7 +200,7 @@ function EditTravelPlanPage() {
 
     try {
       await deleteTravelPlan(travelPlan?.id!); // Replace with actual travelPlanId
-      navigate(`${TRAVEL_PLAN_URL}/management`);
+      navigate(`${TRAVEL_PLAN_MANAGEMENT_URL}`);
     } catch (error: any) {
       switch (error) {
         case NotFoundError:

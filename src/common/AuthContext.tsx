@@ -11,7 +11,7 @@ import {
   removeJwtToken,
   getUsername,
 } from './AuthService';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { HOME_URL } from '../consts/PageUrls';
 
 interface AuthContextProps {

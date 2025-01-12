@@ -5,7 +5,7 @@ import { TravelPlanDetail } from '../../interfaces/TravelPlanDetail';
 import { start } from 'repl';
 import WeatherIcon from './WeatherIcon';
 
-const fetchWeatherData = async (latitude: number, longitude: number, start_date: string, end_date: string) => {
+export const fetchWeatherData = async (latitude: number, longitude: number, start_date: string, end_date: string) => {
   const params = {
     latitude,
     longitude,
@@ -77,7 +77,6 @@ const GetWeather = ({ travelPlan }: GetWeatherProps) => {
 
             const weatherResponse = await fetchWeatherData(latitude, longitude, startDate, endDate);
             if (weatherResponse) {
-              // console.log(weatherResponse);
               const daily = weatherResponse.daily;
 
               const totalMaxTemp = daily.temperature_2m_max.reduce((sum: any, temp: any) => sum + temp, 0);
@@ -99,7 +98,6 @@ const GetWeather = ({ travelPlan }: GetWeatherProps) => {
                 snowfall: averageSnow
               };
               setWeatherData(weather);
-              console.log(weather);
             } else {
               setError("Failed to fetch weather data.");
             }

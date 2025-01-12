@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TravelPlanCard from '../card/TravelPlanCard';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { Comment } from '../../interfaces/Comment';
 import TravelPlanComments from './comments/TravelPlanComments';
 

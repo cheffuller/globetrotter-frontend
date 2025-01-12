@@ -18,7 +18,7 @@ const NewComment = ({
 }: NewCommentProps) => {
   return (
     <Card className='comment-card'>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} data-testid="comment-form">
         <Form.Control
           id='comment-new'
           className='comment-text-input'

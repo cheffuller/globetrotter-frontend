@@ -1,5 +1,7 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import TravelPlanCardRandomImage from './TravelPlanCardRandomImage';
 import image1 from '../../../travel-images/travel-plan-random/alexandre-chambon-aapSemzfsOk-unsplash.jpg';
 import image2 from '../../../travel-images/travel-plan-random/anete-lusina-rFKBUwLg_WQ-unsplash.jpg';
 import image3 from '../../../travel-images/travel-plan-random/christine-roy-ir5MHI6rPg0-unsplash.jpg';
@@ -32,23 +34,18 @@ const imageList = [
   image14,
 ];
 
-const shuffledImageList = imageList.sort(() => Math.random() - 0.5);
+describe('TravelPlanCardRandomImage Component', () => {
+  it('renders a random image within bounds', () => {
+    const { container } = render(<TravelPlanCardRandomImage index={2} />);
 
-type TravelPlanCardRandomImageProps = {
-  index: number;
-};
+    const img = container.querySelector('img');
+    expect(imageList).toContain(img?.getAttribute('src'));
+  });
 
-const TravelPlanCardRandomImage = ({
-  index,
-}: TravelPlanCardRandomImageProps) => {
-  if (index < imageList.length) {
-    return <Card.Img variant='top' src={shuffledImageList[index]} />;
-  } else {
-    const randomImageIndex: number = Math.floor(
-      Math.random() * imageList.length
-    );
-    return <Card.Img variant='top' src={shuffledImageList[randomImageIndex]} />;
-  }
-};
+  it('renders a random image when index is out of bounds', () => {
+    const { container } = render(<TravelPlanCardRandomImage index={20} />);
 
-export default TravelPlanCardRandomImage;
+    const img = container.querySelector('img');
+    expect(imageList).toContain(img?.getAttribute('src'));
+  });
+});
