@@ -6,7 +6,7 @@ import {
   getFollowingStatusRequest,
   getProfileByUsernameRequest,
 } from '../UserProfileService';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { ResponseMessage } from '../../../components/response-message/ResponseMessage';
 import { HttpStatusCode } from 'axios';
 import { getUsernameFromJwt } from '../../../utils/LocalStorageUtils';

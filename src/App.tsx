@@ -1,9 +1,8 @@
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router';
 import {
   HOME_URL,
   LOGIN_URL,
-  REGISTER_URL,
   ROOT_URL,
   USER_PROFILE_FORM_URL,
   USER_PROFILE_VIEW_URL,
@@ -19,7 +18,6 @@ import { HomePage } from './pages/home/HomePage';
 import NavBarManagement from './components/nav/NavBarManagement';
 import TravelPlanPage from './pages/travelplan/TravelPlanPage';
 import UserTravelPlanPage from './pages/planmanagement/UserTravelPlanPage';
-import RegisterPage from './pages/register/RegisterPage';
 import { UserProfileForm } from './pages/userprofile/edit/UserProfileForm';
 import { UnauthenticatedRoute } from './components/routes/UnauthenticatedRoute';
 import EditTravelPlanPage from './pages/travelplan/EditTravelPlanPage';
@@ -39,10 +37,6 @@ function App() {
             <NavBarManagement />
             <Routes>
               <Route path={ROOT_URL} element={<HomePage />} />
-              <Route
-                path={REGISTER_URL}
-                element={<UnauthenticatedRoute element={<RegisterPage />} />}
-              />
               <Route
                 path={LOGIN_URL}
                 element={<UnauthenticatedRoute element={<LoginPage />} />}

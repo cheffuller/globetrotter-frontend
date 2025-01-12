@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { PLAN_DETAIL_URL } from '../../../consts/PageUrls';
 import { TravelPlanDetail } from '../../../interfaces/TravelPlanDetail';
 

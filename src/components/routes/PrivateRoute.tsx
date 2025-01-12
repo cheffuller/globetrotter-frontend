@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router";
 import { LOGIN_URL } from "../../consts/PageUrls";
 import { isAuthenticated } from "../../common/AuthService";
 

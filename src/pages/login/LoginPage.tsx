@@ -1,5 +1,6 @@
 import { Container, Tab, Tabs } from 'react-bootstrap';
-import { LoginForm } from '../../components/login/LoginForm';
+import { LoginForm} from '../../components/login/LoginForm';
+import { ModLoginForm } from '../../components/login/ModLoginForm'
 import RegisterPage from '../register/RegisterPage';
 import { AccountRole } from '../../enums/AccountRole';
 
@@ -18,7 +19,7 @@ export function LoginPage() {
           <RegisterPage />
         </Tab>
         <Tab eventKey='moderator' title='Moderator'>
-        <LoginForm loginMode={AccountRole.Moderator}/>
+        <ModLoginForm loginMode={AccountRole.Moderator}/>
         </Tab>
       </Tabs>
     </Container></div>

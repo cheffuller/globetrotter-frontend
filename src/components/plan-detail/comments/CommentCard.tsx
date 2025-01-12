@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Comment } from '../../../interfaces/Comment';
-import { Button, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { timeSince } from '../../../common/TimeSinceDate';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { ROOT_URL, USER_PROFILE_VIEW_URL } from '../../../consts/PageUrls';
 import { getUsername, isModerator } from '../../../common/AuthService';
 

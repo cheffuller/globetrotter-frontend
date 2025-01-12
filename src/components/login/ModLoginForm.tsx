@@ -13,7 +13,7 @@ type LoginFormProps = {
   loginMode: AccountRole;
 };
 
-export function LoginForm({ loginMode }: LoginFormProps) {
+export function ModLoginForm({ loginMode }: LoginFormProps) {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const {
@@ -59,9 +59,9 @@ export function LoginForm({ loginMode }: LoginFormProps) {
     <>
       <Form onSubmit={handleLogin}>
         <Form.Group className='mb-3'>
-              <Form.Label htmlFor='username'>Username</Form.Label>
+              <Form.Label htmlFor='moduser'>Username</Form.Label>
               <Form.Control
-                id='username'
+                id='moduser'
                 type='text'
                 placeholder='Enter username'
                 value={username}
@@ -70,9 +70,9 @@ export function LoginForm({ loginMode }: LoginFormProps) {
         </Form.Group>
 
         <Form.Group className='mb-3'>
-              <Form.Label htmlFor='password'>Password</Form.Label>
+              <Form.Label htmlFor='modpass'>Password</Form.Label>
               <Form.Control
-                id='password'
+                id='modpass'
                 type='password'
                 placeholder='Enter Password'
                 value={password}
