@@ -74,7 +74,6 @@ export async function deleteTravelPlan(id: number) : Promise<void> { // do we ne
 }
 
 export async function getTravelPlan(id: number) : Promise<TravelPlan> {
-    console.log("Plan ID being sent to backend ", id);
     const response = await axiosPrivate.get(API_ROOT_URL + `plans/${id}`);
 
     if (response.status === HttpStatusCode.NotFound) {
