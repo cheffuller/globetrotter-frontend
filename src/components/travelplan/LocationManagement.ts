@@ -12,8 +12,8 @@ export function useLocationManagement(initialLocations: TravelPlanLocation[] = [
         id: newId,
         city: '',
         country: '',
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: new Date().toISOString().slice(0, 10),
+        endDate: new Date().toISOString().slice(0, 10),
         travelPlanId: 0, // Placeholder; will be set when saved.
       },
     ]);

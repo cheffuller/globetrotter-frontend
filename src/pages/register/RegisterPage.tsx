@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { UserAccountCreation } from '../../interfaces/UserAccount';
 import { Form } from 'react-bootstrap';
+import { API_ROOT_URL } from '../../consts/ApiUrl';
 
 function RegisterPage() {
   const [formData, setFormData] = useState<UserAccountCreation>({
@@ -42,7 +43,7 @@ function RegisterPage() {
     setSuccess(null);
     try {
       const response = await axios.post(
-        'http://localhost:8080/users/register',
+        `${API_ROOT_URL}users/register`,
         formData,
         {
           headers: {
