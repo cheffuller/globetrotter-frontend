@@ -16,6 +16,7 @@ import { useLocationManagement } from '../../components/travelplan/LocationManag
 import FavoriteHandle from '../../components/travelplan/FavoriteHandle';
 import { TravelPlanContext } from '../../components/travelplan/TravelPlanContext';
 import { useAuth } from '../../common/AuthContext';
+import { convertToUTC } from '../../utils/DateUtils';
 
 function TravelPlanPage() {
   const planContext = useContext(TravelPlanContext);
@@ -48,8 +49,8 @@ function TravelPlanPage() {
           id: -1, // Temporary ID for new locations
           city: '',
           country: '',
-          startDate: new Date(),
-          endDate: new Date(),
+          startDate: new Date().toISOString().slice(0, 10),
+          endDate: new Date().toISOString().slice(0, 10),
           travelPlanId: 0, // Will be set when saved
         },
       ]);
@@ -78,8 +79,8 @@ function TravelPlanPage() {
         await addTravelPlanLocation({
           city: location.city,
           country: location.country,
-          startDate: location.startDate,
-          endDate: location.endDate,
+          startDate: convertToUTC(location.startDate),
+          endDate: convertToUTC(location.endDate),
           travelPlanId,
         });
       }
@@ -144,8 +145,8 @@ function TravelPlanPage() {
         await addTravelPlanLocation({
           city: location.city,
           country: location.country,
-          startDate: location.startDate,
-          endDate: location.endDate,
+          startDate: convertToUTC(location.startDate),
+          endDate: convertToUTC(location.endDate),
           travelPlanId,
         });
       }

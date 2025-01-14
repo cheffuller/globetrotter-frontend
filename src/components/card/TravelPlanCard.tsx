@@ -1,20 +1,17 @@
 
 import React, { useState, useContext } from 'react';
 import { Button, Card, Col } from 'react-bootstrap';
-import { Link, NavLink, useLocation } from 'react-router';
+import { NavLink, useLocation } from 'react-router';
 import TravelPlanCardLikeButtonManagement from './TravelPlanCardButtons/TravelPlanCardLikeButtonManagement';
 import TravelPlanCardCommentButtonManagement from './TravelPlanCardButtons/TravelPlanCardCommentButtonManagement';
 import TravelPlanCardUsernameManagement from './TravelPlanCardUsername/TravelPlanCardUsernameManagement';
 import TravelPlanCardLocationManagement from './TravelPlanCardLocation/TravelPlanCardLocationManagement';
 import TravelPlanCardLinkManagement from './TravelPlanCardLinkManagement';
 import { isAuthenticated } from '../../common/AuthService';
-import { TRAVEL_PLAN_EDIT_URL, TRAVEL_PLAN_URL } from '../../consts/PageUrls';
+import { TRAVEL_PLAN_EDIT_URL } from '../../consts/PageUrls';
 import { TravelPlanDetail } from '../../interfaces/TravelPlanDetail';
 
-import GetWeather from '../APIComponents/GetWeather';
 import TravelPlanContext from '../travelplan/TravelPlanContext';
-import { clear } from 'console';
-import { normalize } from 'path';
 
 
 export type TravelPlanCardProps = {
@@ -57,8 +54,6 @@ const TravelPlanCard = ({
           <TravelPlanCardLinkManagement travelPlan={travelPlanState} index={index} />
           <Card.Body className='d-flex flex-column'>
             <TravelPlanCardLocationManagement travelPlan={travelPlan} />
-            <GetWeather travelPlan={travelPlan} />
-
             <Card.Subtitle>
               <TravelPlanCardUsernameManagement
                 username={travelPlan.post.username}

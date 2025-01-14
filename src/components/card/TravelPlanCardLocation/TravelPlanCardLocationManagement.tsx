@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { axiosPrivate } from '../../../common/axiosPrivate';
+import React from 'react';
 
 import TravelPlanCardLocation from './TravelPlanCardLocation';
 import TravelPlanCardDateManagement from '../TravelPlanCardDate/TravelPlanCardDateManagement';
 import { TravelPlanLocation } from '../../../interfaces/TravelPlanLocation';
 import { TravelPlanDetail } from '../../../interfaces/TravelPlanDetail';
+import GetWeather from '../../APIComponents/GetWeather';
 
 type TravelPlanCardLocationManagementProps = {
   travelPlan: TravelPlanDetail;
@@ -23,6 +23,7 @@ const TravelPlanCardLocationManagement = ({
       {travelPlan.post.locations.map((travelPlanLocation) => (
         <React.Fragment key={travelPlanLocation.id}>
           <TravelPlanCardLocation travelPlanLocation={travelPlanLocation} />
+          <GetWeather travelPlan={travelPlan} />
           <TravelPlanCardDateManagement travelPlanLocation={travelPlanLocation} />
         </React.Fragment>
       ))}

@@ -119,7 +119,9 @@ const GetWeather = ({ travelPlan }: GetWeatherProps) => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {weatherData ? (
         <div>
+          <div className='weather-icon'>
           <WeatherIcon rainfall={weatherData.rain} snowfall={weatherData.snowfall} />
+          </div>
           <p>
             <b>{weatherData.averageMax}°F / {weatherData.averageMin}°F</b>
           </p>

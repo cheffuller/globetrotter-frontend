@@ -18,6 +18,7 @@ import { useLocationManagement } from '../../components/travelplan/LocationManag
 import { TravelPlanContext } from '../../components/travelplan/TravelPlanContext';
 import FavoriteHandle from '../../components/travelplan/FavoriteHandle';
 import { useAuth } from '../../common/AuthContext';
+import { convertToUTC } from '../../utils/DateUtils';
 
 function EditTravelPlanPage() {
   const planContext = useContext(TravelPlanContext);
@@ -99,11 +100,18 @@ function EditTravelPlanPage() {
       });
 
       const payload = locations.map((location) => {
+      
+        const updatedLocation = {
+          ...location,
+          startDate: convertToUTC(location.startDate),
+          endDate: convertToUTC(location.endDate),
+        };
+      
         if ((location.id ?? -1) <= -1) {
-          const { id, ...rest } = location; // this is to remove the id field from the location object
-          return rest;
+          const { id, ...rest } = updatedLocation;
         }
-        return location;
+      
+        return updatedLocation;
       });
 
       const updatedLocations = await updateTravelPlanLocation(
@@ -152,12 +160,20 @@ function EditTravelPlanPage() {
       });
 
       const payload = locations.map((location) => {
+      
+        const updatedLocation = {
+          ...location,
+          startDate: convertToUTC(location.startDate),
+          endDate: convertToUTC(location.endDate),
+        };
+      
         if ((location.id ?? -1) <= -1) {
-          const { id, ...rest } = location; // this is to remove the id field from the location object
-          return rest;
+          const { id, ...rest } = updatedLocation;
         }
-        return location;
+      
+        return updatedLocation;
       });
+      
 
       const updatedLocations = await updateTravelPlanLocation(
         updatedTravelPlan,
