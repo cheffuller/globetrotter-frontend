@@ -27,6 +27,7 @@ const TravelPlanCard = ({
 }: TravelPlanCardProps) => {
 
   const [travelPlanState, setTravelPlanState] = useState<TravelPlanDetail>(travelPlan);
+  
   const location = useLocation();
   const travelPlanManagement: boolean =
     location.pathname === '/management';
@@ -36,6 +37,7 @@ const TravelPlanCard = ({
       throw new Error("Travel Plan Context is null");
   }
   const { setTravelPlan, clearTravelPlan } = planContext;
+
   const handleEditClick = () => {
     clearTravelPlan(); // Clear the travel plan in the context
     const normalizedTravelPlan = {

@@ -103,18 +103,17 @@ function EditTravelPlanPage() {
       const payload = locations.map((location) => {
       
         const updatedLocation = {
-          ...location,
+          city: location.city,
+          country: location.country,
+          travelPlanId: travelPlan?.id!,
           startDate: convertToUTC(location.startDate),
           endDate: convertToUTC(location.endDate),
         };
       
-        if ((location.id ?? -1) <= -1) {
-          const { id, ...rest } = updatedLocation;
-        }
-      
         return updatedLocation;
       });
-
+      console.log('payload being sent from frontend')
+      console.log(payload)
       const updatedLocations = await updateTravelPlanLocation(
         updatedTravelPlan,
         payload
@@ -165,19 +164,17 @@ function EditTravelPlanPage() {
       const payload = locations.map((location) => {
       
         const updatedLocation = {
-          ...location,
+          city: location.city,
+          country: location.country,
+          travelPlanId: location.travelPlanId,
           startDate: convertToUTC(location.startDate),
           endDate: convertToUTC(location.endDate),
         };
       
-        if ((location.id ?? -1) <= -1) {
-          const { id, ...rest } = updatedLocation;
-        }
-      
         return updatedLocation;
       });
       
-
+      console.log(payload)
       const updatedLocations = await updateTravelPlanLocation(
         updatedTravelPlan,
         payload
