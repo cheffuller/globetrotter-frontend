@@ -1,6 +1,7 @@
 import { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import {
+  createPost,
   deleteTravelPlan,
   getTravelPlan,
   getTravelPlanLocations,
@@ -120,6 +121,8 @@ function EditTravelPlanPage() {
       );
       setLocations(updatedLocations);
 
+      await createPost(travelPlan?.id!);
+      
       navigate(`${TRAVEL_PLAN_MANAGEMENT_URL}`);
     } catch (error: any) {
       switch (error) {

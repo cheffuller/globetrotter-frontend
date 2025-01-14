@@ -5,10 +5,19 @@ import TravelPlanCardLocation from './TravelPlanCardLocation';
 import { TravelPlanLocation } from '../../../interfaces/TravelPlanLocation';
 
 describe('TravelPlanCardLocation Component', () => {
+  const multipleLocations = false;
+
   it('renders the city and country correctly', () => {
     const { container } = render(
       <TravelPlanCardLocation
-        travelPlanLocation={{ city: 'Rio de Janeiro', country: 'Brazil', endDate: new Date(), startDate: new Date(), travelPlanId: 1 }}
+        travelPlanLocation={{
+          city: 'Rio de Janeiro',
+          country: 'Brazil',
+          endDate: new Date(),
+          startDate: new Date(),
+          travelPlanId: 1,
+        }}
+        multipleLocations={multipleLocations}
       />
     );
 
@@ -20,7 +29,14 @@ describe('TravelPlanCardLocation Component', () => {
   it('renders only the city when country is missing', () => {
     const { container } = render(
       <TravelPlanCardLocation
-        travelPlanLocation={{ city: 'Rio de Janeiro', country: '', endDate: new Date(), startDate: new Date(), travelPlanId: 1 }}
+        travelPlanLocation={{
+          city: 'Rio de Janeiro',
+          country: '',
+          endDate: new Date(),
+          startDate: new Date(),
+          travelPlanId: 1,
+        }}
+        multipleLocations={multipleLocations}
       />
     );
 
@@ -31,7 +47,14 @@ describe('TravelPlanCardLocation Component', () => {
   it('renders only the country when city is missing', () => {
     const { container } = render(
       <TravelPlanCardLocation
-        travelPlanLocation={{ city: '', country: 'Brazil', endDate: new Date(), startDate: new Date(), travelPlanId: 1 }}
+        travelPlanLocation={{
+          city: '',
+          country: 'Brazil',
+          endDate: new Date(),
+          startDate: new Date(),
+          travelPlanId: 1,
+        }}
+        multipleLocations={multipleLocations}
       />
     );
 
