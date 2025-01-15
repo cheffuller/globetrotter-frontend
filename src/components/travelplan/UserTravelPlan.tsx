@@ -19,8 +19,6 @@ const UserTravelPlan = ({ travelPlanId, index }: UserTravelPlanProps) => {
           `${API_ROOT_URL}plans/${travelPlanId}`
         );
         setTravelPlan(res.data);
-        console.log('TravelPlanDetail returned from backend');
-        console.log(res.data);
       } catch (err) {
         console.log(err);
       }

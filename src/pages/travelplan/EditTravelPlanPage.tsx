@@ -112,15 +112,12 @@ function EditTravelPlanPage() {
       
         return updatedLocation;
       });
-      console.log('payload being sent from frontend')
-      console.log(payload)
+
       const updatedLocations = await updateTravelPlanLocation(
         updatedTravelPlan,
         payload
       );
       setLocations(updatedLocations);
-
-      await createPost(travelPlan?.id!);
       
       navigate(`${TRAVEL_PLAN_MANAGEMENT_URL}`);
     } catch (error: any) {
