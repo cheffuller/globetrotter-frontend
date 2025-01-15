@@ -1,7 +1,8 @@
-import { FOLLOW_USER_API, FOLLOWING_STATUS_API, PROFILE_API, UPDATE_PROFILE_API } from "../../consts/ApiUrl";
+import { FOLLOW_USER_API, FOLLOWING_STATUS_API, PROFILE_API, UPDATE_PROFILE_API, BAN_USER_API } from "../../consts/ApiUrl";
 import { axiosPrivate } from "../../common/axiosPrivate";
 import { UserProfile } from "../../interfaces/UserAccount";
 import { FollowingStatus } from "../../enums/FollowingStatus";
+import { BannedUser } from "../../interfaces/BannedUser";
 
 export async function updateProfileRequest(profile: UserProfile): Promise<void> {
     await axiosPrivate.post(UPDATE_PROFILE_API, profile);
@@ -24,5 +25,15 @@ export async function followOrUnfollowRequest(username: string, status: Followin
             return;
         default:
             await axiosPrivate.delete(FOLLOW_USER_API(username));
+    }
+}
+
+export async function banOrUnbanUserRequest(userId: number, ban: boolean): Promise<void> {
+    const bannedUser: BannedUser = { Id: userId }; 
+
+    if (ban) {
+        await axiosPrivate.post(BAN_USER_API(userId)); 
+    } else {
+        await axiosPrivate.delete(BAN_USER_API(userId));
     }
 }
