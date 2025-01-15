@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import { TravelPlanLocationProps } from './TravelPlanCardLocationManagement';
 import { TravelPlanLocation } from '../../../interfaces/TravelPlanLocation';
 
 type TravelPlanCardLocationProps = {

@@ -32,7 +32,7 @@ const TravelPlanCardManagement = () => {
   return (
     <div className='container mt-5 row row-cols-lg-4 row-cols-md-3 m-auto'>
       {travelPlans.map((travelPlan, index) => (
-        <div key={travelPlan.id} className='text-center'>
+        <div key={travelPlan.id} className='text-center my-3'>
           <TravelPlanCard travelPlan={travelPlan} index={index} />{' '}
           {isModerator() && (
             <>

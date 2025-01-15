@@ -11,8 +11,7 @@ import { TRAVEL_PLAN_EDIT_URL } from '../../consts/PageUrls';
 import { TravelPlanDetail } from '../../interfaces/TravelPlanDetail';
 
 import TravelPlanContext from '../travelplan/TravelPlanContext';
-import { axiosPrivate } from '../../common/axiosPrivate';
-import { API_ROOT_URL } from '../../consts/ApiUrl';
+import GetWeather from '../APIComponents/GetWeather';
 
 export type TravelPlanCardProps = {
   travelPlan: TravelPlanDetail;
@@ -58,6 +57,7 @@ const TravelPlanCard = ({
           />
           <Card.Body className='d-flex flex-column'>
             <TravelPlanCardLocationManagement travelPlan={travelPlan} />
+            <GetWeather travelPlan={travelPlan} />
             <Card.Subtitle>
               <TravelPlanCardUsernameManagement
                 username={travelPlan.post.username}

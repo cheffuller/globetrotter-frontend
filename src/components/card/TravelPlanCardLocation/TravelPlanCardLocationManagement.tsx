@@ -4,7 +4,6 @@ import TravelPlanCardLocation from './TravelPlanCardLocation';
 import TravelPlanCardDateManagement from '../TravelPlanCardDate/TravelPlanCardDateManagement';
 import { TravelPlanLocation } from '../../../interfaces/TravelPlanLocation';
 import { TravelPlanDetail } from '../../../interfaces/TravelPlanDetail';
-import GetWeather from '../../APIComponents/GetWeather';
 import { useLocation } from 'react-router';
 
 type TravelPlanCardLocationManagementProps = {
@@ -29,7 +28,6 @@ const TravelPlanCardLocationManagement = ({
             travelPlanLocation={travelPlan.post.locations[0]}
             multipleLocations={multipleLocations}
           />
-          <GetWeather travelPlan={travelPlan} />
           <TravelPlanCardDateManagement
             travelPlanLocation={travelPlan.post.locations[0]}
           />
@@ -40,7 +38,6 @@ const TravelPlanCardLocationManagement = ({
           {travelPlan.post.locations.map((travelPlanLocation) => (
             <React.Fragment key={travelPlanLocation.id}>
               <TravelPlanCardLocation travelPlanLocation={travelPlanLocation} multipleLocations={false} />
-              <GetWeather travelPlan={travelPlan} />
               <TravelPlanCardDateManagement
                 travelPlanLocation={travelPlanLocation}
               />
