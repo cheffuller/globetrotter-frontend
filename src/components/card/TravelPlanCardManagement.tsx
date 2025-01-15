@@ -11,7 +11,7 @@ const TravelPlanCardManagement = () => {
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        const numberOfPlans = 10;
+        const numberOfPlans = 12;
         const res = await axiosPrivate.get(
           `${API_ROOT_URL}plans/recent/${numberOfPlans}`
         );
