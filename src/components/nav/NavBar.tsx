@@ -21,7 +21,8 @@ import {
 
 import { useAuth } from '../../common/AuthContext';
 import { getUsernameFromJwt } from '../../utils/LocalStorageUtils';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import { isModerator } from '../../common/AuthService';
 
 const NavBar = () => {
   const { isLoggedIn, logout } = useAuth();
@@ -44,12 +45,20 @@ const NavBar = () => {
           <Nav className='m-auto'>
             {isLoggedIn ? (
               <>
-                <Nav.Link as={NavLink} to={ROOT_URL} className='mx-2'>
-                  Home
-                </Nav.Link>
-                <Nav.Link as={NavLink} to={TRAVEL_PLAN_URL} className='mx-2'>
-                  Create Travel Plan
-                </Nav.Link>
+                {!isModerator() && (
+                  <>
+                    <Nav.Link as={NavLink} to={ROOT_URL} className='mx-2'>
+                      Home
+                    </Nav.Link>
+                    <Nav.Link
+                      as={NavLink}
+                      to={TRAVEL_PLAN_URL}
+                      className='mx-2'
+                    >
+                      Create Travel Plan
+                    </Nav.Link>
+                  </>
+                )}
                 <NavDropdown
                   title={getUsernameFromJwt()}
                   id='basic-nav-dropdown'
@@ -57,24 +66,28 @@ const NavBar = () => {
                   data-bs-theme='light'
                 >
                   {' '}
-                  <NavDropdown.Item as={NavLink} to={FOLLOWING_URL}>
-                    Following
-                  </NavDropdown.Item>
-                  <NavDropdown.Item
-                    as={NavLink}
-                    to={TRAVEL_PLAN_MANAGEMENT_URL}
-                  >
-                    View Plans
-                  </NavDropdown.Item>
-                  <NavDropdown.Item
-                    as={NavLink}
-                    to={USER_PROFILE_VIEW_URL(getUsernameFromJwt())}
-                  >
-                    View Profile
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={NavLink} to={USER_PROFILE_FORM_URL}>
-                    Edit Profile
-                  </NavDropdown.Item>
+                  {!isModerator() && (
+                    <>
+                      <NavDropdown.Item as={NavLink} to={FOLLOWING_URL}>
+                        Following
+                      </NavDropdown.Item>
+                      <NavDropdown.Item
+                        as={NavLink}
+                        to={TRAVEL_PLAN_MANAGEMENT_URL}
+                      >
+                        View Plans
+                      </NavDropdown.Item>
+                      <NavDropdown.Item
+                        as={NavLink}
+                        to={USER_PROFILE_VIEW_URL(getUsernameFromJwt())}
+                      >
+                        View Profile
+                      </NavDropdown.Item>
+                      <NavDropdown.Item as={NavLink} to={USER_PROFILE_FORM_URL}>
+                        Edit Profile
+                      </NavDropdown.Item>
+                    </>
+                  )}
                   <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                 </NavDropdown>
               </>

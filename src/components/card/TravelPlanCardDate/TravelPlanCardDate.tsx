@@ -11,7 +11,7 @@ const TravelPlanCardDate = ({
   endDate,
 }: TravelPlanCardDateProps) => {
   return (
-    <Card.Text>
+    <Card.Text className='mb-1'>
       {startDate}
       {' -'}
       <br />

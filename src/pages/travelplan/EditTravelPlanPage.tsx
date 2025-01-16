@@ -1,6 +1,7 @@
 import { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import {
+  createPost,
   deleteTravelPlan,
   getTravelPlan,
   getTravelPlanLocations,
@@ -18,6 +19,7 @@ import { useLocationManagement } from '../../components/travelplan/LocationManag
 import { TravelPlanContext } from '../../components/travelplan/TravelPlanContext';
 import FavoriteHandle from '../../components/travelplan/FavoriteHandle';
 import { useAuth } from '../../common/AuthContext';
+import { convertToUTC } from '../../utils/DateUtils';
 
 function EditTravelPlanPage() {
   const planContext = useContext(TravelPlanContext);
@@ -89,6 +91,7 @@ function EditTravelPlanPage() {
 
       if (!validateLocations()) {
         alert('Invalid location details.');
+        throw new BadRequestError('Invalid dates for Travel Plan.');
       }
 
       const updatedTravelPlan = await updateTravelPlan({
@@ -99,11 +102,16 @@ function EditTravelPlanPage() {
       });
 
       const payload = locations.map((location) => {
-        if ((location.id ?? -1) <= -1) {
-          const { id, ...rest } = location; // this is to remove the id field from the location object
-          return rest;
-        }
-        return location;
+      
+        const updatedLocation = {
+          city: location.city,
+          country: location.country,
+          travelPlanId: travelPlan?.id!,
+          startDate: convertToUTC(location.startDate),
+          endDate: convertToUTC(location.endDate),
+        };
+      
+        return updatedLocation;
       });
 
       const updatedLocations = await updateTravelPlanLocation(
@@ -111,7 +119,7 @@ function EditTravelPlanPage() {
         payload
       );
       setLocations(updatedLocations);
-
+      
       navigate(`${TRAVEL_PLAN_MANAGEMENT_URL}`);
     } catch (error: any) {
       switch (error) {
@@ -142,6 +150,7 @@ function EditTravelPlanPage() {
 
       if (!validateLocations()) {
         alert('Invalid location details.');
+        throw new BadRequestError('Invalid dates for Travel Plan.');
       }
 
       const updatedTravelPlan = await updateTravelPlan({
@@ -152,13 +161,18 @@ function EditTravelPlanPage() {
       });
 
       const payload = locations.map((location) => {
-        if ((location.id ?? -1) <= -1) {
-          const { id, ...rest } = location; // this is to remove the id field from the location object
-          return rest;
-        }
-        return location;
+      
+        const updatedLocation = {
+          city: location.city,
+          country: location.country,
+          travelPlanId: location.travelPlanId,
+          startDate: convertToUTC(location.startDate),
+          endDate: convertToUTC(location.endDate),
+        };
+      
+        return updatedLocation;
       });
-
+      
       const updatedLocations = await updateTravelPlanLocation(
         updatedTravelPlan,
         payload

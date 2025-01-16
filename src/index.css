@@ -320,16 +320,6 @@ div.travel-card-footer.card-footer {
   color: #D5896F;
 }
 
-/*
-
-#031D44 - dark blue
-#04395E - lighter Blue
-#70A288 - green
-#DAB785 - tan
-#D5896F - reddish
-
-*/
-
 .favorite-button {
   margin-bottom: 5px;
   margin-left: 5px;
@@ -366,6 +356,7 @@ div.travel-card-footer.card-footer {
 .travel-plan-background {
   background-image: url('/src/travel-images/travel-bg-image.jpg');
 }
+
 .profile-background, .travel-plan-background {
   background-size: cover;
   display: flex;
@@ -373,3 +364,21 @@ div.travel-card-footer.card-footer {
   height: 100vh;
   background-color: #f0f0f0;
 }
+
+.weather-icon {
+  font-size: 20pt;
+}
+
+.pages {
+  color: #D5896F
+}
+
+/*
+
+#031D44 - dark blue
+#04395E - lighter Blue
+#70A288 - green
+#DAB785 - tan
+#D5896F - reddish
+
+*/

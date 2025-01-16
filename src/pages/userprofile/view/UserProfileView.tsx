@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { UserProfile } from '../../../interfaces/UserAccount';
 import {
+  banOrUnbanUserRequest,
   followOrUnfollowRequest,
   getFollowingStatusRequest,
   getProfileByUsernameRequest,
@@ -12,6 +13,10 @@ import { HttpStatusCode } from 'axios';
 import { getUsernameFromJwt } from '../../../utils/LocalStorageUtils';
 import { FollowingStatus } from '../../../enums/FollowingStatus';
 import { Button } from 'react-bootstrap';
+import { isModerator } from '../../../common/AuthService';
+import { BannedUser } from '../../../interfaces/BannedUser';
+import { axiosPrivate } from '../../../common/axiosPrivate';
+import { API_ROOT_URL } from '../../../consts/ApiUrl';
 
 export function UserProfileView() {
   const { username } = useParams<string>();
@@ -28,10 +33,28 @@ export function UserProfileView() {
     stopWaitingAfterSuccess,
     getResponseMessage,
   } = ResponseMessage();
+  const [isBanned, setIsBanned] = useState<boolean>(false);
+  const [userId, setUserId] = useState<number | null>(null); // Store userId
+  const isMod = isModerator();
 
   useEffect(() => {
     loadProfile();
   }, [username]);
+
+  useEffect(() => {
+    banCheck();
+  }, [userId]);
+
+  const banCheck = async () => {
+    if (isMod && userId) {
+      try {
+        const res = await axiosPrivate.get(`${API_ROOT_URL}moderators/${userId}/banned`);
+        setIsBanned(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
 
   async function loadProfile() {
     try {
@@ -47,6 +70,7 @@ export function UserProfileView() {
       setBio(profile.bio);
       setDisplayName(profile.displayName);
       setIsPrivate(profile.isPrivate);
+      setUserId(profile.accountId ?? null); // Set userId from the profile data
       setIsFollowing(status);
       setProfileFetched(true);
     } catch (error: any) {
@@ -75,16 +99,42 @@ export function UserProfileView() {
     }
   }
 
+  async function banOrUnbanUser() {
+    if (userId === null) {
+      stopWaitingAfterFailure('User ID is not available.');
+      return;
+    }
+
+    const bannedUser: BannedUser = { Id: userId }; // Create the BannedUser object
+
+    startWaitingForResponse('Updating user status...');
+    try {
+      await banOrUnbanUserRequest(bannedUser.Id, !isBanned);
+      setIsBanned(!isBanned);
+      stopWaitingAfterSuccess(
+        isBanned ? 'User unbanned successfully.' : 'User banned successfully.'
+      );
+    } catch (error: any) {
+      stopWaitingAfterFailure('Failed to update user status.');
+      console.error('Error:', error);
+    }
+  }
+
   return (
-      <div className='profile-background'>
-        <div className="container mt-5 profile-container">
-            <div className='text-center'>
+    <div className='profile-background'>
+      <div className='container mt-5 profile-container'>
+        <div className='text-center'>
           {profileFetched ? (
             <div className='userProfile'>
               <h2 className='mt-2'>{displayName}</h2>
               <p className='mt-5'>{bio}</p>
-              {username != getUsernameFromJwt() && (
+              {username != getUsernameFromJwt() && !isMod && (
                 <Button onClick={followOrUnfollowUser}>{isFollowing}</Button>
+              )}
+              {isMod && (
+                <Button onClick={banOrUnbanUser}>
+                  {isBanned ? 'Unban User' : 'Ban User'}
+                </Button>
               )}
             </div>
           ) : (

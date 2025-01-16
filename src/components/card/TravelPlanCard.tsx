@@ -1,21 +1,17 @@
-
 import React, { useState, useContext } from 'react';
 import { Button, Card, Col } from 'react-bootstrap';
-import { Link, NavLink, useLocation } from 'react-router';
+import { NavLink, useLocation, useNavigate } from 'react-router';
 import TravelPlanCardLikeButtonManagement from './TravelPlanCardButtons/TravelPlanCardLikeButtonManagement';
 import TravelPlanCardCommentButtonManagement from './TravelPlanCardButtons/TravelPlanCardCommentButtonManagement';
 import TravelPlanCardUsernameManagement from './TravelPlanCardUsername/TravelPlanCardUsernameManagement';
 import TravelPlanCardLocationManagement from './TravelPlanCardLocation/TravelPlanCardLocationManagement';
 import TravelPlanCardLinkManagement from './TravelPlanCardLinkManagement';
-import { isAuthenticated } from '../../common/AuthService';
-import { TRAVEL_PLAN_EDIT_URL, TRAVEL_PLAN_URL } from '../../consts/PageUrls';
+import { isAuthenticated, isModerator } from '../../common/AuthService';
+import { TRAVEL_PLAN_EDIT_URL } from '../../consts/PageUrls';
 import { TravelPlanDetail } from '../../interfaces/TravelPlanDetail';
 
-import GetWeather from '../APIComponents/GetWeather';
 import TravelPlanContext from '../travelplan/TravelPlanContext';
-import { clear } from 'console';
-import { normalize } from 'path';
-
+import GetWeather from '../APIComponents/GetWeather';
 
 export type TravelPlanCardProps = {
   travelPlan: TravelPlanDetail;
@@ -28,17 +24,18 @@ const TravelPlanCard = ({
   index,
   numberOfCommentsProps,
 }: TravelPlanCardProps) => {
+  const [travelPlanState, setTravelPlanState] =
+    useState<TravelPlanDetail>(travelPlan);
 
-  const [travelPlanState, setTravelPlanState] = useState<TravelPlanDetail>(travelPlan);
   const location = useLocation();
-  const travelPlanManagement: boolean =
-    location.pathname === '/management';
+  const travelPlanManagement: boolean = location.pathname === '/management';
 
   const planContext = useContext(TravelPlanContext);
-  if(!planContext) {
-      throw new Error("Travel Plan Context is null");
+  if (!planContext) {
+    throw new Error('Travel Plan Context is null');
   }
   const { setTravelPlan, clearTravelPlan } = planContext;
+
   const handleEditClick = () => {
     clearTravelPlan(); // Clear the travel plan in the context
     const normalizedTravelPlan = {
@@ -52,13 +49,15 @@ const TravelPlanCard = ({
 
   return (
     <>
-      <Col className='d-flex align-items-stretch mb-5'>
+      <Col className='d-flex align-items-stretch mt-3'>
         <Card className='travel-card mx-auto'>
-          <TravelPlanCardLinkManagement travelPlan={travelPlanState} index={index} />
+          <TravelPlanCardLinkManagement
+            travelPlan={travelPlanState}
+            index={index}
+          />
           <Card.Body className='d-flex flex-column'>
             <TravelPlanCardLocationManagement travelPlan={travelPlan} />
             <GetWeather travelPlan={travelPlan} />
-
             <Card.Subtitle>
               <TravelPlanCardUsernameManagement
                 username={travelPlan.post.username}

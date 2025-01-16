@@ -18,7 +18,6 @@ const UserTravelPlan = ({ travelPlanId, index }: UserTravelPlanProps) => {
         const res = await axiosPrivate.get(
           `${API_ROOT_URL}plans/${travelPlanId}`
         );
-        console.log(res.data);
         setTravelPlan(res.data);
       } catch (err) {
         console.log(err);
