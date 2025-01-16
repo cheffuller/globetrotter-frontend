@@ -91,6 +91,7 @@ function EditTravelPlanPage() {
 
       if (!validateLocations()) {
         alert('Invalid location details.');
+        throw new BadRequestError('Invalid dates for Travel Plan.');
       }
 
       const updatedTravelPlan = await updateTravelPlan({
@@ -149,6 +150,7 @@ function EditTravelPlanPage() {
 
       if (!validateLocations()) {
         alert('Invalid location details.');
+        throw new BadRequestError('Invalid dates for Travel Plan.');
       }
 
       const updatedTravelPlan = await updateTravelPlan({
@@ -171,7 +173,6 @@ function EditTravelPlanPage() {
         return updatedLocation;
       });
       
-      console.log(payload)
       const updatedLocations = await updateTravelPlanLocation(
         updatedTravelPlan,
         payload

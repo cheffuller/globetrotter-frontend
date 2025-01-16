@@ -68,6 +68,7 @@ function TravelPlanPage() {
 
       if (!validateLocations()) {
         alert('Invalid travel plan details.');
+        throw new BadRequestError('Invalid dates for Travel Plan.');
       }
       const travelPlanId = await createNewTravelPlan({
         accountId: accountID,
@@ -133,6 +134,7 @@ function TravelPlanPage() {
 
       if (!validateLocations()) {
         alert('Invalid travel plan details.');
+        throw new BadRequestError('Invalid dates for Travel Plan.');
       }
 
       const travelPlanId = await createNewTravelPlan({
